@@ -15,6 +15,8 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="./assets/fonts/stylesheet.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-RDksw2jJ4rKkayX2ojwn6fNEaBmizodf5nzkn6A6ZzBvARtQYL5XdX+J0NkJMWzN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <!-- Add these links in your HTML -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
@@ -35,8 +37,6 @@
         <header>
             <!-- place navbar here -->
             @include('Layout.header')
-            {{-- nếu tồn ddax login thì --}}
-            {{-- @include('Layout.header-logined') --}}
         </header>
 
         {{-- body --}}

@@ -21,6 +21,9 @@
                         <!-- User -->
                         <div class="profile-user">
                             <img src="./assets/img/avatar/{{Auth::user()->img}}" alt="" class="profile-user__avatar" />
+                            <button id="update_btn" class="btn btn-primary" style="color:black; height:30px; padding:10px;margin:5px;"><span class="material-symbols-outlined">
+                                edit_note
+                                </span></button>
                             <h1 class="profile-user__name">{{Auth::user()->name}}</h1>
                             <p class="profile-user__desc">Registered: {{Auth::user()->created_at}}</p>
                         </div>
