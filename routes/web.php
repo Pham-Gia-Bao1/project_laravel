@@ -60,6 +60,11 @@ Route::get('profile', function () {
 
 Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
 
+Route::get('changeAvatar', function () {
+    return view('profile.Edit_avatar');
+})->name('changeAvatar');
+
+Route::post('changeAvatar', [ProfileController::class,'changeAvatar'])->name('changeAvatar');
 
 
 

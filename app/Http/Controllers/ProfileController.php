@@ -29,6 +29,7 @@ class ProfileController extends Controller
     public function edit_profile(Request $request)
     {
         $user = User::find(Auth::user()->id);
+
         // dd($user);
         $request->validate([
             'name' => 'required|min:5',
@@ -78,7 +79,7 @@ class ProfileController extends Controller
 
         // Save the card to the database
         $card->save();
-        
+
         return $this->index()->with('message', 'Card created successfully.');
     }
 
@@ -128,4 +129,33 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    public function changeAvatar(Request $request){
+        $user = User::find(Auth::user()->id);
+        if (isset($request->avatar) && !empty($request->avatar)) {
+            if ($request->hasFile('avatar')) {
+                $avatarFile = $request->file('avatar');
+                $fileName = time() . '_' . $avatarFile->getClientOriginalName();
+                $filePath = 'assets/img/avatar/' . $fileName;
+                if ($avatarFile->isValid()) {
+                    $avatarPath = $avatarFile->storeAs('assets/img/avatar', $fileName);
+                    $avatarFile->move(public_path('assets/img/avatar'), $fileName);
+                    if (!$avatarPath) {
+                        return redirect()->back()->with('message', 'Không thể lưu ảnh.');
+                    }
+                    $user->img  = str_replace('assets/img/avatar/', '', $avatarPath);
+                    $user->save();
+                    return redirect()->back()->with('message', 'Avatar đã được thay đổi thành công.');
+                } else {
+                    return redirect()->back()->with('message', 'Tệp tin ảnh không hợp lệ.');
+                }
+            } else {
+                return redirect()->back()->with('message', 'Bạn chưa chọn ảnh mới.');
+            }
+        } else {
+            return view('profile.Edit_avatar');
+        }
+
+    }
 }
+
+
