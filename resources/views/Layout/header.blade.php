@@ -4541,7 +4541,6 @@
             </ul>
         </nav>
         <div class="navbar__overlay js-toggle" toggle-target="#navbar"></div>
-
        @if (isset(Auth::user()->name) )
        <div class="top-act">
         <div class="top-act__group d-md-none top-act__group--single">
