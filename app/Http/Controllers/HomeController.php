@@ -21,9 +21,13 @@ class HomeController extends Controller
          $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
      }
 
-     public function index()
+     public function index(Request $request)
      {
          $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        if(isset($request->vnp_Amount) && !empty($request->vnp_Amount)){
+            $notifiction = 'success';
+            return view('Home', compact('data'))->with('message', $notifiction);
+        }
          return view('Home', compact('data'));
      }
 
