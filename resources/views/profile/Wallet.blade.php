@@ -20,8 +20,8 @@
        </script>
 @endsection
 
-@if (isset($success))
-    <h1 class="notification" id="notification" >{{$success}}</h1>
+@if (isset($message))
+    <h1 class="notification" id="notification" >{{$message}}</h1>
 @endif
 
 <div class="col-12 content-profile ">
@@ -30,32 +30,7 @@
     <p class="cart-info__desc profile__desc">Payment methods</p>
 
     <div class="row gy-md-2 row-cols-3 row-cols-xl-2 row-cols-lg-1">
-        <!-- Payment card 1 -->
-        <div class="col">
-            <article class="payment-card" style="--bg-color: #1e2e69">
-                <img
-                    src="./assets/img/card/plane-bg.svg"
-                    alt=""
-                    class="payment-card__img"
-                />
-                <div class="payment-card__top">
-                    <img src="./assets/img/card/plane.svg" alt="" />
-                    <span class="payment-card__type">FeatherCard</span>
-                </div>
-                <div class="payment-card__number">1234 4567 8901 2221</div>
-                <div class="payment-card__bottom">
-                    <div>
-                        <p class="payment-card__label">Card Holder</p>
-                        <p class="payment-card__value">Imran Khan</p>
-                    </div>
-                    <div class="payment-card__expired">
-                        <p class="payment-card__label">Expired</p>
-                        <p class="payment-card__value">10/22</p>
-                    </div>
-                    <div class="payment-card__circle"></div>
-                </div>
-            </article>
-        </div>
+
 
         <!-- Payment card 2 -->
         <div class="col">

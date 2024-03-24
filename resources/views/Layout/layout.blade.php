@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-    <>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Grocery Mart</title>
@@ -33,6 +32,8 @@
         <script src="{{asset('/assets/js/scripts.js')}}"></script>
         @yield('profile-css')
         @yield('profile-libarary')
+        @yield('test')
+
 
     </head>
 
@@ -44,7 +45,11 @@
         </header>
 
         {{-- body --}}
-        @yield('content')
+        <body>
+
+            @yield('content')
+
+        </body>
 
         {{-- footer --}}
         <footer>

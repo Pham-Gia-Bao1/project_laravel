@@ -50,8 +50,8 @@ class ProfileController extends Controller
             $user->update($info);
 
             // You might want to add a success message here or handle success in some way
-            return $this->index()->with('success', 'Profile updated successfully');
-        }
+            return redirect()->route('Profile')->with('message', 'Card created successfully.');
+                }
         return $this->index();
     }
 
@@ -78,9 +78,12 @@ class ProfileController extends Controller
         // dd($card);
 
         // Save the card to the database
-        $card->save();
+       $result = $card->save();
 
-        return $this->index()->with('message', 'Card created successfully.');
+        if($result){
+            return $this->index()->with('message', 'Card created successfully.');
+        }
+        return redirect()->back()->with('message', 'Card created unsuccessfully.');
     }
 
     /**
