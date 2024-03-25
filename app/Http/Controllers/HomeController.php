@@ -14,7 +14,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     private $coffe; // Remove the instantiation here
+     protected $coffe; // Remove the instantiation here
 
      public function __construct()
      {

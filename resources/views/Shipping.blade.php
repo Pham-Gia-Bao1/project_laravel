@@ -400,12 +400,7 @@
             </div>
         </main>
 
-        <!-- Footer -->
-        <footer id="footer" class="footer"></footer>
-        <script>
-            load("#footer", "./templates/footer.html");
-        </script>
-
+       
         <!-- Modal: confirm remove shopping cart item -->
         <div id="delete-confirm" class="modal modal--small hide">
             <div class="modal__content">

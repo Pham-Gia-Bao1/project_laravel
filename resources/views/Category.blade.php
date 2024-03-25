@@ -257,7 +257,4 @@
                 </div>
             </div>
         </main>
-
-
-
     @endsection

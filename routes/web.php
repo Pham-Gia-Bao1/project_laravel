@@ -8,6 +8,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -99,9 +100,7 @@ Route::post('payment',[PaymentController::class,'online_checkout'])->name('Payme
 //     return $request->cookie('unicode');
 //
 //});
-Route::get('test', function(){
-    return view('Welcome');
-})->name('test');
+Route::get('test',[CategoryController::class,'index'])->name('test');
 
 // Route::get('login/facebook', function () {
 //     return view('auth.login_facebook');
