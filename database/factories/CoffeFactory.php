@@ -23,6 +23,7 @@ class CoffeFactory
             'rating' => $faker->randomFloat(1, 1, 5),
             'quantity' => $faker->randomNumber(2), // Assuming quantity is a number
             'coffe_shop_id' => $faker->numberBetween(1, 10),
+            'category' =>  'LavAzza',
             'created_at' => now(),
             'updated_at' => now(),
         ];

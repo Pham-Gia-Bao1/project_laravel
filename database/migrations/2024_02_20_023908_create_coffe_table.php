@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('quantity');
             $table->unsignedBigInteger('coffe_shop_id');
             // Thêm các trường khác nếu cần thiết
+            $table->string('category'); // Thêm trường category
             $table->timestamps();
         });
     }
