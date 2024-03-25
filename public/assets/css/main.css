@@ -4636,6 +4636,16 @@ html {
     /* background-color: #0071dc; */
     padding: 20px !important;
 }
+
+.custom-alert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin: 5rem; /* tương đương với m-5 */
+  font-size: 2rem; /* tương đương với fs-2 */
+  color: #dc3545; /* tương đương với text-danger */
+}
 .team{
     margin-top: 40px;
 }

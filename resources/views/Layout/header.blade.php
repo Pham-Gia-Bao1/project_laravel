@@ -27,7 +27,6 @@
             </ul>
         </nav>
         <div class="navbar__overlay js-toggle" toggle-target="#navbar"></div>
-
        @if (isset(Auth::user()->name) )
             @include('Layout.subNavBar')
        @else
