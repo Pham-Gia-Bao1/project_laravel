@@ -14,7 +14,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     private $coffe; // Remove the instantiation here
+     protected $coffe; // Remove the instantiation here
 
      public function __construct()
      {
@@ -23,9 +23,13 @@ class HomeController extends Controller
 
      public function index(Request $request)
      {
-         $data = $this->coffe->inRandomOrder()->get(); 
+         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        if(isset($request->vnp_Amount) && !empty($request->vnp_Amount)){
+            $notifiction = 'success';
+            return view('Home', compact('data'))->with('message', $notifiction);
+        }
          $infor = $request->input('search');
-            $allItem = $this->coffe->all();
+        $allItem = $this->coffe->all();
          if(isset($infor)){
             return $this->search($infor);
          }
@@ -107,7 +111,7 @@ class HomeController extends Controller
 {
     $query = $this->coffe->query();
     $keywords = explode(' ', $infor);
-    
+
     foreach ($keywords as $keyword) {
         if (is_numeric($keyword)) {
             $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
@@ -131,6 +135,6 @@ class HomeController extends Controller
     return view('Home', compact('data'));
 }
 
-    
-    
+
+
 }

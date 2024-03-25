@@ -8,6 +8,8 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -82,9 +84,11 @@ Route::get('shipping', function () {
     return view('Shipping');
 })->name('Shipping');
 
-Route::get('payment', function () {
-    return view('Payment');
-})->name('Payment');
+Route::get('payment',[PaymentController::class,'index'])->name('Payment');
+
+// cổng thanh toán
+Route::post('payment',[PaymentController::class,'online_checkout'])->name('Payment');
+
 
 // Route::get('AddNewCard', function () {
 //     return view('AddNewCard');
@@ -98,9 +102,7 @@ Route::get('payment', function () {
 //     return $request->cookie('unicode');
 //
 //});
-Route::get('test', function(){
-    return view('Welcome');
-})->name('test');
+Route::get('test',[CategoryController::class,'index'])->name('test');
 
 // Route::get('login/facebook', function () {
 //     return view('auth.login_facebook');

@@ -355,6 +355,8 @@
                         </div>
                         <div class="col-4 col-xl-12">
                             <div class="cart-info">
+                                <form method="post" action="{{url('/payment')}}" class="row gy-xl-3">
+                                    @csrf
                                 <div class="cart-info__row">
                                     <span>Subtotal <span class="cart-info__sub-label">(items)</span></span>
                                     <span>3</span>
@@ -370,10 +372,12 @@
                                 <div class="cart-info__separate"></div>
                                 <div class="cart-info__row">
                                     <span>Estimated Total</span>
-                                    <span>$201.65</span>
+                                    <input name="total" value="201.65">
                                 </div>
 
-                                <x-button content="Continue to checkout" border_radius="" link="payment" ></x-button>
+                                <button type="submit" name="payUrl" value="payUrl" class="cart-info__next-btn btn btn--primary btn--rounded">Pay $201.65</button>
+
+                                </form>
                             </div>
                             <div class="cart-info">
                                 <a href="#!">
@@ -396,12 +400,7 @@
             </div>
         </main>
 
-        <!-- Footer -->
-        <footer id="footer" class="footer"></footer>
-        <script>
-            load("#footer", "./templates/footer.html");
-        </script>
-
+       
         <!-- Modal: confirm remove shopping cart item -->
         <div id="delete-confirm" class="modal modal--small hide">
             <div class="modal__content">
