@@ -1,14 +1,37 @@
 
     @extends('Layout.category-layout.master-category-layout')
 @section('main-category')
-<section class="home__container">
+<style>
+
+/* CSS để thay đổi màu sắc hoặc kiểu của label khi radio button tương ứng được chọn */
+input[type="radio"]:checked + label {
+    /* Áp dụng các thuộc tính CSS bạn muốn khi radio button được chọn */
+    font-weight: bold; /* Ví dụ: làm đậm chữ khi radio button được chọn */
+    background-color: #ffb700;
+    color: #ffff;/* Ví dụ: đổi màu chữ khi radio button được chọn */
+    cursor: pointer;
+}
+
+</style>
+<section class="home__container pb-20">
     <div class="home__row">
         <h2 class="home__heading">Total LavAzza 1320</h2>
         <div class="filter-wrap">
-            <button class="filter-btn js-toggle" toggle-target="#home-filter">
+            <button id="filter_btn" class="filter-btn js-toggle" style="background-color: #77DAE6" toggle-target="#home-filter">
                 Filter
                 <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
             </button>
+            <script>
+                document.getElementById("filter_btn").addEventListener("click", function() {
+                    var targetId = this.getAttribute("toggle-target");
+                    var targetElement = document.querySelector(targetId);
+                    if (targetElement.classList.contains("hide")) {
+                        targetElement.classList.remove("hide");
+                    } else {
+                        targetElement.classList.add("hide");
+                    }
+                });
+                </script>
 
             <div id="home-filter" class="filter hide">
                 <img src="./assets/icons/arrow-up.png" alt="" class="filter__arrow" />
@@ -19,10 +42,8 @@
                         <div class="filter__col">
                             <label for="" class="form__label">Price</label>
                             <div class="filter__form-group">
-                                <div
-                                    class="filter__form-slider"
-                                    style="--min-value: 10%; --max-value: 60%"
-                                ></div>
+                                <input type="range" id="priceRange" min="0" max="100" value="30">
+                                <input type="range" id="priceRangeMax" min="0" max="100" value="100">
                             </div>
                             <div class="filter__form-group filter__form-group--inline">
                                 <div>
@@ -30,10 +51,10 @@
                                     <div class="filter__form-text-input filter__form-text-input--small">
                                         <input
                                             type="text"
-                                            name=""
-                                            id=""
+                                            name="min-price"
+                                            id="minPriceInput"
                                             class="filter__form-input"
-                                            value="$30.00"
+                                            value="30.00"
                                         />
                                     </div>
                                 </div>
@@ -42,15 +63,46 @@
                                     <div class="filter__form-text-input filter__form-text-input--small">
                                         <input
                                             type="text"
-                                            name=""
-                                            id=""
+                                            name="max-price"
+                                            id="maxPriceInput"
                                             class="filter__form-input"
-                                            value="$100.00"
+                                            value="100.00"
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            // Lấy các phần tử cần thiết
+                            const priceRange = document.getElementById("priceRange");
+                            const priceRangeMax = document.getElementById("priceRangeMax");
+                            const minPriceInput = document.getElementById("minPriceInput");
+                            const maxPriceInput = document.getElementById("maxPriceInput");
+
+                            // Cập nhật giá trị của input text khi input range thay đổi
+                            priceRange.addEventListener("input", function() {
+                                minPriceInput.value = `${this.value}.00`;
+                            });
+
+                            priceRangeMax.addEventListener("input", function() {
+                                maxPriceInput.value = `${this.value}.00`;
+                            });
+
+                            // Cập nhật giá trị của input range khi input text thay đổi
+                            minPriceInput.addEventListener("input", function() {
+                                // Chuyển đổi giá trị từ dạng $xx.00 thành số nguyên
+                                const minPrice = parseInt(this.value.replace("$", "").replace(".00", ""));
+                                // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
+                                priceRange.value = Math.min(minPrice, priceRangeMax.value);
+                            });
+
+                            maxPriceInput.addEventListener("input", function() {
+                                // Chuyển đổi giá trị từ dạng $xx.00 thành số nguyên
+                                const maxPrice = parseInt(this.value.replace("$", "").replace(".00", ""));
+                                // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
+                                priceRangeMax.value = Math.max(maxPrice, priceRange.value);
+                            });
+                        </script>
 
                         <div class="filter__separate"></div>
 
@@ -58,33 +110,42 @@
                         <div class="filter__col">
                             <label for="" class="form__label">Size/Weight</label>
                             <div class="filter__form-group">
+                                <!-- Thêm dropdown cho các giá trị từ 100 đến 500 -->
                                 <div class="form__select-wrap">
-                                    <div class="form__select" style="--width: 158px">
-                                        500g
-                                        <img
-                                            src="./assets/icons/select-arrow.svg"
-                                            alt=""
-                                            class="form__select-arrow icon"
-                                        />
-                                    </div>
-                                    <div class="form__select">
-                                        Gram
-                                        <img
-                                            src="./assets/icons/select-arrow.svg"
-                                            alt=""
-                                            class="form__select-arrow icon"
-                                        />
-                                    </div>
+                                    <select id="sizeDropdown" class="form__select" name="gam" style="--width: 158px">
+                                        <!-- Thêm các tùy chọn từ 100 đến 500 -->
+                                        <!-- Sử dụng vòng lặp để tạo các tùy chọn -->
+                                        <?php for ($i = 100; $i <= 500; $i += 100): ?>
+                                            <option value="<?php echo $i; ?>g"><?php echo $i; ?>g</option>
+                                        <?php endfor; ?>
+                                    </select>
+                                    <!-- Loại bỏ icon form__select-arrow -->
                                 </div>
                             </div>
                             <div class="filter__form-group">
                                 <div class="form__tags">
-                                    <button class="form__tag">Small</button>
-                                    <button class="form__tag">Medium</button>
-                                    <button class="form__tag">Large</button>
+                                    <input hidden  type="radio" name="size" id="small" value="Small" class="form__tag">
+                                    <label for="small" class="form__tag">Small</label>
+
+                                    <input hidden  type="radio" name="size" id="medium" value="Medium" class="form__tag">
+                                    <label for="medium" class="form__tag">Medium</label>
+
+                                    <input hidden  type="radio" name="size" id="large" value="Large" class="form__tag">
+                                    <label for="large" class="form__tag">Large</label>
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            // Lắng nghe sự kiện khi dropdown thay đổi
+                            document.getElementById('sizeDropdown').addEventListener('change', function() {
+                                // Lấy giá trị được chọn trong dropdown
+                                var selectedValue = this.value;
+                                // Hiển thị giá trị đã chọn trong dropdown
+                                console.log(selectedValue);
+                            });
+                        </script>
+
 
                         <div class="filter__separate"></div>
 
@@ -108,10 +169,16 @@
                                 </div>
                             </div>
                             <div class="filter__form-group">
+
                                 <div class="form__tags">
-                                    <button class="form__tag">Lavazza</button>
-                                    <button class="form__tag">Nescafe</button>
-                                    <button class="form__tag">Starbucks</button>
+                                    <input hidden  type="radio" name="box" id="LavAzza" value="LavAzza" class="form__tag">
+                                    <label for="LavAzza" class="form__tag">LavAzza</label>
+
+                                    <input hidden  type="radio" name="box" id="Nescafe" value="Nescafe" class="form__tag">
+                                    <label for="Nescafe" class="form__tag">Nescafe</label>
+
+                                    <input hidden  type="radio" name="box" id="Dunkin" value="Dunkin" class="form__tag">
+                                    <label for="Dunkin" class="form__tag">Dunkin</label>
                                 </div>
                             </div>
                         </div>

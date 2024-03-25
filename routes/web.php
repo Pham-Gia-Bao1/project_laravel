@@ -102,12 +102,8 @@ Route::post('payment',[PaymentController::class,'online_checkout'])->name('Payme
 //     return $request->cookie('unicode');
 //
 //});
-Route::get('test',[CategoryController::class,'index'])->name('test');
-
-// Route::get('login/facebook', function () {
-//     return view('auth.login_facebook');
-// })->name('login_facebook');
-
+Route::get('categories',[CategoryController::class,'index'])->name('test');
+// Route::post('/test',[TestController::class,'processTest']);
 
 
 Route::get('login/facebook', [LoginController::class, 'redirectToFacebook']);
