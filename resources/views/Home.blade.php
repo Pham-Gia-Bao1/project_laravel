@@ -25,8 +25,12 @@
                 <div class="home__row">
                     <h2 class="home__heading">Browse Categories</h2>
                 </div>
+                @if (isset($message))
+                <div id="alert" class="custom-alert" role="alert">
+                    {{$message}}
+                </div>               
+                @endif
                 <div class="d-flex gap-3 row-top  row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll ">
-
                     <!-- Category item  -->
                     {{-- component --}}
                     @foreach ($data as $item)

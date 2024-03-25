@@ -28,6 +28,12 @@ class HomeController extends Controller
             $notifiction = 'success';
             return view('Home', compact('data'))->with('message', $notifiction);
         }
+         $infor = $request->input('search');
+        $allItem = $this->coffe->all();
+         if(isset($infor)){
+            return $this->search($infor);
+         }
+         // Access the property using $this->coffe
          return view('Home', compact('data'));
      }
 
@@ -101,4 +107,34 @@ class HomeController extends Controller
     {
         //
     }
+    public function search($infor)
+{
+    $query = $this->coffe->query();
+    $keywords = explode(' ', $infor);
+
+    foreach ($keywords as $keyword) {
+        if (is_numeric($keyword)) {
+            $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
+        } else {
+            $query->orWhere('name', 'like', '%' . $keyword . '%')
+                  ->orWhere('weight', 'like', '%' . $keyword . '%')
+                  ->orWhere('rating', 'like', '%' . $keyword . '%')
+                  ->orWhere('size', 'like', '%' . $keyword . '%')
+                  ->orWhere('reviews', 'like', '%' . $keyword . '%');
+        }
+    }
+    $data = $query->get();
+
+    // Kiểm tra xem có dữ liệu được trả về hay không
+    if ($data->isEmpty()) {
+        // Nếu không có dữ liệu, trả về view Home với thông báo "Can not found that product"
+        return view('Home',compact('data'))->with('message', 'Can not found that product');
+    }
+
+    // Nếu có dữ liệu, trả về view Home với dữ liệu đã tìm được
+    return view('Home', compact('data'));
+}
+
+
+
 }
