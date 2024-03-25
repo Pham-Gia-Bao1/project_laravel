@@ -34,10 +34,22 @@ Route::middleware('auth')->group(function () {
         return view('profile.Add-new-card');
     });
     Route::post('create_card',[ProfileController::class, 'create_card']);
+    Route::get('profile', function () {
+        return view('profile.Wallet');
+    })->name('Profile');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
+
+    Route::get('changeAvatar', function () {
+        return view('profile.Edit_avatar');
+    })->name('changeAvatar');
+
+    Route::post('changeAvatar', [ProfileController::class,'changeAvatar'])->name('changeAvatar');
+
+
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
@@ -55,13 +67,6 @@ Route::get('favourite', function () {
 Route::get('checkout', function () {
     return view('CheckOut');
 })->name('CheckOut');
-
-Route::get('profile', function () {
-    return view('profile.Wallet');
-})->name('Profile');
-
-Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
-
 
 
 
@@ -81,9 +86,9 @@ Route::get('payment', function () {
     return view('Payment');
 })->name('Payment');
 
-Route::get('AddNewCard', function () {
-    return view('AddNewCard');
-})->name('AddNewCard');
+// Route::get('AddNewCard', function () {
+//     return view('AddNewCard');
+// })->name('AddNewCard');
 
 //Route::get('/set_cookie',function(){
 //        $reponse = (new Response())->cookie('unicode', 'day laf cookie ', '30');
@@ -93,7 +98,9 @@ Route::get('AddNewCard', function () {
 //     return $request->cookie('unicode');
 //
 //});
-// Route::get('test',[TestController::class, 'index'])->name('test');
+Route::get('test', function(){
+    return view('Welcome');
+})->name('test');
 
 // Route::get('login/facebook', function () {
 //     return view('auth.login_facebook');

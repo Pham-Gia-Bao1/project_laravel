@@ -4636,6 +4636,7 @@ html {
     /* background-color: #0071dc; */
     padding: 20px !important;
 }
+
 .custom-alert {
   display: flex;
   justify-content: center;
@@ -4644,4 +4645,59 @@ html {
   margin: 5rem; /* tương đương với m-5 */
   font-size: 2rem; /* tương đương với fs-2 */
   color: #dc3545; /* tương đương với text-danger */
+}
+.team{
+    margin-top: 40px;
+}
+.row1 {
+    /* background-color: red; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4%;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.row1 img {
+    width: 100%;
+}
+
+.row1 .row1-item {
+    width: 100%; /* Sử dụng 100% width khi màn hình nhỏ hơn */
+}
+.row1 h3{
+    /* color: #ffffff; */
+    font-size: 20px;
+    margin: 20px 20px  20px 0;
+}
+.row1-item p:last-child{
+    margin: 20px 20px  20px 0;
+
+}
+
+@media (min-width: 640px) {
+    .row1 .row1-item {
+        width: 48%; /* Sử dụng 48% width khi màn hình từ 640px trở lên */
+    }
+}
+
+@media (min-width: 768px) {
+    .row1 .row1-item {
+        width: 48%; /* Sử dụng 48% width khi màn hình từ 768px trở lên */
+    }
+}
+
+@media (min-width: 1024px) {
+    .row1 .row1-item {
+        width: 48%; /* Sử dụng 48% width khi màn hình từ 1024px trở lên */
+    }
+}
+
+@media (min-width: 1280px) {
+    .row1 .row1-item {
+        width: 22%; /* Sử dụng 22% width khi màn hình từ 1280px trở lên */
+    }
+}
+.section-title{
+    font-size: 30px;
 }
