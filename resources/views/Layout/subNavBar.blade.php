@@ -1,10 +1,14 @@
 <div class="top-act">
     <div class="top-act__group d-md-none top-act__group--single">
 
-        <button class="top-act__btn">
-            <input type="text" class="bg-dark" id="searchInput">
-            <img src="./assets/icons/search.svg" alt="" id="icon-serch" class="icon top-act__icon rounded-circle" />
-        </button>
+        <form action="home" method="get">
+                
+            <div class="top-act__btn">
+                <input type="text" class="bg-dark" id="searchInput" name="search" placeholder="Search...">
+                <button type="submit"><img src="./assets/icons/search.svg" alt="" id="icon-serch" class="icon top-act__icon rounded-circle" /></button>
+            </div>
+
+            </form>
 
     </div>
 
