@@ -4,6 +4,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FavoriteList;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers;
 use App\Http\Controllers\DetailCoffeController;
@@ -38,17 +39,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/favourite/{product}', [HomeController::class, 'favorite'])->name('Favorite');
+
 });
 
 require __DIR__.'/auth.php';
+
 
 Route::get('/',[HomeController::class,'index']);
 
 Route::get('ProductDetail',[DetailCoffeController::class,'show'])->name('ProductDetail');
 
-Route::get('favourite', function () {
-    return view('Favourite');
-})->name('Favourite');
+// Route::get('favourite', function () {
+//     return view('Favourite');
+// })->name('Favourite');
 
 Route::get('checkout', function () {
     return view('CheckOut');

@@ -24,6 +24,11 @@
         <script src="./assets/js/scripts.js"></script>
     </head>
     <body>
+        @if (Session::has('error'))
+            <div class="alert alert-danger text-center" style="width: 50%; margin: 0 auto;">
+                {{ Session::get('error') }}
+            </div>
+        @endif
         <main class="auth">
             <!-- Auth intro -->
             <div class="auth__intro d-md-none">
