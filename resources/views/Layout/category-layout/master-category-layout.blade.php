@@ -56,7 +56,7 @@ justify-content: center;
 
 }
 .child ul li:hover{
-    background: var(--secondary-color, #77DAE6);
+    background: var(--secondary-color, #ffb700);
     cursor: pointer;
 }
 
@@ -66,6 +66,15 @@ height: 59.5px;
 flex-shrink: 0;
 }
 
+.form__tags label{
+     width:29%;
+     display: flex;
+     /* justify-content: space-evenly; */
+     justify-content: center;
+}
+.child-item1{
+     width: 100%;
+}
 </style>
 
 @if (isset($message))

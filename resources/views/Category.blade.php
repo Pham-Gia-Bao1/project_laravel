@@ -11,7 +11,9 @@ input[type="radio"]:checked + label {
     color: #ffff;/* Ví dụ: đổi màu chữ khi radio button được chọn */
     cursor: pointer;
 }
-
+.not_found{
+    width: 50%;
+}
 </style>
 <section class="home__container pb-20">
     <div class="home__row">
@@ -43,7 +45,7 @@ input[type="radio"]:checked + label {
                             <label for="" class="form__label">Price</label>
                             <div class="filter__form-group">
                                 <input type="range" id="priceRange" min="0" max="100" value="30">
-                                <input type="range" id="priceRangeMax" min="0" max="100" value="100">
+                                <input type="range" id="priceRangeMax" min="0" max="1000" value="100">
                             </div>
                             <div class="filter__form-group filter__form-group--inline">
                                 <div>
@@ -66,7 +68,7 @@ input[type="radio"]:checked + label {
                                             name="max-price"
                                             id="maxPriceInput"
                                             class="filter__form-input"
-                                            value="100.00"
+                                            value="800.00"
                                         />
                                     </div>
                                 </div>
@@ -102,41 +104,7 @@ input[type="radio"]:checked + label {
                                 // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
                                 priceRangeMax.value = Math.max(maxPrice, priceRange.value);
                             });
-                        </script>
 
-                        <div class="filter__separate"></div>
-
-                        <!-- Filter column 2 -->
-                        <div class="filter__col">
-                            <label for="" class="form__label">Size/Weight</label>
-                            <div class="filter__form-group">
-                                <!-- Thêm dropdown cho các giá trị từ 100 đến 500 -->
-                                <div class="form__select-wrap">
-                                    <select id="sizeDropdown" class="form__select" name="gam" style="--width: 158px">
-                                        <!-- Thêm các tùy chọn từ 100 đến 500 -->
-                                        <!-- Sử dụng vòng lặp để tạo các tùy chọn -->
-                                        <?php for ($i = 100; $i <= 500; $i += 100): ?>
-                                            <option value="<?php echo $i; ?>g"><?php echo $i; ?>g</option>
-                                        <?php endfor; ?>
-                                    </select>
-                                    <!-- Loại bỏ icon form__select-arrow -->
-                                </div>
-                            </div>
-                            <div class="filter__form-group">
-                                <div class="form__tags">
-                                    <input hidden  type="radio" name="size" id="small" value="Small" class="form__tag">
-                                    <label for="small" class="form__tag">Small</label>
-
-                                    <input hidden  type="radio" name="size" id="medium" value="Medium" class="form__tag">
-                                    <label for="medium" class="form__tag">Medium</label>
-
-                                    <input hidden  type="radio" name="size" id="large" value="Large" class="form__tag">
-                                    <label for="large" class="form__tag">Large</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <script>
                             // Lắng nghe sự kiện khi dropdown thay đổi
                             document.getElementById('sizeDropdown').addEventListener('change', function() {
                                 // Lấy giá trị được chọn trong dropdown
@@ -147,41 +115,7 @@ input[type="radio"]:checked + label {
                         </script>
 
 
-                        <div class="filter__separate"></div>
 
-                        <!-- Filter column 3 -->
-                        <div class="filter__col">
-                            <label for="" class="form__label">Brand</label>
-                            <div class="filter__form-group">
-                                <div class="filter__form-text-input">
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        placeholder="Search brand name"
-                                        class="filter__form-input"
-                                    />
-                                    <img
-                                        src="./assets/icons/search.svg"
-                                        alt=""
-                                        class="filter__form-input-icon icon"
-                                    />
-                                </div>
-                            </div>
-                            <div class="filter__form-group">
-
-                                <div class="form__tags">
-                                    <input hidden  type="radio" name="box" id="LavAzza" value="LavAzza" class="form__tag">
-                                    <label for="LavAzza" class="form__tag">LavAzza</label>
-
-                                    <input hidden  type="radio" name="box" id="Nescafe" value="Nescafe" class="form__tag">
-                                    <label for="Nescafe" class="form__tag">Nescafe</label>
-
-                                    <input hidden  type="radio" name="box" id="Dunkin" value="Dunkin" class="form__tag">
-                                    <label for="Dunkin" class="form__tag">Dunkin</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="filter__row filter__footer">
                         <button class="btn btn--text filter__cancel js-toggle" toggle-target="#home-filter">
@@ -201,6 +135,9 @@ input[type="radio"]:checked + label {
 
     <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
        {{-- component --}}
+       @if ($data->isEmpty())
+           <img class="not_found" src="https://cdni.iconscout.com/illustration/premium/thumb/not-found-7621869-6167023.png" alt="">
+       @endif
         @foreach ($data as $item)
              <!-- Product card 2 -->
         <x-card_product

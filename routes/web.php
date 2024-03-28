@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers;
+use App\Http\Controllers\Admin\CategoriesAdminController;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -28,39 +30,46 @@ use App\Http\Middleware\Authenticate;
 */
 
 
-Route::get('/dashboard',[HomeController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('profile_edit',[ProfileController::class,'get_info_user'])->name('profile.edit'); // Đặt tên đặc biệt cho route
-    Route::get('create_card', function (){
+    Route::get('profile_edit', [ProfileController::class, 'get_info_user'])->name('profile.edit'); // Đặt tên đặc biệt cho route
+    Route::get('create_card', function () {
         return view('profile.Add-new-card');
     });
-    Route::post('create_card',[ProfileController::class, 'create_card']);
+    Route::post('create_card', [ProfileController::class, 'create_card']);
     Route::get('profile', function () {
         return view('profile.Wallet');
     })->name('Profile');
 
-    Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
+    Route::post('profile', [ProfileController::class, 'edit_profile'])->name('Profile');
 
     Route::get('changeAvatar', function () {
         return view('profile.Edit_avatar');
     })->name('changeAvatar');
 
-    Route::post('changeAvatar', [ProfileController::class,'changeAvatar'])->name('changeAvatar');
+    Route::post('changeAvatar', [ProfileController::class, 'changeAvatar'])->name('changeAvatar');
 
+    Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
+    Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
 
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('/admin')->group(function(){
+            Route::get('/', [HomeAdminController::class,'index'])->name('admin');
+            Route::prefix('/categories')->group(function(){
+                Route::get('/', [CategoriesAdminController::class,'index'])->name('admin.categories');
+                Route::get('/create', [CategoriesAdminController::class,'create'])->name('admin.categories.create');
+            });
+    });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::get('/',[HomeController::class,'index']);
-Route::get('/home',[HomeController::class,'index']);
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-Route::get('ProductDetail',[DetailCoffeController::class,'show'])->name('ProductDetail');
+
+Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
 
 Route::get('favourite', function () {
     return view('Favourite');
@@ -69,7 +78,6 @@ Route::get('favourite', function () {
 Route::get('checkout', function () {
     return view('CheckOut');
 })->name('CheckOut');
-
 
 
 Route::get('forgot-password', function () {
@@ -84,10 +92,8 @@ Route::get('shipping', function () {
     return view('Shipping');
 })->name('Shipping');
 
-Route::get('payment',[PaymentController::class,'index'])->name('Payment');
 
 // cổng thanh toán
-Route::post('payment',[PaymentController::class,'online_checkout'])->name('Payment');
 
 
 // Route::get('AddNewCard', function () {
@@ -102,7 +108,7 @@ Route::post('payment',[PaymentController::class,'online_checkout'])->name('Payme
 //     return $request->cookie('unicode');
 //
 //});
-Route::get('categories',[CategoryController::class,'index'])->name('test');
+Route::get('categories', [CategoryController::class, 'index'])->name('categories');
 // Route::post('/test',[TestController::class,'processTest']);
 
 
