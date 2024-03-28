@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<>
+<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('assets/css/style_admin.css') }}" />
@@ -21,6 +21,11 @@
     @yield('contact_style');
 
 	<title>Admin</title>
+    <script>
+        setTimeout(function(){
+            document.querySelector('.alert').style.display = 'none';
+        },4000);
+    </script>
 </head>
 <body>
 	<!-- SIDEBAR -->

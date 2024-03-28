@@ -28,7 +28,7 @@
                     </li>
                     <li><i class='bx bx-chevron-right' ></i></li>
                     <li>
-                        <a class="active" href="#">categories</a>
+                        <a class="active" href="#">products</a>
                     </li>
                 </ul>
             </div>
@@ -62,25 +62,47 @@
                   </div>
 
                 <div class="head">
-                    <h3>Recent Orders</h3>
+                    <h3>Product List</h3>
                 </div>
                 <table>
                     <thead>
-                        <tr">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>weight</th>
+                            <th>Price</th>
+                            <th>Images</th>
+                            <th>Review</th>
+                            <th>Quantity</th>
+                            <th>Coffe Shop</th>
                             <th>Category</th>
                             <th>Action</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($categories as $item)
+                        @foreach ($products as $product)
                         <tr>
-                            <td class="w-100">{{$item->name}}</td>
+                            <td class="w-100">{{$product->id}}</td>
+                            <td class="w-100">{{$product->name}}</td>
+                            <td class="w-100">{{$product->size}}</td>
+                            <td class="w-100">{{$product->weight}}</td>
+                            <td class="w-100">{{$product->price}}</td>
+                            <td class="w-100">
+                                <img src="{{ asset('assets/img/product').'/'.json_decode($product->images)[0] }}" alt="">
+                            </td>
+                            <td class="w-100">{{$product->reviews}}</td>
+                            <td class="w-100">{{$product->quantity}}</td>
+                            <td class="w-100">{{$product->coffe_shop_id}}</td>
+                            <td class="w-100">{{$product->category_id}}</td>
+
                             <td>
 
-                                <a href="{{ route('admin.categories.update', ['id' => $item->id]) }}" class="btn btn-info" style="margin: 10px 0 10px 0">
+                                <a href="" class="btn btn-info" style="margin: 10px 0 10px 0">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('admin.categories.delete', ['id' => $item->id]) }}" >
+                                <a href="" >
                                     <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                                 </a>
 

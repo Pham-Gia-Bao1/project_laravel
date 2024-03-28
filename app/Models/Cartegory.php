@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Cartegory extends Model
 {
     use HasFactory;
-    public $table = 'cartegories';
+    public $table = 'categories';
 }

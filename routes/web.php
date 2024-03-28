@@ -11,6 +11,8 @@ use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\HomeAdminController;
+use App\Http\Controllers\Admin\ProductControlller;
+
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -41,23 +43,27 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', function () {
         return view('profile.Wallet');
     })->name('Profile');
-
     Route::post('profile', [ProfileController::class, 'edit_profile'])->name('Profile');
-
     Route::get('changeAvatar', function () {
         return view('profile.Edit_avatar');
     })->name('changeAvatar');
 
     Route::post('changeAvatar', [ProfileController::class, 'changeAvatar'])->name('changeAvatar');
-
     Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
     Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
-
+    
     Route::prefix('/admin')->group(function(){
             Route::get('/', [HomeAdminController::class,'index'])->name('admin');
             Route::prefix('/categories')->group(function(){
                 Route::get('/', [CategoriesAdminController::class,'index'])->name('admin.categories');
                 Route::get('/create', [CategoriesAdminController::class,'create'])->name('admin.categories.create');
+                Route::get('/update/{id}',[CategoriesAdminController::class,'update'])->name('admin.categories.update');
+                Route::get('/delete',[CategoriesAdminController::class,'delete'])->name('admin.categories.delete');
+            });
+
+            Route::prefix('/products')->group(function(){
+                Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
+
             });
     });
 });
