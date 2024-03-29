@@ -1,3 +1,20 @@
+<?php 
+use App\Models\Shopping_cart;
+use App\Models\User;
+use App\Models\CoffeModel;
+
+$user = User::find(Auth::user()->id);
+
+if (isset($user)) {
+    $cartItems = Shopping_cart::where('user_id', $user->id)->get();
+
+    // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
+    $productIds = $cartItems->pluck('product_id')->toArray();
+    $products = CoffeModel::whereIn('id', $productIds)->get();
+}
+
+?>
+
 <div class="top-act">
     <div class="top-act__group d-md-none top-act__group--single">
 
@@ -99,10 +116,13 @@
                 <div class="act-dropdown__inner">
                     <img src="./assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
                     <div class="act-dropdown__top">
-                        <h2 class="act-dropdown__title">You have 3 item(s)</h2>
+                        <h2 class="act-dropdown__title">You have {{ count($products) }} item(s)</h2>
                         <a href="checkout" class="act-dropdown__view-all">See All</a>
                     </div>
                     <div class="row row-cols-3 gx-2 act-dropdown__list">
+                        @php
+                            $total = 0;
+                        @endphp
                         @foreach ($products as $product)
                             <!-- Cart preview item 3 -->
                             <div class="col">
@@ -118,24 +138,27 @@
                                     <p class="cart-preview-item__price">${{ $product->price }}</p>
                                 </article>
                             </div>
+                            @php
+                                $total += $product->price ;
+                            @endphp
                         @endforeach
                     </div>
                     <div class="act-dropdown__bottom">
                         <div class="act-dropdown__row">
-                            <span class="act-dropdown__label">Subtotal</span>
-                            <span class="act-dropdown__value">$415.99</span>
+                            <span class="act-dropdown__label">Quantity of products</span>
+                            <span class="act-dropdown__value">{{ count($products) }}</span>
                         </div>
-                        <div class="act-dropdown__row">
+                        {{-- <div class="act-dropdown__row">
                             <span class="act-dropdown__label">Texes</span>
                             <span class="act-dropdown__value">Free</span>
                         </div>
                         <div class="act-dropdown__row">
                             <span class="act-dropdown__label">Shipping</span>
                             <span class="act-dropdown__value">$10.00</span>
-                        </div>
+                        </div> --}}
                         <div class="act-dropdown__row act-dropdown__row--bold">
                             <span class="act-dropdown__label">Total Price</span>
-                            <span class="act-dropdown__value">$425.99</span>
+                            <span class="act-dropdown__value">${{ $total }}</span>
                         </div>
                     </div>
                     <div class="act-dropdown__checkout">

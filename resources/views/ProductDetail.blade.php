@@ -1,7 +1,32 @@
 
 @extends('Layout.layout')
 @section('content')
-
+<style>
+    .alert-success, .alert-error{
+        
+        width: 20%;
+        position: absolute;
+        right: 0;
+        padding: 20px;
+        border-radius: 5px;
+        color: white;
+    }
+    .alert-success{
+        background-color: green;
+    }
+    .alert-error{
+        background-color: red;
+    }
+</style>
+@if (session('success'))
+<p class="alert-success">
+    thanfh coong
+</p>
+@elseif(session('error'))
+<p class="alert-error">
+    Thaat bai
+</p>
+@endif
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->

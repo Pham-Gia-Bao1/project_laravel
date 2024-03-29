@@ -19,48 +19,47 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     protected $coffe; // Remove the instantiation here
+    protected $coffe; // Remove the instantiation here
 
-     public function __construct()
-     {
-         $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
-     }
+    public function __construct()
+    {
+        $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
+    }
 
-     public function index(Request $request)
-     {
-         $data = $this->coffe->inRandomOrder()->get(); // Lấy dữ liệu từ bảng Coffee ngẫu nhiên
-     
-         if(isset($request->vnp_Amount) && !empty($request->vnp_Amount)){
-             $notification = 'success';
-             return view('Home', compact('data'))->with('message', $notification);
-         }
-     
-         $infor = $request->input('search');
-         $allItem = $this->coffe->all();
-     
-         if(isset($infor)){
-             return $this->search($infor);
-         }
-     
-         $user = User::find(Auth::user()->id);
-     
-         if(isset($user)){
-             $cartItems = Shopping_cart::where('user_id', $user->id)->get();
-     
-             // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
-             $productIds = $cartItems->pluck('product_id')->toArray();
-             $products = CoffeModel::whereIn('id', $productIds)->get();
-             return view('Home', compact('data', 'products'));
-         }
-     
-         return view('Home', compact('data'));
-     }
-     
+    public function index(Request $request)
+    {
+        $data = $this->coffe->inRandomOrder()->get(); // Lấy dữ liệu từ bảng Coffee ngẫu nhiên
 
-     public function all_coffe(){
+        if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
+            $notification = 'success';
+            return view('Home', compact('data'))->with('message', $notification);
+        }
+
+        $infor = $request->input('search');
+        $allItem = $this->coffe->all();
+
+        if (isset($infor)) {
+            return $this->search($infor);
+        }
+        // $user = User::find(Auth::user()->id);
+
+        // if (isset($user)) {
+        //     $cartItems = Shopping_cart::where('user_id', $user->id)->get();
+
+        //     // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
+        //     $productIds = $cartItems->pluck('product_id')->toArray();
+        //     $products = CoffeModel::whereIn('id', $productIds)->get();
+        //     view()->share('products',$products);
+        // }
+        return view('Home', compact('data'));
+    }
+
+
+    public function all_coffe()
+    {
         $data = $this->coffe->all();
-        return  response()->json($data);
-     }
+        return response()->json($data);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -128,33 +127,45 @@ class HomeController extends Controller
         //
     }
     public function search($infor)
-{
-    $query = $this->coffe->query();
-    $keywords = explode(' ', $infor);
+    {
+        $query = $this->coffe->query();
+        $keywords = explode(' ', $infor);
 
-    foreach ($keywords as $keyword) {
-        if (is_numeric($keyword)) {
-            $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
-        } else {
-            $query->orWhere('name', 'like', '%' . $keyword . '%')
-                  ->orWhere('weight', 'like', '%' . $keyword . '%')
-                  ->orWhere('rating', 'like', '%' . $keyword . '%')
-                  ->orWhere('size', 'like', '%' . $keyword . '%')
-                  ->orWhere('reviews', 'like', '%' . $keyword . '%');
+        foreach ($keywords as $keyword) {
+            if (is_numeric($keyword)) {
+                $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
+            } else {
+                $query->orWhere('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('weight', 'like', '%' . $keyword . '%')
+                    ->orWhere('rating', 'like', '%' . $keyword . '%')
+                    ->orWhere('size', 'like', '%' . $keyword . '%')
+                    ->orWhere('reviews', 'like', '%' . $keyword . '%');
+            }
         }
+        $data = $query->get();
+
+        // Kiểm tra xem có dữ liệu được trả về hay không
+        if ($data->isEmpty()) {
+            // Nếu không có dữ liệu, trả về view Home với thông báo "Can not found that product"
+            return view('Home', compact('data'))->with('message', 'Can not found that product');
+        }
+
+
+        // Nếu có dữ liệu, trả về view Home với dữ liệu đã tìm được
+        return view('Home', compact('data'));
     }
-    $data = $query->get();
-
-    // Kiểm tra xem có dữ liệu được trả về hay không
-    if ($data->isEmpty()) {
-        // Nếu không có dữ liệu, trả về view Home với thông báo "Can not found that product"
-        return view('Home',compact('data'))->with('message', 'Can not found that product');
-    }
-
-    // Nếu có dữ liệu, trả về view Home với dữ liệu đã tìm được
-    return view('Home', compact('data'));
-}
 
 
+    // public function showCart(){
+//     $user = User::find(Auth::user()->id);
 
+    //     if(isset($user)){
+//        $cartItems = Shopping_cart::where('user_id', $user->id)->get();
+
+    //         // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
+//        $productIds = $cartItems->pluck('product_id')->toArray();
+//        $products = CoffeModel::whereIn('id', $productIds)->get();
+//        return view('subNavBar', compact('products'));
+//     }
+// }
 }

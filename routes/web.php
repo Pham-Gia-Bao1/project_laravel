@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('/',[HomeController::class,'index']);
-Route::get('/home',[HomeController::class,'index']);
+Route::get('/home',[HomeController::class,'index'])->name('home');
 
 
 Route::get('ProductDetail',[DetailCoffeController::class,'show'])->name('ProductDetail');
