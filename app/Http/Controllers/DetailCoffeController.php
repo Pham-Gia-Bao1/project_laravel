@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Shopping_cart;
 use Illuminate\Http\Request;
 use App\Models\CoffeModel;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 class DetailCoffeController extends Controller
 {
     /**
@@ -52,6 +56,7 @@ class DetailCoffeController extends Controller
     {
         $id = $request->get('id');
         $data = $this->coffe->all()->where('id', '=', $id); // Access the property using $this->coffe
+        // dd($user);
         return view('ProductDetail',compact('data'));
     }
 
@@ -88,4 +93,30 @@ class DetailCoffeController extends Controller
     {
         //
     }
+    public function AddToCart(Request $request, String $id){
+        $user = User::find(Auth::user()->id);
+        $coffee = CoffeModel::find($id);
+    
+        if($coffee){
+            $existingCartItem = Shopping_cart::where('user_id', $user->id)
+                ->where('product_id', $coffee->id)
+                ->first();
+    
+            if($existingCartItem) {
+                return redirect()->route('detail', ['id' => $id])->with('success', 'The product already exists in the shopping cart');
+            } else {
+                // Nếu chưa có, thêm sản phẩm vào giỏ hàng
+                Shopping_cart::create([
+                    'user_id' => $user->id,
+                    'product_id' => $coffee->id,
+                ]);
+            }
+    
+            // Sau khi thêm sản phẩm vào giỏ hàng, bạn có thể chuyển người dùng đến trang detail
+            return redirect()->route('ProductDetail', ['id' => $id])->with('success', 'Product added to cart successfully');
+        } else {
+            // Xử lý nếu không tìm thấy sản phẩm trong bảng Coffee
+            return redirect()->route('home')->with('error', 'Product does not exist');
+        }
+    }    
 }

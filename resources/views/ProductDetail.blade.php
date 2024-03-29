@@ -86,22 +86,9 @@
                                     </div>
                                     <label for="" class="form__label prod-info__label">Size/Weight</label>
                                     <div class="filter__form-group">
-                                        <div class="form__select-wrap">
-
-                                                <select style="--width: 140px" class=" form__select">
-                                                    <option  selected>200</option>
-                                                    <option value="300">300</option>
-                                                    <option value="400">400</option>
-                                                    <option value="500">500</option>
-                                                  </select>
-                                                <div class=" form__select">Gam</div>
-                                        </div>
-                                    </div>
-                                    <div class="filter__form-group">
-                                        <div class="form__tags">
-                                            <button class="form__tag prod-info__tag">Small</button>
-                                            <button class="form__tag prod-info__tag">Medium</button>
-                                            <button class="form__tag prod-info__tag">Large</button>
+                                        <div class="form__select-wrap pr-5 p-3">
+                                            <input type="text" disabled class="" name="weight" class="" value="{{ $item->weight }}| Gram">
+                                            <input class="mr-5 font-bold" value="{{ $item->size }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -140,13 +127,28 @@
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
                                                 <span class="prod-info__price">${{$item->price}}</span>
-                                                <span class="prod-info__tax">10%</span>
+                                                <span class="prod-info__tax">{{$item->discount}}%</span>
                                             </div>
-                                            <p class="prod-info__total-price">$540.00</p>
+                                            <p class="prod-info__total-price">$</p>
+                                            <script>
+                                                // Lấy các phần tử cần thiết
+                                                var priceElement = document.querySelector('.prod-info__price');
+                                                var taxElement = document.querySelector('.prod-info__tax');
+                                                var totalPriceElement = document.querySelector('.prod-info__total-price');
+                                            
+                                                // Lấy giá và thuế từ các phần tử và chuyển đổi thành số
+                                                var price = parseFloat(priceElement.textContent.replace('$', ''));
+                                                var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
+                                            
+                                                // Tính toán giá cuối cùng
+                                                var totalPrice = price-(price * (taxPercentage / 100));
+                                            
+                                                // Hiển thị giá cuối cùng trong phần tử
+                                                totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
+                                            </script>
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
-                                                <x-button content="Add to card" border_radius="rounded" ></x-button>
-
+                                                    <x-button link="{{route('AddToCart',['id' => $item->id])}}" content="Add to card" border_radius="rounded" ></x-button>    
                                                 <button class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"

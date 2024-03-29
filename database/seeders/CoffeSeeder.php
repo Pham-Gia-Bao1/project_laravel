@@ -28,6 +28,7 @@ class CoffeSeeder extends Seeder
                 'images' => json_encode(['item-1.png', 'item-2.png', 'item-3.png', 'item-4.png', 'item-5.png']),
                 'reviews' => 'Good coffee, nice flavor',
                 'rating' => '4.5',
+                'discount'=>10,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

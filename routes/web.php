@@ -69,6 +69,8 @@ Route::get('favourite', function () {
 Route::get('checkout', function () {
     return view('CheckOut');
 })->name('CheckOut');
+// Route::post('AddToCart',DetailCoffeController::class,'AddToCart')->name('AddToCart');
+Route::get('AddToCart/{id}', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
 
 
 

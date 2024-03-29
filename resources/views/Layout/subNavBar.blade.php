@@ -8,7 +8,7 @@
                 <button type="submit"><img src="./assets/icons/search.svg" alt="" id="icon-serch" class="icon top-act__icon rounded-circle" /></button>
             </div>
 
-            </form>
+        </form>
 
     </div>
 
@@ -103,50 +103,22 @@
                         <a href="checkout" class="act-dropdown__view-all">See All</a>
                     </div>
                     <div class="row row-cols-3 gx-2 act-dropdown__list">
-                        <!-- Cart preview item 1 -->
-                        <div class="col">
-                            <article class="cart-preview-item">
-                                <div class="cart-preview-item__img-wrap">
-                                    <img
-                                        src="./assets/img/product/item-1.png"
-                                        alt=""
-                                        class="cart-preview-item__thumb"
-                                    />
-                                </div>
-                                <h3 class="cart-preview-item__title">Lavazza Coffee Blends</h3>
-                                <p class="cart-preview-item__price">$329.00</p>
-                            </article>
-                        </div>
-
-                        <!-- Cart preview item 2 -->
-                        <div class="col">
-                            <article class="cart-preview-item">
-                                <div class="cart-preview-item__img-wrap">
-                                    <img
-                                        src="./assets/img/product/item-2.png"
-                                        alt=""
-                                        class="cart-preview-item__thumb"
-                                    />
-                                </div>
-                                <h3 class="cart-preview-item__title">Coffee Beans Espresso</h3>
-                                <p class="cart-preview-item__price">$39.99</p>
-                            </article>
-                        </div>
-
-                        <!-- Cart preview item 3 -->
-                        <div class="col">
-                            <article class="cart-preview-item">
-                                <div class="cart-preview-item__img-wrap">
-                                    <img
-                                        src="./assets/img/product/item-3.png"
-                                        alt=""
-                                        class="cart-preview-item__thumb"
-                                    />
-                                </div>
-                                <h3 class="cart-preview-item__title">Qualità Oro Mountain</h3>
-                                <p class="cart-preview-item__price">$47.00</p>
-                            </article>
-                        </div>
+                        @foreach ($products as $product)
+                            <!-- Cart preview item 3 -->
+                            <div class="col">
+                                <article class="cart-preview-item">
+                                    <div class="cart-preview-item__img-wrap">
+                                        <img
+                                            src="./assets/img/product/{{ json_decode($product->images)[0] }}"
+                                            alt="{{ $product->name }}"
+                                            class="cart-preview-item__thumb"
+                                        />
+                                    </div>
+                                    <h3 class="cart-preview-item__title">{{ $product->name }}</h3>
+                                    <p class="cart-preview-item__price">${{ $product->price }}</p>
+                                </article>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="act-dropdown__bottom">
                         <div class="act-dropdown__row">

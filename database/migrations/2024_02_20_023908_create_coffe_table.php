@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('reviews');
             $table->string('rating');
             $table->string('quantity');
+            $table->integer('discount');
             $table->unsignedBigInteger('coffe_shop_id');
             // Thêm các trường khác nếu cần thiết
             $table->timestamps();
