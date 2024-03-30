@@ -50,10 +50,7 @@
 
         </body>
 
-    {{-- body --}}
-    @yield('content')
-
-    {{-- footer --}}
+   
     <footer>
 
         <!-- place footer here -->
