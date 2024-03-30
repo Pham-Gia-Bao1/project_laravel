@@ -40,9 +40,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route::get('/favourite/{product}', [HomeController::class, 'favorite'])->name('Favorite');
-    
+    Route::get('/favourite/{product}', [HomeController::class, 'favorite'])->name('Favorite');
+
     // Route::get('/favouritelist', [FavoriteController::class, 'index'])->name('FavoriteList');
+
+    Route::get('/favouriteList', [HomeController::class, 'viewAllFavoriteList'])->name('FavoriteList');
+
+    Route::get('/deleteFavoriteProduct/{id}', [HomeController::class, 'removeFromFavorites'])->name('deleteFavoriteList');
 
 });
 

@@ -4557,7 +4557,13 @@
             <div class="top-act__btn-wrap">
                 <button class="top-act__btn">
                     <img src="./assets/icons/heart.svg" alt="" class="icon top-act__icon" />
-                    <span class="top-act__title">03</span>
+                    <span class="top-act__title">
+                        @if(isset($favoriteCount) && $favoriteCount > 0)
+                            0{{$favoriteCount}}
+                        @else
+                            0
+                        @endif
+                    </span>
                 </button>
                 <!-- Dropdown -->
                 <div class="act-dropdown">
@@ -4567,10 +4573,10 @@
                             <h2 class="act-dropdown__title">You have @isset($favoriteCount)
                                 {{$favoriteCount}}
                             @endisset item(s)</h2>
-                            <a href="favourite" class="act-dropdown__view-all">See All</a>
+                            <a href="{{route('FavoriteList')}}" class="act-dropdown__view-all">See All</a>
                         </div>
                         <div class="row row-cols-3 gx-2 act-dropdown__list">
-                            @if(isset($favorites)){
+                            @if(isset($favorites))
                                 @foreach ($favorites as $item)
                                     <div class="col">
                                         <article class="cart-preview-item">
@@ -4586,7 +4592,6 @@
                                         </article>
                                     </div>
                                 @endforeach
-                            }
                             @else{
                                 <h4>Chưa có sản phẩm yêu thích nào</h4>
                             }

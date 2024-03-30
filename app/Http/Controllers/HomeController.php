@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         }
          return view('Home', compact('data'));
-     }
+    }
 
     public function all_coffe(){
         $data = $this->coffe->all();
@@ -114,6 +114,39 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function removeFromFavorites($product_id)
+    {
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+
+            $favorite = FavoriteList::where('user_id', $user_id)->where('product_id', $product_id)->first();
+
+            if ($favorite) {
+                $favorite->delete();
+                return redirect()->back()->with('success', 'The product has been removed from the favorites list!');
+            } else {
+                return redirect()->back()->with('error', 'Sản phẩm không tồn tại trong danh sách yêu thích!');
+            }
+        }
+    }
+
+    public function viewAllFavoriteList()
+    {
+        if (Auth::user()) {
+            $user_id = Auth::user()->id;
+            $favorites = DB::table('favorites')
+            ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
+            ->select('coffe.*')
+            ->where('favorites.user_id', $user_id)
+            ->get();
+
+            // Lấy số lượng sản phẩm yêu thích dựa trên user_id
+            $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
+            return view('Favourite', compact('favoriteCount', 'favorites'));
+        }
+        return view('Home', compact('data'));
     }
 
     public function favorite($product_id)
