@@ -7,6 +7,7 @@ use App\Models\CoffeModel;
 use Illuminate\Http\Request;
 use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
+use DB;
 class HomeController extends Controller
 {
 
@@ -25,7 +26,22 @@ class HomeController extends Controller
 
      public function index()
      {
-         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        if(Auth::user()) {
+
+            $user_id = Auth::user()->id;
+            $favorites = DB::table('favorites')
+            ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
+            ->select('coffe.*')
+                ->where('favorites.user_id', $user_id)
+                ->limit(3)
+                ->get();
+            
+            // Lấy số lượng sản phẩm yêu thích dựa trên user_id
+            $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
+            return view('Home', compact('data', 'favoriteCount', 'favorites'));
+
+        }
          return view('Home', compact('data'));
      }
 

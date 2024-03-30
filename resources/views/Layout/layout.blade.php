@@ -1,65 +1,64 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Grocery Mart</title>
 
-        <!-- Favicon -->
-        <link rel="apple-touch-icon" sizes="76x76" href="./assets/favicon/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png" />
-        <link rel="manifest" href="./assets/favicon/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grocery Mart</title>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="./assets/fonts/stylesheet.css" />
-        <!-- Add these links in your HTML -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-        <!-- Styles -->
-        <link rel="stylesheet" href="./assets/css/main.css" />
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
-        <!-- Scripts -->
-        <script src="./assets/js/scripts.js"></script>
-        <script src="{{asset('/assets/js/scripts.js')}}"></script>
-        @yield('profile-css')
+    <!-- Fonts -->
+    <link rel="stylesheet" href="./assets/fonts/stylesheet.css" />
+    <!-- Add these links in your HTML -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- Styles -->
+    <link rel="stylesheet" href="./assets/css/main.css" />
 
-    </head>
+    <!-- Scripts -->
+    <script src="./assets/js/scripts.js"></script>
+    <script src="{{ asset('/assets/js/scripts.js') }}"></script>
+    @yield('profile-css')
 
-    <body>
-        {{-- header --}}
-        <header>
-            <!-- place navbar here -->
-            @include('Layout.header')
-            {{-- nếu tồn ddax login thì --}}
-            {{-- @include('Layout.header-logined') --}}
-        </header>
+</head>
 
-        {{-- body --}}
-        @yield('content')
+<body>
+    {{-- header --}}
+    <header>
+        <!-- place navbar here -->
+        @include('Layout.header')
+        {{-- nếu tồn ddax login thì --}}
+        {{-- @include('Layout.header-logined') --}}
+    </header>
 
-        {{-- footer --}}
-        <footer>
+    {{-- body --}}
+    @yield('content')
 
-            <!-- place footer here -->
-            @include('Layout.footer')
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+    {{-- footer --}}
+    <footer>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+        <!-- place footer here -->
+        @include('Layout.footer')
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
+</body>
+
 </html>

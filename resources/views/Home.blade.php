@@ -1,6 +1,6 @@
 @extends('Layout.layout')
     @section('content')
-    
+        
         <!-- MAIN -->
         <main class="container home">
             <!-- Slideshow -->

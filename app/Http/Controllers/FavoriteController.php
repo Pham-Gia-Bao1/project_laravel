@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coffe;
 use Illuminate\Http\Request;
+use App\Models\FavoriteList;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-class FavoriteList extends Controller
+class FavoriteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +17,29 @@ class FavoriteList extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::user()->id;
+        // Kết hợp hai truy vấn lại
+        $favorites = DB::table('favorites')
+            ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
+            ->select('coffe.*')
+            ->where('favorites.user_id', $user_id)
+            ->limit(3)
+            ->get();
+
+        // Lấy số lượng sản phẩm yêu thích dựa trên user_id
+        $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
+
+        return view('/header', compact('favorites', 'favoriteCount'));
+    }
+
+    public function viewAll($userId)
+    {
+        // Lấy tất cả các sản phẩm khi người dùng nhấn view all
+        $favorites = FavoriteList::where('user_id', $userId)
+            ->with('coffe')
+            ->get();
+
+        return view('CheckOut', compact('favorites'));
     }
 
     /**
