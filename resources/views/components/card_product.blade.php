@@ -19,7 +19,11 @@
             </h3>
         {{-- <p>{{$id_product}}</p> --}}
         {{-- name product --}}
-            <p class="product-card__brand">Lay coffe</p>
+            <div class='row'>
+                <div class='col'>
+                    <p class="product-card__brand">Lay coffe</p>
+                </div>
+            </div>
             <div class="product-card__row">
                 <span class="product-card__price">{{$price}}</span>
                 <img src="./assets/icons/star.svg" alt="" class="product-card__star" />
@@ -28,3 +32,8 @@
         </article>
     {{-- </a> --}}
 </div>
+<style>
+    .favorite-action i{
+        font-size: 24px
+    }
+</style>

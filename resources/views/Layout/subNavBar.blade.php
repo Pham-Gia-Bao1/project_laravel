@@ -1,3 +1,17 @@
+<?php 
+ $user_id = Auth::user()->id;
+            $favorites = DB::table('favorites')
+            ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
+            ->select('coffe.*')
+                ->where('favorites.user_id', $user_id)
+                ->limit(3)
+                ->get();
+            
+            // Lấy số lượng sản phẩm yêu thích dựa trên user_id
+            $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
+
+?>
+
 <div class="top-act">
     <div class="top-act__group d-md-none top-act__group--single">
 

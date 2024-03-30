@@ -1,7 +1,15 @@
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @extends('Layout.layout')
 @section('content')
-
+@if (Session::has('success'))
+    <div class="alert alert-success text-center" style="width: 50%; margin: 0 auto; text-align: center;">
+        {{ Session('success') }}
+    </div>
+@elseif(Session::has('info'))
+    <div class="alert alert-info" style="width: 50%; margin: 0 auto; text-align: center;">
+        {{ Session('info') }}
+    </div>
+@endif
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->
@@ -104,6 +112,9 @@
                                             <button class="form__tag prod-info__tag">Large</button>
                                         </div>
                                     </div>
+                                    <div>
+                                        <a type="button" href="{{ route('Favorite', $item->id) }}" class="btn btn-danger wishlist mt-5">Add to wishlist</a>
+                                    </div>
                                 </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
@@ -136,18 +147,19 @@
                                                 <h4 class="prod-prop__title">Pickup</h4>
                                                 <p class="prod-prop__desc">Out of 2 store, today</p>
                                             </div>
+                    
                                         </div>
-                                        <div class="prod-info__card">
-                                            <div class="prod-info__row">
-                                                <span class="prod-info__price">${{$item->price}}</span>
-                                                <span class="prod-info__tax">10%</span>
-                                            </div>
+                                        <div class='row'>
+                                            <div class="prod-info__card">
+                                                <div class="prod-info__row">
+                                                    <span class="prod-info__price">${{$item->price}}</span>
+                                                    <span class="prod-info__tax">10%</span>
+                                                </div>
                                             <p class="prod-info__total-price">$540.00</p>
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
                                                 <x-button content="Add to card" border_radius="rounded" ></x-button>
-
-                                                <button class="like-btn prod-info__like-btn">
+                                                 <button class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"
                                                         alt=""
@@ -158,9 +170,11 @@
                                                         alt=""
                                                         class="like-btn__icon--liked"
                                                     />
-                                                </button>
+                                                </button> 
+                                            </div>
                                             </div>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -701,3 +715,10 @@
 </main>
 
 @endsection
+<style>
+    .wishlist{
+        background-color:  brown !important;
+        width: 90%;
+
+    }
+</style>
