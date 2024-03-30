@@ -7,7 +7,7 @@ use App\Models\CoffeModel;
 use Illuminate\Http\Request;
 use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
 
@@ -17,17 +17,22 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     private $coffe; // Remove the instantiation here
+     protected $coffe; // Remove the instantiation here
 
      public function __construct()
      {
         $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
      }
 
-     public function index()
+     public function index(Request $request)
      {
         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
         if(Auth::user()) {
+         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        if(isset($request->vnp_Amount) && !empty($request->vnp_Amount)){
+            $notifiction = 'success';
+            return view('Home', compact('data'))->with('message', $notifiction);
+        }
 
             $user_id = Auth::user()->id;
             $favorites = DB::table('favorites')
@@ -175,6 +180,34 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'Added to favorites list successfully!');
     }
+    public function search($infor)
+{
+    $query = $this->coffe->query();
+    $keywords = explode(' ', $infor);
+
+    foreach ($keywords as $keyword) {
+        if (is_numeric($keyword)) {
+            $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
+        } else {
+            $query->orWhere('name', 'like', '%' . $keyword . '%')
+                  ->orWhere('weight', 'like', '%' . $keyword . '%')
+                  ->orWhere('rating', 'like', '%' . $keyword . '%')
+                  ->orWhere('size', 'like', '%' . $keyword . '%')
+                  ->orWhere('reviews', 'like', '%' . $keyword . '%');
+        }
+    }
+    $data = $query->get();
+
+    // Kiểm tra xem có dữ liệu được trả về hay không
+    if ($data->isEmpty()) {
+        // Nếu không có dữ liệu, trả về view Home với thông báo "Can not found that product"
+        return view('Home',compact('data'))->with('message', 'Can not found that product');
+    }
+
+    // Nếu có dữ liệu, trả về view Home với dữ liệu đã tìm được
+    return view('Home', compact('data'));
+}
+
 
 
 }

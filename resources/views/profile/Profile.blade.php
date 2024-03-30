@@ -1,8 +1,10 @@
 
 @extends('Layout.layout')
 @section('content')
+
 <main class="profile">
     <div class="container">
+
         <!-- Search bar -->
         <div class="profile-container">
             <div class="search-bar d-none d-md-flex">
@@ -21,6 +23,9 @@
                         <!-- User -->
                         <div class="profile-user">
                             <img src="./assets/img/avatar/{{Auth::user()->img}}" alt="" class="profile-user__avatar" />
+                            <a href="changeAvatar" id="update_btn" class="btn btn-primary" style="color:black; height:30px; padding:10px;margin:5px;"><span class="material-symbols-outlined">
+                                edit_note
+                                </span></a>
                             <h1 class="profile-user__name">{{Auth::user()->name}}</h1>
                             <p class="profile-user__desc">Registered: {{Auth::user()->created_at}}</p>
                         </div>

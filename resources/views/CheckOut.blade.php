@@ -263,6 +263,10 @@
                         </div>
                         <x-button content="Continue to checkout" border_radius="" link="shipping" ></x-button>
                     </div>
+
+                    {{--  --}}
+
+
                     <div class="cart-info">
                         <a href="#!">
                             <article class="gift-item">

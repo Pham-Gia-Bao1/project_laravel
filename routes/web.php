@@ -9,6 +9,8 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,6 +37,9 @@ Route::middleware('auth')->group(function () {
         return view('profile.Add-new-card');
     });
     Route::post('create_card',[ProfileController::class, 'create_card']);
+    Route::get('profile', function () {
+        return view('profile.Wallet');
+    })->name('Profile');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -48,25 +53,32 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/deleteFavoriteProduct/{id}', [HomeController::class, 'removeFromFavorites'])->name('deleteFavoriteList');
 
+    Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
+
+    Route::get('changeAvatar', function () {
+        return view('profile.Edit_avatar');
+    })->name('changeAvatar');
+
+    Route::post('changeAvatar', [ProfileController::class,'changeAvatar'])->name('changeAvatar');
+
+
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
 
 
 Route::get('/',[HomeController::class,'index']);
+Route::get('/home',[HomeController::class,'index']);
+
 
 Route::get('ProductDetail',[DetailCoffeController::class,'show'])->name('ProductDetail');
 
 Route::get('checkout', function () {
     return view('CheckOut');
 })->name('CheckOut');
-
-Route::get('profile', function () {
-    return view('profile.Wallet');
-})->name('Profile');
-
-Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
-
 
 
 
@@ -82,13 +94,15 @@ Route::get('shipping', function () {
     return view('Shipping');
 })->name('Shipping');
 
-Route::get('payment', function () {
-    return view('Payment');
-})->name('Payment');
+Route::get('payment',[PaymentController::class,'index'])->name('Payment');
 
-Route::get('AddNewCard', function () {
-    return view('AddNewCard');
-})->name('AddNewCard');
+// cổng thanh toán
+Route::post('payment',[PaymentController::class,'online_checkout'])->name('Payment');
+
+
+// Route::get('AddNewCard', function () {
+//     return view('AddNewCard');
+// })->name('AddNewCard');
 
 //Route::get('/set_cookie',function(){
 //        $reponse = (new Response())->cookie('unicode', 'day laf cookie ', '30');
@@ -98,7 +112,7 @@ Route::get('AddNewCard', function () {
 //     return $request->cookie('unicode');
 //
 //});
-// Route::get('test',[TestController::class, 'index'])->name('test');
+Route::get('test',[CategoryController::class,'index'])->name('test');
 
 // Route::get('login/facebook', function () {
 //     return view('auth.login_facebook');
