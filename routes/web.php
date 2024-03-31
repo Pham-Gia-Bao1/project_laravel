@@ -9,6 +9,7 @@ use App\Http\Controllers;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -66,9 +67,7 @@ Route::get('favourite', function () {
     return view('Favourite');
 })->name('Favourite');
 
-Route::get('checkout', function () {
-    return view('CheckOut');
-})->name('CheckOut');
+Route::get('checkout',[CheckoutController::class,'index'])->name('CheckOut');
 // Route::post('AddToCart',DetailCoffeController::class,'AddToCart')->name('AddToCart');
 Route::get('AddToCart/{id}', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
 

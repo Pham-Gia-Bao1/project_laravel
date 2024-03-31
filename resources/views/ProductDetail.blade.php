@@ -3,13 +3,14 @@
 @section('content')
 <style>
     .alert-success, .alert-error{
-        
         width: 20%;
         position: absolute;
         right: 0;
         padding: 20px;
         border-radius: 5px;
         color: white;
+        opacity: 0.7;
+        transition: opacity 0.3s ease; /* Thêm transition cho hiệu ứng mờ */
     }
     .alert-success{
         background-color: green;
@@ -17,16 +18,25 @@
     .alert-error{
         background-color: red;
     }
+
 </style>
-@if (session('success'))
-<p class="alert-success">
-    thanfh coong
-</p>
-@elseif(session('error'))
-<p class="alert-error">
-    Thaat bai
-</p>
-@endif
+
+<div class="notification" id="notification">
+    @if (session('success'))
+    <p class="alert-success">
+        {{ session('success')  }}
+    </p>
+    @elseif(session('error'))
+    <p class="alert-error">
+        {{ session('error')  }}
+    </p>
+    @endif
+</div>
+<script>
+    setTimeout(function(){
+            document.getElementById('notification').style.display='none';
+        },3000);
+</script>
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->

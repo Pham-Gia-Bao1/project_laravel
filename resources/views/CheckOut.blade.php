@@ -36,179 +36,63 @@
                 <div class="col-8 col-xl-12">
                     <div class="cart-info">
                         <div class="cart-info__list">
-                            <!-- Cart item 1 -->
-                            <article class="cart-item">
-                                <a href="ProductDetail">
-                                    <img
-                                        src="./assets/img/product/item-1.png"
-                                        alt=""
-                                        class="cart-item__thumb"
-                                    />
-                                </a>
-                                <div class="cart-item__content">
-                                    <div class="cart-item__content-left">
-                                        <h3 class="cart-item__title">
-                                            <a href="ProductDetail">
-                                                Coffee Beans - Espresso Arabica and Robusta Beans
-                                            </a>
-                                        </h3>
-                                        <p class="cart-item__price-wrap">
-                                            $47.00 | <span class="cart-item__status">In Stock</span>
-                                        </p>
-                                        <div class="cart-item__ctrl cart-item__ctrl--md-block">
-                                            <div class="cart-item__input">
-                                                LavAzza
-                                                <img
-                                                    class="icon"
-                                                    src="./assets/icons/arrow-down-2.svg"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <div class="cart-item__input">
-                                                <button class="cart-item__input-btn">
-                                                    <img class="icon" src="./assets/icons/minus.svg" alt="" />
-                                                </button>
-                                                <span>1</span>
-                                                <button class="cart-item__input-btn">
-                                                    <img class="icon" src="./assets/icons/plus.svg" alt="" />
-                                                </button>
+                           @foreach ($products as $product)
+                                <!-- Cart item 1 -->
+                                <article class="cart-item">
+                                    <a href="ProductDetail">
+                                        <img
+                                            src="./assets/img/product/{{ json_decode($product->images)[0] }}"
+                                            alt=""
+                                            class="cart-item__thumb"
+                                        />
+                                    </a>
+                                    <div class="cart-item__content">
+                                        <div class="cart-item__content-left">
+                                            <h3 class="cart-item__title">
+                                                <a href="ProductDetail">
+                                                    {{ $product->name }}
+                                                </a>
+                                            </h3>
+                                            <p class="cart-item__price-wrap">
+                                                ${{ $product->price }} | <span class="cart-item__status quantity_in_stock">In Stock: {{ $product->quantity }}</span>
+                                            </p>
+                                            <div class="cart-item__ctrl cart-item__ctrl--md-block">
+                                                <div class="cart-item__input">
+                                                    {{ $product->shop_name }}
+                                                </div>
+                                                <div class="cart-item__input">
+                                                    <button class="cart-item__input-btn">
+                                                        <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                                    </button>
+                                                    <span>1</span>
+                                                    <button class="cart-item__input-btn">
+                                                        <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="cart-item__content-right">
-                                        <p class="cart-item__total-price">$47.00</p>
-                                        <div class="cart-item__ctrl">
-                                            <button class="cart-item__ctrl-btn">
-                                                <img src="./assets/icons/heart-2.svg" alt="" />
-                                                Save
-                                            </button>
-                                            <button
-                                                class="cart-item__ctrl-btn js-toggle"
-                                                toggle-target="#delete-confirm"
-                                            >
-                                                <img src="./assets/icons/trash.svg" alt="" />
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <!-- Cart item 2 -->
-                            <article class="cart-item">
-                                <a href="ProductDetail">
-                                    <img
-                                        src="./assets/img/product/item-2.png"
-                                        alt=""
-                                        class="cart-item__thumb"
-                                    />
-                                </a>
-                                <div class="cart-item__content">
-                                    <div class="cart-item__content-left">
-                                        <h3 class="cart-item__title">
-                                            <a href="ProductDetail">
-                                                Lavazza Coffee Blends - Try the Italian Espresso
-                                            </a>
-                                        </h3>
-                                        <p class="cart-item__price-wrap">
-                                            $53.00 | <span class="cart-item__status">In Stock</span>
-                                        </p>
-                                        <div class="cart-item__ctrl cart-item__ctrl--md-block">
-                                            <div class="cart-item__input">
-                                                LavAzza
-                                                <img
-                                                    class="icon"
-                                                    src="./assets/icons/arrow-down-2.svg"
-                                                    alt=""
-                                                />
+                                        <div class="cart-item__content-right">
+                                            <div class="sub_price">
+                                                <p class="prod-info__tax" style="float:right;width: 25%">{{$product->discount}}%</class=></p>
+                                                <p class="cart-item__total-price">${{$product->price}}</p>
                                             </div>
-                                            <div class="cart-item__input">
-                                                <button class="cart-item__input-btn">
-                                                    <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                            <div class="cart-item__ctrl">
+                                                <button class="cart-item__ctrl-btn">
+                                                    <img src="./assets/icons/heart-2.svg" alt="" />
+                                                    Save
                                                 </button>
-                                                <span>1</span>
-                                                <button class="cart-item__input-btn">
-                                                    <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                                <button
+                                                    class="cart-item__ctrl-btn js-toggle"
+                                                    toggle-target="#delete-confirm"
+                                                >
+                                                    <img src="./assets/icons/trash.svg" alt="" />
+                                                    Delete
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="cart-item__content-right">
-                                        <p class="cart-item__total-price">$106.00</p>
-                                        <div class="cart-item__ctrl">
-                                            <button class="cart-item__ctrl-btn">
-                                                <img src="./assets/icons/heart-2.svg" alt="" />
-                                                Save
-                                            </button>
-                                            <button
-                                                class="cart-item__ctrl-btn js-toggle"
-                                                toggle-target="#delete-confirm"
-                                            >
-                                                <img src="./assets/icons/trash.svg" alt="" />
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <!-- Cart item 3 -->
-                            <article class="cart-item">
-                                <a href="ProductDetail">
-                                    <img
-                                        src="./assets/img/product/item-3.png"
-                                        alt=""
-                                        class="cart-item__thumb"
-                                    />
-                                </a>
-                                <div class="cart-item__content">
-                                    <div class="cart-item__content-left">
-                                        <h3 class="cart-item__title">
-                                            <a href="ProductDetail">
-                                                Qualità Oro Mountain Grown - Espresso Coffee Beans
-                                            </a>
-                                        </h3>
-                                        <p class="cart-item__price-wrap">
-                                            $38.65 | <span class="cart-item__status">In Stock</span>
-                                        </p>
-                                        <div class="cart-item__ctrl cart-item__ctrl--md-block">
-                                            <div class="cart-item__input">
-                                                LavAzza
-                                                <img
-                                                    class="icon"
-                                                    src="./assets/icons/arrow-down-2.svg"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <div class="cart-item__input">
-                                                <button class="cart-item__input-btn">
-                                                    <img class="icon" src="./assets/icons/minus.svg" alt="" />
-                                                </button>
-                                                <span>1</span>
-                                                <button class="cart-item__input-btn">
-                                                    <img class="icon" src="./assets/icons/plus.svg" alt="" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="cart-item__content-right">
-                                        <p class="cart-item__total-price">$38.65</p>
-                                        <div class="cart-item__ctrl">
-                                            <button class="cart-item__ctrl-btn">
-                                                <img src="./assets/icons/heart-2.svg" alt="" />
-                                                Save
-                                            </button>
-                                            <button
-                                                class="cart-item__ctrl-btn js-toggle"
-                                                toggle-target="#delete-confirm"
-                                            >
-                                                <img src="./assets/icons/trash.svg" alt="" />
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
+                                </article>
+                           @endforeach
                         </div>
                         <div class="cart-info__bottom d-md-none">
                             <div class="row">

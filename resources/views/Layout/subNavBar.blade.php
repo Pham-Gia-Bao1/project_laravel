@@ -166,7 +166,7 @@ if (isset($user)) {
                             href="checkout"
                             class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
                         >
-                            Check Out All
+                            Go to Checkout
                         </a>
                     </div>
                 </div>
