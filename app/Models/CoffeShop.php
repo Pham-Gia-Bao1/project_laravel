@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CoffeModel extends Model
+class CoffeShop extends Model
 {
     use HasFactory;
-    public $table = 'coffe';
-    
+    public $table = 'coffee_shops';
 }

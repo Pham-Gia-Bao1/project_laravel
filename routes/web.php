@@ -51,10 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::post('changeAvatar', [ProfileController::class, 'changeAvatar'])->name('changeAvatar');
     Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
     Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
-    
+
     Route::prefix('/admin')->group(function(){
             Route::get('/', [HomeAdminController::class,'index'])->name('admin');
             Route::prefix('/categories')->group(function(){
+
                 Route::get('/', [CategoriesAdminController::class,'index'])->name('admin.categories');
                 Route::get('/create', [CategoriesAdminController::class,'create'])->name('admin.categories.create');
                 Route::get('/update/{id}',[CategoriesAdminController::class,'update'])->name('admin.categories.update');
@@ -62,8 +63,10 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::prefix('/products')->group(function(){
-                Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
 
+                Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
+                Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
+                
             });
     });
 });

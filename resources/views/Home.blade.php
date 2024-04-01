@@ -28,7 +28,7 @@
                 @if (isset($message))
                 <div id="alert" class="custom-alert" role="alert">
                     {{$message}}
-                </div>               
+                </div>
                 @endif
                 <div class="d-flex gap-3 row-top  row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll ">
                     <!-- Category item  -->
@@ -40,7 +40,6 @@
                         title="{{ $item->name }}"
                         img="./assets/img/product/{{ json_decode($item->images)[0] }}"
                         price="{{$item->price}}"
-
                         id="{{ $item->id }}"
                         />
                     @endforeach

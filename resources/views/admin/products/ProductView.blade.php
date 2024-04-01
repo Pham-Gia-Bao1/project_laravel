@@ -74,6 +74,8 @@
                             <th>Price</th>
                             <th>Images</th>
                             <th>Review</th>
+                            <th>Rating</th>
+
                             <th>Quantity</th>
                             <th>Coffe Shop</th>
                             <th>Category</th>
@@ -93,6 +95,8 @@
                                 <img src="{{ asset('assets/img/product').'/'.json_decode($product->images)[0] }}" alt="">
                             </td>
                             <td class="w-100">{{$product->reviews}}</td>
+                            <td class="w-100">{{$product->rating}}</td>
+
                             <td class="w-100">{{$product->quantity}}</td>
                             <td class="w-100">{{$product->coffe_shop_id}}</td>
                             <td class="w-100">{{$product->category_id}}</td>
