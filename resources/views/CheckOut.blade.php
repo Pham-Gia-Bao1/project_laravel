@@ -57,15 +57,15 @@
                                                 ${{ $product->price }} | <span class="cart-item__status quantity_in_stock">In Stock: {{ $product->quantity }}</span>
                                             </p>
                                             <div class="cart-item__ctrl cart-item__ctrl--md-block">
-                                                <div class="cart-item__input">
+                                                <div class="cart-item__input shop_namem">
                                                     {{ $product->shop_name }}
                                                 </div>
                                                 <div class="cart-item__input">
-                                                    <button class="cart-item__input-btn">
+                                                    <button class="cart-item__input-btn minus_btn">
                                                         <img class="icon" src="./assets/icons/minus.svg" alt="" />
                                                     </button>
-                                                    <span>1</span>
-                                                    <button class="cart-item__input-btn">
+                                                    <input type="text" style="width:2rem" class="quantity_coffee" value="1">
+                                                    <button class="cart-item__input-btn plus_btn">
                                                         <img class="icon" src="./assets/icons/plus.svg" alt="" />
                                                     </button>
                                                 </div>
@@ -73,8 +73,8 @@
                                         </div>
                                         <div class="cart-item__content-right">
                                             <div class="sub_price">
-                                                <p class="prod-info__tax" style="float:right;width: 25%">{{$product->discount}}%</class=></p>
-                                                <p class="cart-item__total-price">${{$product->price}}</p>
+                                                <p class="prod-info__tax" style="float:right;width: 25%">{{$product->discount}}%</p>
+                                                <p class="cart-item__total-price"></p>
                                             </div>
                                             <div class="cart-item__ctrl">
                                                 <button class="cart-item__ctrl-btn">
@@ -93,6 +93,69 @@
                                     </div>
                                 </article>
                            @endforeach
+                           <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var minusButtons = document.querySelectorAll('.minus_btn');
+                                var plusButtons = document.querySelectorAll('.plus_btn');
+                        
+                                minusButtons.forEach(function(button) {
+                                    button.addEventListener('click', function() {
+                                        var input = button.parentElement.querySelector('.quantity_coffee');
+                                        decreaseQuantity(input);
+                                    });
+                                });
+                        
+                                plusButtons.forEach(function(button) {
+                                    button.addEventListener('click', function() {
+                                        var input = button.parentElement.querySelector('.quantity_coffee');
+                                        increaseQuantity(input);
+                                    });
+                                });
+                        
+                                function decreaseQuantity(input) {
+                                    var currentValue = parseInt(input.value);
+                                    if (currentValue > 1) {
+                                        input.value = currentValue - 1;
+                                    }
+                                }
+                        
+                                function increaseQuantity(input) {
+                                    var currentValue = parseInt(input.value);   
+                                    input.value = currentValue + 1;
+                                }
+                            });
+                            //lam chữ sau 10 chữ cái thành ...
+                            document.addEventListener("DOMContentLoaded", function() {
+                            var elements = document.querySelectorAll('.shop_namem');
+                            var maxLength = 10;
+
+                            elements.forEach(function(element) {
+                                var text = element.textContent.trim();
+                                if (text.length > maxLength) {
+                                    var truncatedText = text.substring(0, maxLength) + '...';
+                                    element.textContent = truncatedText;
+                                }
+                            });
+                        });
+                        //tính % cho sp
+                        // Lấy các phần tử cần thiết
+                        document.addEventListener("DOMContentLoaded", function() {
+        var cartItems = document.querySelectorAll('.cart-item');
+
+        cartItems.forEach(function(cartItem) {
+            var priceElement = cartItem.querySelector('.cart-item__price-wrap');
+            var taxElement = cartItem.querySelector('.prod-info__tax');
+            var totalPriceElement = cartItem.querySelector('.cart-item__total-price');
+
+            var price = parseFloat(priceElement.textContent.replace('$', ''));
+            var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
+
+            var totalPrice = price - (price * (taxPercentage / 100));
+
+            totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
+        });
+    });
+                        </script>
                         </div>
                         <div class="cart-info__bottom d-md-none">
                             <div class="row">
