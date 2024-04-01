@@ -73,7 +73,6 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::prefix('/products')->group(function(){
-
                 Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
                 Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
 

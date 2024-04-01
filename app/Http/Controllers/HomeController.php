@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\CoffeModel;
+// use App\Models\ShoppingCard;
 use Illuminate\Http\Request;
 use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 class HomeController extends Controller
 {
 
@@ -17,40 +19,40 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     protected $coffe; // Remove the instantiation here
+    protected $coffe; // Remove the instantiation here
 
-     public function __construct()
-     {
+    public function __construct()
+    {
         $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
-     }
-
-     public function index(Request $request)
-     {
-        $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
-        if(Auth::user()) {
-
-        if(isset($request->vnp_Amount) && !empty($request->vnp_Amount)){
-            $notifiction = 'success';
-            return view('Home', compact('data'))->with('message', $notifiction);
-        }
-        }
-        if(isset($request->search)){
-            $search = "%{$request->search}%";
-            $data = $this->coffe->query()
-                                ->where('name', 'like', $search)
-                                ->orWhere('weight', 'like', $search)
-                                ->orWhere('rating', 'like', $search)
-                                ->orWhere('size', 'like', $search)
-                                ->orWhere('reviews', 'like', $search)
-                                ->orWhere('price', 'like', $search)
-
-                                ->get();
-        }
-
-         return view('Home', compact('data'));
     }
 
-    public function all_coffe(){
+    public function index(Request $request)
+    {
+        $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        if (Auth::user()) {
+
+            if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
+                $notifiction = 'success';
+                return view('Home', compact('data'))->with('message', $notifiction);
+            }
+        }
+        if (isset($request->search)) {
+            $search = "%{$request->search}%";
+            $data = $this->coffe->query()
+                ->where('name', 'like', $search)
+                ->orWhere('weight', 'like', $search)
+                ->orWhere('rating', 'like', $search)
+                ->orWhere('size', 'like', $search)
+                ->orWhere('reviews', 'like', $search)
+                ->orWhere('price', 'like', $search)
+                ->get();
+        }
+
+        return view('Home', compact('data'));
+    }
+
+    public function all_coffe()
+    {
         $data = $this->coffe->all();
         return  response()->json($data);
     }
@@ -137,21 +139,85 @@ class HomeController extends Controller
         }
     }
 
-    public function viewAllFavoriteList()
+    public function viewAllFavoriteList(Request $request)
     {
         if (Auth::user()) {
+
             $user_id = Auth::user()->id;
             $favorites = DB::table('favorites')
-            ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
-            ->select('coffe.*')
-            ->where('favorites.user_id', $user_id)
-            ->get();
+                ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
+                ->select('coffe.*')
+                ->where('favorites.user_id', $user_id)
+                ->get();
+            if (isset($request->favorite_product)) {
+
+                $item = json_decode($request->favorite_product);
+                if (is_array($item)) {
+                    // Xử lý khi $request->favorite_product là một mảng
+
+                        // Khởi tạo một mảng để lưu trữ các ID đã tồn tại
+                        $existingIds = [];
+
+                        foreach ($item as $value) {
+                            // Kiểm tra xem product_id đã tồn tại trong bảng shopping_cart chưa
+                            $exists = DB::table('shopping_cart')
+                            ->where('user_id', $user_id)
+                                        ->where('product_id', $value)
+                                        ->exists();
+
+                            if ($exists) {
+                                // Nếu product_id đã tồn tại, thêm nó vào danh sách các ID đã tồn tại
+                                $existingIds[] = $value;
+                            } else {
+                                // Nếu product_id không tồn tại, thêm mới
+                                $result = DB::table('shopping_cart')->insert([
+                                    'user_id' => $user_id,
+                                    'product_id' => $value
+                                ]);
+                                return redirect()->back()->with('success','add to cart successfully');
+
+                            }
+                        }
+
+                        // Nếu có ít nhất một ID đã tồn tại, thực hiện redirect và hiển thị thông báo lỗi
+                        if (!empty($existingIds)) {
+                            // Chuyển mảng các ID thành một chuỗi
+                            $existingIdsString = implode(', ', $existingIds);
+                            // Thực hiện redirect và truyền thông báo lỗi
+                            return redirect()->back()->with('error', "Các sản phẩm với ID $existingIdsString đã tồn tại trong giỏ hàng.");
+                        }
+
+
+                } else {
+                    // Xử lý khi $request->favorite_product không phải là một mảng
+                    // Kiểm tra xem product_id đã tồn tại trong bảng shopping_cart chưa
+                    $exists = DB::table('shopping_cart')
+                    ->where('user_id', $user_id)
+                        ->where('product_id', $item)
+                        ->exists();
+
+                    if (!$exists) {
+                        // Nếu product_id chưa tồn tại, thêm mới
+                        $result = DB::table('shopping_cart')->insert([
+                            'user_id' => $user_id,
+                            'product_id' => $item
+                        ]);
+                        return redirect()->back()->with('success','add to cart successfully');
+
+                    } else {
+                        $exit_id = DB::table('shopping_cart')->find($request->favorite_product);
+                        // Nếu product_id đã tồn tại, không làm gì
+                        return redirect()->back()->with('error',"$exit_id->id".'da ton tai');
+                    }
+                }
+            }
+
 
             // Lấy số lượng sản phẩm yêu thích dựa trên user_id
             $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
             return view('Favourite', compact('favoriteCount', 'favorites'));
         }
-        return view('Home', compact('data'));
+
     }
 
     public function favorite($product_id)
@@ -181,33 +247,30 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Added to favorites list successfully!');
     }
     public function search($infor)
-{
-    $query = $this->coffe->query();
-    $keywords = explode(' ', $infor);
+    {
+        $query = $this->coffe->query();
+        $keywords = explode(' ', $infor);
 
-    foreach ($keywords as $keyword) {
-        if (is_numeric($keyword)) {
-            $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
-        } else {
-            $query->orWhere('name', 'like', '%' . $keyword . '%')
-                  ->orWhere('weight', 'like', '%' . $keyword . '%')
-                  ->orWhere('rating', 'like', '%' . $keyword . '%')
-                  ->orWhere('size', 'like', '%' . $keyword . '%')
-                  ->orWhere('reviews', 'like', '%' . $keyword . '%');
+        foreach ($keywords as $keyword) {
+            if (is_numeric($keyword)) {
+                $query->orWhereRaw("CAST(price AS UNSIGNED) = ?", [explode('.', $keyword)[0]]);
+            } else {
+                $query->orWhere('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('weight', 'like', '%' . $keyword . '%')
+                    ->orWhere('rating', 'like', '%' . $keyword . '%')
+                    ->orWhere('size', 'like', '%' . $keyword . '%')
+                    ->orWhere('reviews', 'like', '%' . $keyword . '%');
+            }
         }
+        $data = $query->get();
+
+        // Kiểm tra xem có dữ liệu được trả về hay không
+        if ($data->isEmpty()) {
+            // Nếu không có dữ liệu, trả về view Home với thông báo "Can not found that product"
+            return view('Home', compact('data'))->with('message', 'Can not found that product');
+        }
+
+        // Nếu có dữ liệu, trả về view Home với dữ liệu đã tìm được
+        return view('Home', compact('data'));
     }
-    $data = $query->get();
-
-    // Kiểm tra xem có dữ liệu được trả về hay không
-    if ($data->isEmpty()) {
-        // Nếu không có dữ liệu, trả về view Home với thông báo "Can not found that product"
-        return view('Home',compact('data'))->with('message', 'Can not found that product');
-    }
-
-    // Nếu có dữ liệu, trả về view Home với dữ liệu đã tìm được
-    return view('Home', compact('data'));
-}
-
-
-
 }
