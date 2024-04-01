@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\FavoriteList;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CoffeModel extends Model
+class FavoriteList extends Model
 {
     use HasFactory;
-    public $table = 'coffe';
+
+    protected $table = 'favorites'; 
+    protected $fillable = ['product_id','user_id'];
 }

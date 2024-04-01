@@ -4,6 +4,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers;
 use App\Http\Controllers\Admin\CategoriesAdminController;
@@ -43,7 +44,16 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', function () {
         return view('profile.Wallet');
     })->name('Profile');
-    Route::post('profile', [ProfileController::class, 'edit_profile'])->name('Profile');
+
+    Route::get('/favourite/{product}', [HomeController::class, 'favorite'])->name('Favorite');
+
+
+    Route::get('/favouriteList', [HomeController::class, 'viewAllFavoriteList'])->name('FavoriteList');
+
+    Route::get('/deleteFavoriteProduct/{id}', [HomeController::class, 'removeFromFavorites'])->name('deleteFavoriteList');
+
+    Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
+
     Route::get('changeAvatar', function () {
         return view('profile.Edit_avatar');
     })->name('changeAvatar');
@@ -66,7 +76,7 @@ Route::middleware('auth')->group(function () {
 
                 Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
                 Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
-                
+
             });
     });
 });
@@ -76,13 +86,7 @@ require __DIR__ . '/auth.php';
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-
-
 Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
-
-Route::get('favourite', function () {
-    return view('Favourite');
-})->name('Favourite');
 
 Route::get('checkout', function () {
     return view('CheckOut');

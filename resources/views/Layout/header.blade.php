@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="top-bar">
         <!-- More -->
@@ -29,6 +30,7 @@
         <div class="navbar__overlay js-toggle" toggle-target="#navbar"></div>
        @if (isset(Auth::user()->name) )
             @include('Layout.subNavBar')
+    </div>
        @else
             @include('Layout.login-signup-button')
        @endif
