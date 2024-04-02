@@ -9,6 +9,8 @@ use Database\Factories\CoffeFactory;
 use Database\Factories\ShoppingCartFactory;
 use Database\Factories\FavoriteFactory;
 use Database\Factories\OrderFactory;
+use Database\Factories\CategoryFactory;
+
 
 
 
@@ -41,6 +43,7 @@ class DatabaseSeeder extends Seeder
         $shoppingCartFactory = new ShoppingCartFactory();
         $favoritesFactory = new FavoriteFactory();
         $ordersFactory = new OrderFactory();
+        $categoryFactory = new CategoryFactory();
 
         for ($i = 0; $i < 10; ++$i) {
             DB::table('users')->insert($userFactory->definition());
@@ -50,6 +53,8 @@ class DatabaseSeeder extends Seeder
             DB::table('shopping_cart')->insert($shoppingCartFactory->definition());
             DB::table('coffee_shops')->insert($coffeShopFactory->definition());
             DB::table('orders')->insert($ordersFactory->definition());
+            DB::table('categories')->insert($categoryFactory->definition());
+
         }
     }
 }

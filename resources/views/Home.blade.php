@@ -151,6 +151,27 @@
 
             <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
                 {{-- component --}}
+                @if ($data->isEmpty())
+                <style>
+                    .notfound{
+                        width: 100%;
+                        /* background-color: green !important; */
+                        text-align: center;
+                        padding: 30px;
+                        font-size: 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .notfound img{
+                        width: 30%;
+                    }
+                </style>
+                <div class="notfound">
+                    <h1 >Products not found!</h1>
+                    <img class="not_found" src="https://cdni.iconscout.com/illustration/premium/thumb/not-found-7621869-6167023.png" alt="">
+                </div>
+                @endif
                 @foreach ($data as $item)
                     <!-- Product card 2 -->
                     <x-card_product title="{{ $item->name }}"

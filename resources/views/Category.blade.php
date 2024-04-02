@@ -1,260 +1,159 @@
-@extends('Layout.layout')
-    @section('content')
-    <script>
-        setTimeout(function(){
-    document.getElementById('notification').style.display = 'none';
-    // Sau khi ẩn thông báo, tải lại trang
-    window.location.href = '/'; // Điều hướng về trang chính (home)
 
-}, 3000);
+    @extends('Layout.category-layout.master-category-layout')
+@section('main-category')
+<style>
+
+/* CSS để thay đổi màu sắc hoặc kiểu của label khi radio button tương ứng được chọn */
+input[type="radio"]:checked + label {
+    /* Áp dụng các thuộc tính CSS bạn muốn khi radio button được chọn */
+    font-weight: bold; /* Ví dụ: làm đậm chữ khi radio button được chọn */
+    background-color: #ffb700;
+    color: #ffff;/* Ví dụ: đổi màu chữ khi radio button được chọn */
+    cursor: pointer;
+}
+.not_found{
+    width: 50%;
+}
+</style>
+<section class="home__container pb-20">
+    <div class="home__row">
+        <h2 class="home__heading">Total LavAzza 1320</h2>
+        <div class="filter-wrap">
+            <button id="filter_btn" class="filter-btn js-toggle" style="background-color: #77DAE6" toggle-target="#home-filter">
+                Filter
+                <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
+            </button>
+            <script>
+                document.getElementById("filter_btn").addEventListener("click", function() {
+                    var targetId = this.getAttribute("toggle-target");
+                    var targetElement = document.querySelector(targetId);
+                    if (targetElement.classList.contains("hide")) {
+                        targetElement.classList.remove("hide");
+                    } else {
+                        targetElement.classList.add("hide");
+                    }
+                });
+                </script>
+
+            <div id="home-filter" class="filter hide">
+                <img src="./assets/icons/arrow-up.png" alt="" class="filter__arrow" />
+                <h3 class="filter__heading">Filter</h3>
+                <form action="" class="filter__form form">
+                    <div class="filter__row filter__content">
+                        <!-- Filter column 1 -->
+                        <div class="filter__col">
+                            <label for="" class="form__label">Price</label>
+                            <div class="filter__form-group">
+                                <input type="range" id="priceRange" min="0" max="100" value="30">
+                                <input type="range" id="priceRangeMax" min="0" max="1000" value="100">
+                            </div>
+                            <div class="filter__form-group filter__form-group--inline">
+                                <div>
+                                    <label for="" class="form__label form__label--small"> Minimum </label>
+                                    <div class="filter__form-text-input filter__form-text-input--small">
+                                        <input
+                                            type="text"
+                                            name="min-price"
+                                            id="minPriceInput"
+                                            class="filter__form-input"
+                                            value="30.00"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="" class="form__label form__label--small"> Maximum </label>
+                                    <div class="filter__form-text-input filter__form-text-input--small">
+                                        <input
+                                            type="text"
+                                            name="max-price"
+                                            id="maxPriceInput"
+                                            class="filter__form-input"
+                                            value="800.00"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            // Lấy các phần tử cần thiết
+                            const priceRange = document.getElementById("priceRange");
+                            const priceRangeMax = document.getElementById("priceRangeMax");
+                            const minPriceInput = document.getElementById("minPriceInput");
+                            const maxPriceInput = document.getElementById("maxPriceInput");
+
+                            // Cập nhật giá trị của input text khi input range thay đổi
+                            priceRange.addEventListener("input", function() {
+                                minPriceInput.value = `${this.value}.00`;
+                            });
+
+                            priceRangeMax.addEventListener("input", function() {
+                                maxPriceInput.value = `${this.value}.00`;
+                            });
+
+                            // Cập nhật giá trị của input range khi input text thay đổi
+                            minPriceInput.addEventListener("input", function() {
+                                // Chuyển đổi giá trị từ dạng $xx.00 thành số nguyên
+                                const minPrice = parseInt(this.value.replace("$", "").replace(".00", ""));
+                                // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
+                                priceRange.value = Math.min(minPrice, priceRangeMax.value);
+                            });
+
+                            maxPriceInput.addEventListener("input", function() {
+                                // Chuyển đổi giá trị từ dạng $xx.00 thành số nguyên
+                                const maxPrice = parseInt(this.value.replace("$", "").replace(".00", ""));
+                                // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
+                                priceRangeMax.value = Math.max(maxPrice, priceRange.value);
+                            });
+
+                            // Lắng nghe sự kiện khi dropdown thay đổi
+                            document.getElementById('sizeDropdown').addEventListener('change', function() {
+                                // Lấy giá trị được chọn trong dropdown
+                                var selectedValue = this.value;
+                                // Hiển thị giá trị đã chọn trong dropdown
+                                console.log(selectedValue);
+                            });
+                        </script>
 
 
-    </script>
 
-
-@if (isset($message))
- <h1 class="notification" id="notification" style="background-color: green;float:right; width: 20%;padding:30px;position:fixed;right:0;z-index:99999;color:white">{{$message}}</h1>
-@endif
-
-        <!-- MAIN -->
-        <main class="container home">
-            <!-- Slideshow -->
-            @include('Layout.hero')
-            <!-- Browse Categories -->
-            <section class="home__container">
-                <div class="home__row">
-                    <h2 class="home__heading">Browse Categories</h2>
-                </div>
-                <div class="d-flex gap-3 row-top  row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll ">
-
-                    <!-- Category item  -->
-                    {{-- component --}}
-                    @foreach ($data as $item)
-
-                    <!-- Product card 2 -->
-                    <x-card_product_top
-                        title="{{ $item->name }}"
-                        img="./assets/img/product/{{ json_decode($item->images)[0] }}"
-                        price="{{$item->price}}"
-
-                        id="{{ $item->id }}"
-                        />
-                    @endforeach
-
-                </div>
-            </section>
-
-
-            <!-- Browse Products -->
-            <section class="home__container">
-                <div class="home__row">
-                    <h2 class="home__heading">Total LavAzza 1320</h2>
-                    <div class="filter-wrap">
-                        <button class="filter-btn js-toggle" toggle-target="#home-filter">
-                            Filter
-                            <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
+                    </div>
+                    <div class="filter__row filter__footer">
+                        <button class="btn btn--text filter__cancel js-toggle" toggle-target="#home-filter">
+                            Cancel
                         </button>
-
-                        <div id="home-filter" class="filter hide">
-                            <img src="./assets/icons/arrow-up.png" alt="" class="filter__arrow" />
-                            <h3 class="filter__heading">Filter</h3>
-                            <form action="" class="filter__form form">
-                                <div class="filter__row filter__content">
-                                    <!-- Filter column 1 -->
-                                    <div class="filter__col">
-                                        <label for="" class="form__label">Price</label>
-                                        <div class="filter__form-group">
-                                            <div
-                                                class="filter__form-slider"
-                                                style="--min-value: 10%; --max-value: 60%"
-                                            ></div>
-                                        </div>
-                                        <div class="filter__form-group filter__form-group--inline">
-                                            <div>
-                                                <label for="" class="form__label form__label--small"> Minimum </label>
-                                                <div class="filter__form-text-input filter__form-text-input--small">
-                                                    <input
-                                                        type="text"
-                                                        name=""
-                                                        id=""
-                                                        class="filter__form-input"
-                                                        value="$30.00"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label for="" class="form__label form__label--small"> Maximum </label>
-                                                <div class="filter__form-text-input filter__form-text-input--small">
-                                                    <input
-                                                        type="text"
-                                                        name=""
-                                                        id=""
-                                                        class="filter__form-input"
-                                                        value="$100.00"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="filter__separate"></div>
-
-                                    <!-- Filter column 2 -->
-                                    <div class="filter__col">
-                                        <label for="" class="form__label">Size/Weight</label>
-                                        <div class="filter__form-group">
-                                            <div class="form__select-wrap">
-                                                <div class="form__select" style="--width: 158px">
-                                                    500g
-                                                    <img
-                                                        src="./assets/icons/select-arrow.svg"
-                                                        alt=""
-                                                        class="form__select-arrow icon"
-                                                    />
-                                                </div>
-                                                <div class="form__select">
-                                                    Gram
-                                                    <img
-                                                        src="./assets/icons/select-arrow.svg"
-                                                        alt=""
-                                                        class="form__select-arrow icon"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="filter__form-group">
-                                            <div class="form__tags">
-                                                <button class="form__tag">Small</button>
-                                                <button class="form__tag">Medium</button>
-                                                <button class="form__tag">Large</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="filter__separate"></div>
-
-                                    <!-- Filter column 3 -->
-                                    <div class="filter__col">
-                                        <label for="" class="form__label">Brand</label>
-                                        <div class="filter__form-group">
-                                            <div class="filter__form-text-input">
-                                                <input
-                                                    type="text"
-                                                    name=""
-                                                    id=""
-                                                    placeholder="Search brand name"
-                                                    class="filter__form-input"
-                                                />
-                                                <img
-                                                    src="./assets/icons/search.svg"
-                                                    alt=""
-                                                    class="filter__form-input-icon icon"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div class="filter__form-group">
-                                            <div class="form__tags">
-                                                <button class="form__tag">Lavazza</button>
-                                                <button class="form__tag">Nescafe</button>
-                                                <button class="form__tag">Starbucks</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="filter__row filter__footer">
-                                    <button class="btn btn--text filter__cancel js-toggle" toggle-target="#home-filter">
-                                        Cancel
-                                    </button>
-                                    <button
-                                        class="btn btn--primary filter__submit js-toggle"
-                                        toggle-target="#home-filter"
-                                    >
-                                        Show Result
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                        <button
+                            class="btn btn--primary filter__submit js-toggle"
+                            toggle-target="#home-filter"
+                        >
+                            Show Result
+                        </button>
                     </div>
-                </div>
-
-                <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
-                   {{-- component --}}
-                    @foreach ($data as $item)
-                         <!-- Product card 2 -->
-                    <x-card_product
-                    title="{{ $item->name }}"
-                    img="./assets/img/product/{{ json_decode($item->images)[0] }}"
-                    price="{{$item->price}}"
-                    rating="{{$item->rating}}"
-                    id="{{ $item->id }}"
-                />
-                    @endforeach
-
-                </div>
-            </section>
-            <div class="team">
-                <div class="">
-
-                    <div class="row mb-5">
-                        <div class="col-lg-5 mx-auto text-center">
-                            <h1 class="section-title">Our Team</h1>
-                        </div>
-                    </div>
-
-                    <div class="row1">
-
-                        <!-- Start Column 1 -->
-                        <div class="row1-item">
-                            <img src="assets/img/another-img/person_1.jpg" class="img-fluid mb-5">
-                            <h3 ><a href="#"><span class="">Lawson</span> Arnold</a></h3>
-                            <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                            <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                            <p class="mb-0"><a href="#" class="more dark">Learn More <span class="icon-arrow_forward"></span></a></p>
-                        </div>
-                        <!-- End Column 1 -->
-
-                        <!-- Start Column 2 -->
-                        <div class="row1-item">
-                            <img src="assets/img/another-img/person_2.jpg" class="img-fluid mb-5">
-
-                            <h3 ><a href="#"><span class="">Jeremy</span> Walker</a></h3>
-                            <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                            <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                            <p class="mb-0"><a href="#" class="more dark">Learn More <span class="icon-arrow_forward"></span></a></p>
-
-                        </div>
-                        <!-- End Column 2 -->
-
-                        <!-- Start Column 3 -->
-                        <div class="row1-item">
-                            <img src="assets/img/another-img/person_3.jpg" class="img-fluid mb-5">
-                            <h3><a href="#"><span class="">Patrik</span> White</a></h3>
-                            <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                            <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                            <p class="mb-0"><a href="#" class="more dark">Learn More <span class="icon-arrow_forward"></span></a></p>
-                        </div>
-                        <!-- End Column 3 -->
-
-                        <!-- Start Column 4 -->
-                        <div class="row1-item">
-                            <img src="assets/img/another-img/person_4.jpg" class="img-fluid mb-5">
-
-                            <h3 ><a href="#"><span class="">Kathryn</span> Ryan</a></h3>
-                            <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                            <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                            <p class="mb-0"><a href="#" class="more dark">Learn More <span class="icon-arrow_forward"></span></a></p>
-
-
-                        </div>
-                        <!-- End Column 4 -->
-
-
-                    </div>
-                </div>
+                </form>
             </div>
-        </main>
-    @endsection
+        </div>
+    </div>
+
+    <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
+       {{-- component --}}
+       @if ($data->isEmpty())
+           <img class="not_found" src="https://cdni.iconscout.com/illustration/premium/thumb/not-found-7621869-6167023.png" alt="">
+       @endif
+        @foreach ($data as $item)
+             <!-- Product card 2 -->
+        <x-card_product
+        title="{{ $item->name }}"
+        img="./assets/img/product/{{ json_decode($item->images)[0] }}"
+        price="{{$item->price}}"
+        rating="{{$item->rating}}"
+        id="{{ $item->id }}"
+    />
+        @endforeach
+
+    </div>
+</section>
+
+@endsection
+
+
+
+

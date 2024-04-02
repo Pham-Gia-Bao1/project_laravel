@@ -1,12 +1,11 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @extends('Layout.layout')
 @section('content')
 @if (Session::has('success'))
-    <div class="alert alert-success text-center" style="width: 50%; margin: 0 auto; text-align: center;">
+    <div class="alert alert-success text-center" style="width: 50%; margin: 0 auto; text-align: center;background-color:green !important,padding:20px;color:white">
         {{ Session('success') }}
     </div>
 @elseif(Session::has('info'))
-    <div class="alert alert-info" style="width: 50%; margin: 0 auto; text-align: center;">
+    <div class="alert alert-info" style="width: 50%; margin: 0 auto; text-align: center;background-color:green;padding:20px;color:white">
         {{ Session('info') }}
     </div>
 @endif
@@ -112,9 +111,7 @@
                                             <button class="form__tag prod-info__tag">Large</button>
                                         </div>
                                     </div>
-                                    <div>
-                                        <a type="button" href="{{ route('Favorite', $item->id) }}" class="btn btn-danger wishlist mt-5">Add to wishlist</a>
-                                    </div>
+
                                 </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
@@ -147,7 +144,7 @@
                                                 <h4 class="prod-prop__title">Pickup</h4>
                                                 <p class="prod-prop__desc">Out of 2 store, today</p>
                                             </div>
-                    
+
                                         </div>
                                         <div class='row'>
                                             <div class="prod-info__card">
@@ -159,7 +156,8 @@
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
                                                 <x-button content="Add to card" border_radius="rounded" ></x-button>
-                                                 <button class="like-btn prod-info__like-btn">
+
+                                                 <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"
                                                         alt=""
@@ -170,11 +168,11 @@
                                                         alt=""
                                                         class="like-btn__icon--liked"
                                                     />
-                                                </button> 
+                                                </a>
                                             </div>
                                             </div>
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -714,7 +712,6 @@
     </div>
 </main>
 
-@endsection
 <style>
     .wishlist{
         background-color:  brown !important;
@@ -722,3 +719,4 @@
 
     }
 </style>
+@endsection
