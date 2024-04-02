@@ -14,6 +14,7 @@
         </li>
         <li class="child-item">
             <button type="submit" name="box" value="Dunkin">Dunkin</button>
+<<<<<<< HEAD
         </li> <li class="child-item">
             <button type="submit" name="box" value="Classico">Classico</button>
         </li> <li class="child-item">
@@ -22,5 +23,29 @@
             <button type="submit" name="box" value="Starbucks">Starbucks</button>
         </li>
 
+=======
+        </li>
+        <li class="child-item">
+            <button type="submit" name="box" value="Classico">Classico</button>
+        </li>
+        <li class="child-item">
+            <button type="submit" name="box" value="Patch Roast">Patch Roast</button>
+        </li>
+        <li class="child-item">
+            <button type="submit" name="box" value="Starbucks">Starbucks</button>
+        </li>
+        <div class="child-item1">
+            <div class="form__tags ">
+                <input hidden  type="radio" name="size" id="small" value="Small" class="form__tag">
+                <label for="small" class="form__tag">Small</label>
+
+                <input hidden  type="radio" name="size" id="medium" value="Medium" class="form__tag">
+                <label for="medium" class="form__tag">Medium</label>
+
+                <input hidden  type="radio" name="size" id="large" value="Large" class="form__tag">
+                <label for="large" class="form__tag">Large</label>
+            </div>
+        </div>
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
     </ul>
 </form>

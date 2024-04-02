@@ -11,7 +11,13 @@ input[type="radio"]:checked + label {
     color: #ffff;/* Ví dụ: đổi màu chữ khi radio button được chọn */
     cursor: pointer;
 }
+<<<<<<< HEAD
 
+=======
+.not_found{
+    width: 50%;
+}
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
 </style>
 <section class="home__container pb-20">
     <div class="home__row">
@@ -43,7 +49,11 @@ input[type="radio"]:checked + label {
                             <label for="" class="form__label">Price</label>
                             <div class="filter__form-group">
                                 <input type="range" id="priceRange" min="0" max="100" value="30">
+<<<<<<< HEAD
                                 <input type="range" id="priceRangeMax" min="0" max="100" value="100">
+=======
+                                <input type="range" id="priceRangeMax" min="0" max="1000" value="100">
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
                             </div>
                             <div class="filter__form-group filter__form-group--inline">
                                 <div>
@@ -66,7 +76,11 @@ input[type="radio"]:checked + label {
                                             name="max-price"
                                             id="maxPriceInput"
                                             class="filter__form-input"
+<<<<<<< HEAD
                                             value="100.00"
+=======
+                                            value="800.00"
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
                                         />
                                     </div>
                                 </div>
@@ -102,6 +116,7 @@ input[type="radio"]:checked + label {
                                 // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
                                 priceRangeMax.value = Math.max(maxPrice, priceRange.value);
                             });
+<<<<<<< HEAD
                         </script>
 
                         <div class="filter__separate"></div>
@@ -137,6 +152,9 @@ input[type="radio"]:checked + label {
                         </div>
 
                         <script>
+=======
+
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
                             // Lắng nghe sự kiện khi dropdown thay đổi
                             document.getElementById('sizeDropdown').addEventListener('change', function() {
                                 // Lấy giá trị được chọn trong dropdown
@@ -147,6 +165,7 @@ input[type="radio"]:checked + label {
                         </script>
 
 
+<<<<<<< HEAD
                         <div class="filter__separate"></div>
 
                         <!-- Filter column 3 -->
@@ -182,6 +201,9 @@ input[type="radio"]:checked + label {
                                 </div>
                             </div>
                         </div>
+=======
+
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
                     </div>
                     <div class="filter__row filter__footer">
                         <button class="btn btn--text filter__cancel js-toggle" toggle-target="#home-filter">
@@ -201,6 +223,12 @@ input[type="radio"]:checked + label {
 
     <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
        {{-- component --}}
+<<<<<<< HEAD
+=======
+       @if ($data->isEmpty())
+           <img class="not_found" src="https://cdni.iconscout.com/illustration/premium/thumb/not-found-7621869-6167023.png" alt="">
+       @endif
+>>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
         @foreach ($data as $item)
              <!-- Product card 2 -->
         <x-card_product

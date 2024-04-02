@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="top-bar">
         <!-- More -->
@@ -15,13 +16,13 @@
         <nav id="navbar" class="navbar hide">
             <ul class="navbar__list js-dropdown-list">
                 <li class="navbar__item">
-                    <a href="#!" class="navbar__link">
+                    <a href="home" class="navbar__link">
                         <strong> Home</strong>
                     </a>
                 </li>
                 <li class="navbar__item">
-                    <a href="#!" class="navbar__link">
-                        <strong> Products</strong>
+                    <a href="categories" class="navbar__link">
+                        <strong> Categories</strong>
                     </a>
                 </li>
             </ul>
@@ -29,6 +30,7 @@
         <div class="navbar__overlay js-toggle" toggle-target="#navbar"></div>
        @if (isset(Auth::user()->name) )
             @include('Layout.subNavBar')
+    </div>
        @else
             @include('Layout.login-signup-button')
        @endif
