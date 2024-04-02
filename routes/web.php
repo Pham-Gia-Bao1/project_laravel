@@ -120,11 +120,7 @@ Route::get('shipping', function () {
 //     return $request->cookie('unicode');
 //
 //});
-<<<<<<< HEAD
-Route::get('categories',[CategoryController::class,'index'])->name('test');
-=======
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
->>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
 // Route::post('/test',[TestController::class,'processTest']);
 
 
