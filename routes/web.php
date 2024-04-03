@@ -70,6 +70,7 @@ Route::get('favourite', function () {
 Route::get('checkout',[CheckoutController::class,'index'])->name('CheckOut');
 // Route::post('AddToCart',DetailCoffeController::class,'AddToCart')->name('AddToCart');
 Route::get('AddToCart/{id}', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
+Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
 
 
 

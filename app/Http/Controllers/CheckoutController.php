@@ -27,4 +27,25 @@ class CheckoutController extends Controller
         }
         return back()->with('message', 'Please sign in');
     }
+    public function deleteItemFromCart(Request $request){
+        $user = User::find(Auth::user()->id);
+        $coffees = CoffeModel::find($request->id);
+        if(isset($user)){
+            // $item = Shopping_cart::find($id);
+            $cartItem = Shopping_cart::where('user_id', $user->id)
+                                  ->where('product_id', $coffees->id)
+                                  ->first();
+            if ($cartItem) {
+                // Nếu có mục trong giỏ hàng, xóa nó
+                $cartItem->delete();
+                return redirect()->back()->with('success', 'Item deleted successfully');
+            } else {
+                // Nếu không tìm thấy mục trong giỏ hàng
+                return redirect()->back()->with('error', 'Item not found in cart');
+            }
+        } else {
+            // Nếu không tìm thấy người dùng
+            return redirect()->back()->with('error', 'User not found');
+        }
+    }
 }
