@@ -60,7 +60,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="{{ route('admin.users') }}">
 					<i class='bx bxs-group' ></i>
 					<span class="text">Users</span>
 				</a>

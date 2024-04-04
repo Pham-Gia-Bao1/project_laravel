@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\ProductControlller;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -74,6 +75,9 @@ Route::middleware('auth')->group(function () {
             Route::prefix('/products')->group(function(){
                 Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
                 Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
+            });
+            Route::prefix('/users')->group(function(){
+                Route::get('/',[UserController::class,'index'])->name('admin.users');
             });
     });
 });
