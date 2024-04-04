@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\CoffeModel;
+use App\Models\Shopping_cart;
+// use App\Models\CoffeModel;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Auth;
+// use App\Models\User;
+use Database\Factories\ShoppingCartFactory;
+
 // use App\Models\ShoppingCard;
 use Illuminate\Http\Request;
 use App\Models\FavoriteList;
@@ -28,6 +35,37 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
+        $data = $this->coffe->inRandomOrder()->get(); // Lấy dữ liệu từ bảng Coffee ngẫu nhiên
+
+        if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
+            $notification = 'success';
+            return view('Home', compact('data'))->with('message', $notification);
+        }
+
+        $infor = $request->input('search');
+        $allItem = $this->coffe->all();
+
+        if (isset($infor)) {
+            return $this->search($infor);
+        }
+        // $user = User::find(Auth::user()->id);
+
+        // if (isset($user)) {
+        //     $cartItems = Shopping_cart::where('user_id', $user->id)->get();
+
+        //     // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
+        //     $productIds = $cartItems->pluck('product_id')->toArray();
+        //     $products = CoffeModel::whereIn('id', $productIds)->get();
+        //     view()->share('products',$products);
+        // }
+        return view('Home', compact('data'));
+    }
+
+
+    public function all_coffe(Request $request)
+    {
+        $data = $this->coffe->all();
+        return response()->json($data);
         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
         if (Auth::user()) {
 
@@ -49,78 +87,6 @@ class HomeController extends Controller
         }
 
         return view('Home', compact('data'));
-    }
-
-    public function all_coffe()
-    {
-        $data = $this->coffe->all();
-        return  response()->json($data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function removeFromFavorites($product_id)
