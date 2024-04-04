@@ -74,8 +74,11 @@ Route::middleware('auth')->group(function () {
 
             Route::prefix('/products')->group(function(){
                 Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
-                Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
-
+                Route::get('/create', [ProductControlller::class,'create'])->name('admin.product.create');
+                Route::post('/create', [ProductControlller::class, 'store'])->name('admin.product.store');
+                Route::get('/update/{id}', [ProductControlller::class, 'edit'])->name('admin.product.edit');
+                Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
+                Route::get( '/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
             });
     });
 });

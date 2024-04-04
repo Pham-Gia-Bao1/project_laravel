@@ -42,20 +42,19 @@
                     </li>
                 </ul>
             </div>
-
         </div>
 
         <div class="table-data">
             <div class="order">
                 <div class="head">
-                    <h3 style="text-align: center;width:100%">Create Product Form</h3>
+                    <h3 style="text-align: center;width:100%">Update product form</h3>
                 </div>
-                <form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data"
-                    class="p-3">
+                <form method="post" action="{{route('admin.product.update',$coffe->id)}}" enctype="multipart/form-data" class="p-3">
+                    @method('PATCH')
                     @csrf
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
+                        <input type="text" name="name" id="name" class="form-control" value="{{ $coffe->name }}">
                          @error('name')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
@@ -63,7 +62,7 @@
                     <div class="form-group">
                         <label for="size">Size:</label>
                         <br>
-                        <select name="size" id="size" class="form-control" value="{{ old('size') }}">
+                        <select name="size" id="size" class="form-control" value="{{ $coffe->size }}">
                             <option value="Large">Large</option>
                             <option value="Medium">Medium</option>
                             <option value="Extra">Extra</option>
@@ -74,21 +73,21 @@
                     </div>
                     <div class="form-group">
                         <label for="weight">Weight:</label>
-                        <input type="number" name="weight" id="weight" class="form-control" value="{{ old('weight') }}" min="1">
+                        <input type="text" name="weight" id="weight" class="form-control" value="{{ $coffe->weight }}">
                          @error('weight')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="price">Price:</label>
-                        <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}">
+                        <input type="number" name="price" id="price" class="form-control" value="{{ $coffe->price }}">
                          @error('price')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" class="form-control">
+                        <input type="file" name="image" id="image" class="form-control" value="{{$coffe->images}}">
                         @error('image')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
@@ -96,14 +95,14 @@
 
                     <div class="form-group">
                         <label for="reviews">Reviews:</label>
-                        <input type="text" name="reviews" id="reviews" class="form-control" value="{{ old('reviews') }}">
+                        <input type="text" name="reviews" id="reviews" class="form-control" value="{{ $coffe->reviews }}">
                         @error('reviews')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="rating">Rating:</label>
-                        <select name="rating" id="rating" class="form-control" value="{{ old('rating') }}">
+                        <select name="rating" id="rating" class="form-control" value="{{ $coffe->rating }}">
                             @for ($i = 1; $i <= 5; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
@@ -115,16 +114,19 @@
 
                     <div class="form-group">
                         <label for="quantity">Quantity:</label>
-                        <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="{{ old('quantity') }}">
+                        <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="{{ $coffe->quantity }}">
                         @error('quantity')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="coffee_shop_id">Coffee Shop name:</label>
-                        <select name="coffee_shop_id" id="coffee_shop_id" class="form-control" value="{{ old('coffee_shop_id') }}">
+                        <select name="coffee_shop_id" id="coffee_shop_id" class="form-control" value="{{ $coffe->shop_name }}">
+                            <option value="{{ $coffe->shop_id }}">{{ $coffe->shop_name }}</option>
                             @foreach ($coffe_shops as $shop)
-                                <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                @if($shop->name!=$coffe->shop_name)
+                                    <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                         @error('coffee_shop_id')
@@ -133,9 +135,13 @@
                     </div>
                     <div class="form-group">
                         <label for="category_id">Category name:</label>
-                        <select name="category_id" id="category_id" class="form-control" value="{{ old('category_id') }}">
+                        <select name="category_id" id="category_id" class="form-control" value="{{ $coffe->category_name }}">
+                            <option value="{{$coffe->coffe_shop_id}}" selected>{{$coffe->category_name}}</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @if($coffe->category_name!=$category->name){
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                }
+                                @endif
                             @endforeach
                         </select>
                          @error('category_id')
@@ -145,9 +151,7 @@
 
                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                 </form>
-
             </div>
-
         </div>
     </main>
 @endsection

@@ -159,12 +159,6 @@
                                         });
                                     });
                                 </script>
-                                <button type="submit"
-                                    href=""
-                                    class="cart-info__checkout-all btn btn--primary btn--rounded"
-                                >
-                                    Add all to cart
-                                </button>
                             </div>
                         </form>
                     </div>
