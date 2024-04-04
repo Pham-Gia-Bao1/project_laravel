@@ -32,79 +32,84 @@ class FavoriteController extends Controller
         return view('/header', compact('favorites', 'favoriteCount'));
     }
 
-    public function viewAll($userId)
+    public function viewAllFavoriteList(Request $request)
     {
-        // Lấy tất cả các sản phẩm khi người dùng nhấn view all
-        $favorites = FavoriteList::where('user_id', $userId)
-            ->with('coffe')
-            ->get();
+        if (Auth::user()) {
 
-        return view('CheckOut', compact('favorites'));
+            $user_id = Auth::user()->id;
+            $favorites = DB::table('favorites')
+                ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
+                ->select('coffe.*')
+                ->where('favorites.user_id', $user_id)
+                ->get();
+            if (isset($request->favorite_product)) {
+                $quantity = $request->get('quantity');
+                $total = $request->get('total');
+                $added_at = $currentTime = now()->format('Y-m-d H:i:s');
+
+                $item = json_decode($request->favorite_product);// id of favorite product
+                // dd($item);
+
+                    // Xử lý khi $request->favorite_product không phải là một mảng
+                    // Kiểm tra xem product_id đã tồn tại trong bảng shopping_cart chưa
+                    $exists = DB::table('shopping_cart')
+                    ->where('user_id', $user_id)
+                        ->where('product_id', $item)
+                        ->exists();
+
+                    if (!$exists) {
+                        // Nếu product_id chưa tồn tại, thêm mới
+                        $result = DB::table('shopping_cart')->insert([
+                            'user_id' => $user_id,
+                            'product_id' => $item,
+                            'total' => $total,
+                            'quantity' => $quantity,
+                            'added_at' => $added_at
+                        ]);
+                        return redirect()->back()->with('success','add to cart successfully');
+
+                    } else {
+                        $exit_id = DB::table('shopping_cart')->find($request->favorite_product);
+                        // Nếu product_id đã tồn tại, không làm gì
+                        return redirect()->back()->with('error',"$exit_id->id".' exited !');
+                    }
+
+            }
+
+
+            // Lấy số lượng sản phẩm yêu thích dựa trên user_id
+            $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
+            return view('Favourite', compact('favoriteCount', 'favorites'));
+        }
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function favorite($product_id)
     {
-        //
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in before adding to favorite list!');
+        }
+
+        $user_id = Auth::user()->id;
+
+        // Kiểm tra xem sản phẩm đã được yêu thích trước đó hay chưa
+        $existingFavorite = FavoriteList::where('user_id', $user_id)->where('product_id', $product_id)->first();
+
+        if ($existingFavorite) {
+            // Nếu sản phẩm đã được yêu thích trước đó, thông báo cho người dùng và không tạo mới
+            return redirect()->back()->with('info', 'The product is already in your favorites list!');
+        }
+
+        // Nếu sản phẩm chưa được yêu thích, thêm vào danh sách yêu thích của người dùng
+        $data = [
+            'product_id' => $product_id,
+            'user_id' => $user_id
+        ];
+        FavoriteList::create($data);
+
+        return redirect()->back()->with('success', 'Added to favorites list successfully!');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

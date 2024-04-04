@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\DB;
                         <h2 class="act-dropdown__title">You have @isset($favoriteCount)
                             {{$favoriteCount}}
                         @endisset item(s)</h2>
-                        <a href="{{route('FavoriteList')}}" class="act-dropdown__view-all">See All</a>
+
                     </div>
                     <div class="row row-cols-3 gx-2 act-dropdown__list">
                         @if(isset($favorites))
@@ -69,12 +69,8 @@ use Illuminate\Support\Facades\DB;
                     </div>
                     <div class="act-dropdown__separate"></div>
                     <div class="act-dropdown__checkout">
-                        <a
-                            href="checkout"
-                            class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
-                        >
-                            Check Out All
-                        </a>
+                        <a href="{{route('FavoriteList')}}"
+                        class="btn btn--primary btn--rounded act-dropdown__checkout-btn">See All</a>
                     </div>
                 </div>
             </div>

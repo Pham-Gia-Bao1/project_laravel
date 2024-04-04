@@ -45,10 +45,10 @@ Route::middleware('auth')->group(function () {
         return view('profile.Wallet');
     })->name('Profile');
 
-    Route::get('/favourite/{product}', [HomeController::class, 'favorite'])->name('Favorite');
+    Route::get('/favourite/{product}', [FavoriteController::class, 'favorite'])->name('Favorite');
 
 
-    Route::get('/favouriteList', [HomeController::class, 'viewAllFavoriteList'])->name('FavoriteList');
+    Route::get('/favouriteList', [FavoriteController::class, 'viewAllFavoriteList'])->name('FavoriteList');
 
     Route::get('/deleteFavoriteProduct/{id}', [HomeController::class, 'removeFromFavorites'])->name('deleteFavoriteList');
 

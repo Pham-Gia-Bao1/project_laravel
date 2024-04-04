@@ -1,6 +1,5 @@
 @extends('Layout.layout')
 @section('content')
-
     <script>
         setTimeout(function() {
             document.getElementById('notification').style.display = 'none';
@@ -9,16 +8,11 @@
 
         }, 3000);
     </script>
-
-
     @if (isset($message))
         <h1 class="notification" id="notification"
             style="background-color: green;float:right; width: 20%;padding:30px;position:fixed;right:0;z-index:99999;color:white">
             {{ $message }}</h1>
     @endif
-@section('content')
-
-
     <!-- MAIN -->
     <main class="container home">
         <!-- Slideshow -->
@@ -33,24 +27,31 @@
                     {{ $message }}
                 </div>
             @endif
-            <div class="d-flex gap-3 row-top  row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll ">
-                <!-- Category item  -->
+            <div class="d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
+                <!-- Category items -->
                 {{-- component --}}
+                @php
+                    $count = 0;
+                @endphp
                 @foreach ($data as $item)
-                    <!-- Product card 2 -->
+                    @php
+                        $count += 1;
+                    @endphp
+                    <!-- Product card -->
                     <x-card_product_top title="{{ $item->name }}"
                         img="./assets/img/product/{{ json_decode($item->images)[0] }}" price="{{ $item->price }}"
                         id="{{ $item->id }}" />
-                @endforeach
 
+                    @if ($count >= 5)
+                        @break
+                    @endif
+                @endforeach
             </div>
         </section>
-
-
         <!-- Browse Products -->
         <section class="home__container">
             <div class="home__row">
-                <h2 class="home__heading">Total LavAzza 1320</h2>
+                <h2 class="home__heading">Total products </h2>
                 <div class="filter-wrap">
                     <button class="filter-btn js-toggle" toggle-target="#home-filter">
                         Filter

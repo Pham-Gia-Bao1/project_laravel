@@ -1,14 +1,7 @@
 @extends('Layout.layout')
 @section('content')
-@if (Session::has('success'))
-    <div class="alert alert-success text-center" style="width: 50%; margin: 0 auto; text-align: center;background-color:green !important,padding:20px;color:white">
-        {{ Session('success') }}
-    </div>
-@elseif(Session::has('info'))
-    <div class="alert alert-info" style="width: 50%; margin: 0 auto; text-align: center;background-color:green;padding:20px;color:white">
-        {{ Session('info') }}
-    </div>
-@endif
+@include('components.notification')
+
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->

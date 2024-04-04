@@ -1,10 +1,6 @@
 @extends('Layout.layout')
     @section('content')
-    @if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+    @include('components.notification')
 
 <main class="checkout-page">
     <div class="container">
@@ -32,11 +28,7 @@
                 </li>
             </ul>
         </div>
-         @if (Session::has('success'))
-            <div class="alert alert-info text-center" style="width: 50%; margin: 0 auto; padding-top: 20px">
-                {{ Session::get('success') }}
-            </div>
-        @endif
+      
         <!-- Checkout content -->
         <div class="checkout-container">
             <div class="row gy-xl-3">
@@ -56,12 +48,12 @@
                                                 type="checkbox"
                                                 name="favorite_product"
                                                 class="cart-info__checkbox-input checkbox"
-                                                checked
                                                 value="{{ $item->id }}"
                                                 required
+                                                checked
                                             />
                                         </label>
-                                        <a href="./product-detail.html">
+                                        <a >
                                             <img
                                                 src="./assets/img/product/{{ json_decode($item->images)[0] }}"
                                                 alt="image"
@@ -71,7 +63,7 @@
                                         <div class="cart-item__content">
                                             <div class="cart-item__content-left">
                                                 <h3 class="cart-item__title">
-                                                    <a href="./product-detail.html">
+                                                    <a >
                                                         {{$item->name}}
                                                     </a>
                                                 </h3>
@@ -81,56 +73,51 @@
                                                 <div class="cart-item__ctrl-wrap">
                                                     <div class="cart-item__ctrl cart-item__ctrl--md-block">
                                                         <div class="cart-item__input">
-                                                            <button class="cart-item__input-btn">
-                                                                <img
-                                                                    class="icon"
-                                                                    src="./assets/icons/minus.svg"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                            <span>1</span>
-                                                            <button class="cart-item__input-btn">
-                                                                <img
-                                                                    class="icon"
-                                                                    src="./assets/icons/plus.svg"
-                                                                    alt=""
-                                                                />
-                                                            </button>
+
+                                                                <p class="cart-item__input-btn minus_btn">
+                                                                    <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                                                </p>
+                                                                <input name="quantity" type="text" style="width:2rem" class="quantity_coffee" value="1" id="quantity">
+                                                                <p class="cart-item__input-btn plus_btn">
+                                                                    <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                                                </p>
+
+
                                                         </div>
                                                     </div>
                                                     <div class="cart-item__ctrl">
-                                                        <a href="{{route('deleteFavoriteList',$item->id)}}">
-                                                            <button
-                                                                class="cart-item__ctrl-btn js-toggle"
-                                                                toggle-target="#delete-confirm"
-                                                            >
-                                                                <img src="./assets/icons/trash.svg" alt="" />
-                                                                Delete
-                                                            </button>
+                                                        <a class="delete_product" href="{{route('deleteFavoriteList', $item->id)}}">
+
+                                                            <span class="material-symbols-outlined">
+                                                                delete
+                                                                </span>
+
+
                                                         </a>
                                                     </div>
-
                                                 </div>
                                             </div>
                                             <div class="cart-item__content-right">
-                                                <p class="cart-item__total-price">$ {{$item->price}}</p>
-                                                <div class="cart-item__checkout-btn btn btn--primary btn--rounded">
-                                                    <button class="CartBtn cart-item__checkout-btn btn btn--primary btn--rounded">
-                                                        <span class="IconContainer">
+                                                <input type="hidden" value="{{ $item->price }}" id="price" class="price_input">
+                                                <input name="total" id="total_price" class="cart-item__total-price total_price" value="{{$item->price}}"></input>
+
+                                                <div class="cart-item__checkout-btn btn btn--primary btn--rounded" style="background-color: #ffff">
+                                                    <button style="z-index: 0;" class="CartBtn cart-item__checkout-btn btn btn--primary btn--rounded">
+                                                        <span class="IconContainer" >
                                                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="rgb(17, 17, 17)" class="cart"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
                                                         </span>
                                                         <p class="text">Add to Cart</p>
                                                     </button>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </article>
                                 </form>
                             @endforeach
+
                         </div>
 
-                        <form class="cart-info__bottom" action="{{route('FavoriteList')}}">
+                        <div class="cart-info__bottom" >
                             <div class="cart-info__row cart-info__row-md--block">
                                 <div class="cart-info__continue">
                                     <a href="./" class="cart-info__continue-link">
@@ -143,30 +130,8 @@
                                     </a>
                                 </div>
 
-                                <input type="hidden" value="[]" class="all_value_checked" name="favorite_product">
-                                <script>
-                                    // JavaScript
-                                    const checkboxes = document.querySelectorAll('.checkbox');
-                                    const inputText = document.querySelector('.all_value_checked');
-
-                                   checkboxes.forEach(checkbox => {
-                                        checkbox.addEventListener('change', function() {
-                                            const checkedValues = Array.from(checkboxes)
-                                                .filter(checkbox => checkbox.checked)
-                                                .map(checkbox => checkbox.value);
-
-                                            inputText.value = JSON.stringify(checkedValues);
-                                        });
-                                    });
-                                </script>
-                                <button type="submit"
-                                    href=""
-                                    class="cart-info__checkout-all btn btn--primary btn--rounded"
-                                >
-                                    Add all to cart
-                                </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -239,4 +204,75 @@
   transform: scale(0.95);
   transition-duration: .5s;
 }
-</style>
+.delete_product{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px
+}
+
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 2,
+      'opsz' 24;
+      color: red;
+    }
+    .minus_btn,
+    .plus_btn{
+        cursor: pointer;
+    }
+    </style>
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var cartItems = document.querySelectorAll('.cart-item');
+
+        cartItems.forEach(function(cartItem) {
+            var minusButton = cartItem.querySelector('.minus_btn');
+            var plusButton = cartItem.querySelector('.plus_btn');
+            var quantityInput = cartItem.querySelector('.quantity_coffee');
+            var priceInput = cartItem.querySelector('.price_input');
+            var totalPriceElement = cartItem.querySelector('.total_price');
+
+            // Định nghĩa hàm để cập nhật giá cả khi số lượng thay đổi
+            function updatePrice() {
+                let quantity = parseFloat(quantityInput.value);
+                let price = parseFloat(priceInput.value);
+                let totalPrice = quantity * price;
+                totalPriceElement.value = totalPrice.toFixed(2);
+            }
+
+            // Gắn sự kiện 'click' cho các nút tăng/giảm số lượng
+            minusButton.addEventListener('click', function() {
+                decreaseQuantity(quantityInput);
+                updatePrice();
+            });
+
+            plusButton.addEventListener('click', function() {
+                increaseQuantity(quantityInput);
+                updatePrice();
+            });
+
+            // Gắn sự kiện 'input' cho input số lượng để cập nhật giá cả ngay khi số lượng thay đổi
+            quantityInput.addEventListener('input', updatePrice);
+
+            // Cập nhật giá cả khi trang web được tải
+            updatePrice();
+        });
+
+        function decreaseQuantity(input) {
+            var currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        }
+
+        function increaseQuantity(input) {
+            var currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+        }
+    });
+</script>
+
+
