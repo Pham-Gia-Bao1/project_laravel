@@ -93,10 +93,12 @@ class DetailCoffeController extends Controller
     {
         //
     }
-    public function AddToCart(String $id){
+    public function AddToCart(Request $request){
+        // dd($request->total);
         $user = User::find(Auth::user()->id);
+        $id = $request->product_id;
         $coffee = CoffeModel::find($id);
-    
+
         if($coffee){
             $existingCartItem = Shopping_cart::where('user_id', $user->id)
                 ->where('product_id', $coffee->id)
@@ -107,14 +109,17 @@ class DetailCoffeController extends Controller
                 $shopping_cart = new Shopping_cart();
                 $shopping_cart->user_id=$user->id;
                 $shopping_cart->product_id=$coffee->id;
+                $shopping_cart->total = $request->total;
+                $shopping_cart->quantity = $request->quantity;
+                $shopping_cart->added_at = now()->format('Y-m-d H:i:s');
                 $shopping_cart->save();
             }
-    
+
             // Sau khi thêm sản phẩm vào giỏ hàng, bạn có thể chuyển người dùng đến trang detail
             return redirect()->route('ProductDetail', ['id' => $id])->with('success', 'Product added to cart successfully');
         } else {
             // Xử lý nếu không tìm thấy sản phẩm trong bảng Coffee
             return redirect()->route('ProductDetail', ['id' => $id])->with('error', 'Product does not exist');
         }
-    }    
+    }
 }

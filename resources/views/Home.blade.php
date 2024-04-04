@@ -1,18 +1,6 @@
 @extends('Layout.layout')
 @section('content')
-    <script>
-        setTimeout(function() {
-            document.getElementById('notification').style.display = 'none';
-            // Sau khi ẩn thông báo, tải lại trang
-            window.location.href = '/'; // Điều hướng về trang chính (home)
-
-        }, 3000);
-    </script>
-    @if (isset($message))
-        <h1 class="notification" id="notification"
-            style="background-color: green;float:right; width: 20%;padding:30px;position:fixed;right:0;z-index:99999;color:white">
-            {{ $message }}</h1>
-    @endif
+    @include('components.notification')
     <!-- MAIN -->
     <main class="container home">
         <!-- Slideshow -->

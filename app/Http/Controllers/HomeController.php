@@ -33,34 +33,6 @@ class HomeController extends Controller
         $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
     }
 
-    // public function index(Request $request)
-    // {
-    //     $data = $this->coffe->inRandomOrder()->get(); // Lấy dữ liệu từ bảng Coffee ngẫu nhiên
-
-    //     if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
-    //         $notification = 'success';
-    //         return view('Home', compact('data'))->with('message', $notification);
-    //     }
-
-    //     // $infor = $request->input('search');
-    //     // $allItem = $this->coffe->all();
-
-    //     // if (isset($infor)) {
-    //     //     return $this->search($infor);
-    //     // }
-    //     // $user = User::find(Auth::user()->id);
-
-    //     // if (isset($user)) {
-    //     //     $cartItems = Shopping_cart::where('user_id', $user->id)->get();
-
-    //     //     // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
-    //     //     $productIds = $cartItems->pluck('product_id')->toArray();
-    //     //     $products = CoffeModel::whereIn('id', $productIds)->get();
-    //     //     view()->share('products',$products);
-    //     // }
-    //     return view('Home', compact('data'));
-    // }
-
 
     public function index(Request $request)
     {
@@ -70,7 +42,7 @@ class HomeController extends Controller
 
             if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
                 $notifiction = 'success';
-                return view('Home', compact('data'))->with('message', $notifiction);
+                return view('Home', compact('data'))->with('success', $notifiction);
             }
         }
         if (isset($request->search)) {

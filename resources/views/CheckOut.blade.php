@@ -18,25 +18,10 @@
         .alert-error{
             background-color: red;
         }
-    
+
     </style>
 <main class="checkout-page">
-    <div class="notification" id="notification">
-        @if (session('success'))
-        <p class="alert-success">
-            {{ session('success')  }}
-        </p>
-        @elseif(session('error'))
-        <p class="alert-error">
-            {{ session('error')  }}
-        </p>
-        @endif
-    </div>
-    <script>
-        setTimeout(function(){
-                document.getElementById('notification').style.display='none';
-            },3000);
-    </script>
+   @include('components.notification')
     <div class="container">
         <!-- Search bar -->
         <div class="checkout-container">
@@ -69,7 +54,10 @@
                 <div class="col-8 col-xl-12">
                     <div class="cart-info">
                         <div class="cart-info__list">
+                            <?php $total = 0 ?>
                            @foreach ($products as $product)
+                                <?php $total += $product->total_price ?>
+
                                 <!-- Cart item 1 -->
                                 <article class="cart-item">
                                     <a href="ProductDetail">
@@ -87,27 +75,23 @@
                                                 </a>
                                             </h3>
                                             <p class="cart-item__price-wrap">
-                                                <span class="cart-item__product-price"> ${{ $product->price }}</span> | <span class="cart-item__status quantity_in_stock">In Stock: {{ $product->quantity }}</span>
+                                                <span class="cart-item__product-price"> ${{ $product->total_price }}</span> | <span class="cart-item__status quantity_in_stock">In Stock: {{ $product->quantity }}</span>
                                             </p>
                                             <div class="cart-item__ctrl cart-item__ctrl--md-block">
                                                 <div class="cart-item__input shop_namem">
-                                                    {{ $product->shop_name }}
+                                                    {{ $product->coffee_shops_name }}
                                                 </div>
                                                 <div class="cart-item__input">
-                                                    <button class="cart-item__input-btn minus_btn">
-                                                        <img class="icon" src="./assets/icons/minus.svg" alt="" />
-                                                    </button>
-                                                    <input type="text" style="width:2rem" class="quantity_coffee" value="1">
-                                                    <button class="cart-item__input-btn plus_btn">
-                                                        <img class="icon" src="./assets/icons/plus.svg" alt="" />
-                                                    </button>
+
+                                                    <input type="text" style="width:2rem" class="quantity_coffee" value="{{ $product->quantity_categories }}">
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="cart-item__content-right">
                                             <div class="sub_price">
                                                 <p class="cart-item__total-price"></p>
-                                                <p class="prod-info__tax" style="float:right;width: 25%">{{$product->discount}}%</p>
+                                                <p class="prod-info__tax" style="float:right;width: 25%; display:none"></p>
                                             </div>
                                             <div class="cart-item__ctrl">
                                                 <button class="cart-item__ctrl-btn">
@@ -152,7 +136,7 @@
                         </div>
                         <div class="cart-info__row">
                             <span>Price <span class="cart-info__sub-label">(Total)</span></span>
-                            <span id="total-price">$191.65</span>
+                            <span id="total-price">${{ $total }}</span>
                         </div>
                         <div class="cart-info__row">
                             <span>Shipping</span>
@@ -161,7 +145,7 @@
                         <div class="cart-info__separate"></div>
                         <div class="cart-info__row">
                             <span>Estimated Total</span>
-                            <span class="estimated_total">$201.65</span>
+                            <span class="estimated_total">{{ $total - 10.00}}</span>
                         </div>
                         <x-button content="Continue to checkout" border_radius="" link="shipping" ></x-button>
                     </div>
@@ -227,7 +211,7 @@
             }
 
             function increaseQuantity(input) {
-                var currentValue = parseInt(input.value);   
+                var currentValue = parseInt(input.value);
                 input.value = currentValue + 1;
             }
 
@@ -235,23 +219,23 @@
                 var cartItem = input.closest('.cart-item');
                 var priceElement = cartItem.querySelector('.cart-item__product-price');
                 var taxElement = cartItem.querySelector('.prod-info__tax');
-                var totalPriceElement = cartItem.querySelector('.cart-item__total-price');
+
                 var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
                 var price = parseFloat(priceElement.textContent.replace('$', ''));
                 var quantity = parseInt(input.value);
-                
+
                 if (quantity > 1) {
                     var totalPrice = quantity * price;
                 } else {
                     var totalPrice = price - (price * (taxPercentage / 100));
                 }
-                
+
                 totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
             }
-            
+
             function calculateTotal() {
                 var total = 0;
-                var totalPriceElements = document.querySelectorAll('.cart-item__total-price');
+
                 totalPriceElements.forEach(function(element) {
                     var price = parseFloat(element.textContent.replace('$', ''));
                     total += price;

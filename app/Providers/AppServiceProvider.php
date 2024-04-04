@@ -15,6 +15,7 @@ use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -38,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('card_product_top', card_product_top::class);
         Blade::component('button', button::class);
 
-        View::composer(['Layout.subNavBar'], function ($view) {
+        View::composer(['Layout.subNavBar','Shipping'], function ($view) {
             $user = User::find(Auth::user()->id);
             $products = [];
             $favoriteCount = 0;
@@ -48,7 +49,16 @@ class AppServiceProvider extends ServiceProvider
 
                 // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
                 $productIds = $cartItems->pluck('product_id')->toArray();
-                $products = CoffeModel::whereIn('id', $productIds)->get();
+                $products = CoffeModel::join('coffee_shops', 'coffe.coffe_shop_id', '=', 'coffee_shops.id')
+                    ->join('shopping_cart', 'shopping_cart.product_id', '=', 'coffe.id')
+                    ->select(
+                        'coffe.*',
+                        'shopping_cart.quantity as quantity_categories',
+                        'shopping_cart.total as total_price',
+                        'coffee_shops.name as coffee_shops_name'
+                    )
+                    ->where('user_id', $user->id)
+                    ->get();
             }
 
             $user_id = Auth::user()->id;
@@ -64,5 +74,4 @@ class AppServiceProvider extends ServiceProvider
             $view->with(['products' => $products, 'favoriteCount' => $favoriteCount, 'favorites' => $favorites]);
         });
     }
-
 }

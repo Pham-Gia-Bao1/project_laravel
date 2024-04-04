@@ -45,6 +45,7 @@
 </div>
 @endif
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
     var errorNotification = document.getElementById('errorNotification');

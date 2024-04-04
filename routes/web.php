@@ -15,6 +15,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\ProductControlller;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -61,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::post('changeAvatar', [ProfileController::class, 'changeAvatar'])->name('changeAvatar');
     Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
     Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
+    Route::get('checkout',[CheckoutController::class,'index'])->name('CheckOut');
+    Route::get('AddToCart', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
+    Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
 
     Route::prefix('/admin')->group(function(){
             Route::get('/', [HomeAdminController::class,'index'])->name('admin');
@@ -75,24 +79,19 @@ Route::middleware('auth')->group(function () {
                 Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
                 Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
             });
+        });
     });
-});
-require __DIR__ . '/auth.php';
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
-Route::get('checkout',[CheckoutController::class,'index'])->name('CheckOut');
-Route::get('AddToCart/{id}', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
-Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
-Route::get('forgot-password', function () {
-    return view('ResetPassword');
-})->name('ResetPassword');
+    require __DIR__ . '/auth.php';
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('forgot-password', function () {
+        return view('ResetPassword');
+    })->name('ResetPassword');
+    Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
 Route::get('resetpassworded', function () {
     return view('ResetPasswordEmailed');
 })->name('ResetPasswordEmailed');
-Route::get('shipping', function () {
-    return view('Shipping');
-})->name('Shipping');
+Route::get('shipping', [ShippingController::class,'index'])->name('Shipping');
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('login/facebook', [LoginController::class, 'redirectToFacebook']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);

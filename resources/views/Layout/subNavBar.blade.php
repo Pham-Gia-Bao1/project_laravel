@@ -96,11 +96,13 @@
                                         />
                                     </div>
                                     <h3 class="cart-preview-item__title">{{ $product->name }}</h3>
-                                    <p class="cart-preview-item__price">${{ $product->price }}</p>
+                                    <p class="cart-preview-item__price">${{ $product->total_price }}</p>
+                                    <p class="cart-preview-item__price">{{ $product->quantity_categories }}</p>
+
                                 </article>
                             </div>
                             @php
-                                $total += $product->price ;
+                                $total += $product->total_price ;
                             @endphp
                         @endforeach
                     </div>
@@ -109,14 +111,7 @@
                             <span class="act-dropdown__label">Quantity of products</span>
                             <span class="act-dropdown__value">{{ count($products) }}</span>
                         </div>
-                        {{-- <div class="act-dropdown__row">
-                            <span class="act-dropdown__label">Texes</span>
-                            <span class="act-dropdown__value">Free</span>
-                        </div>
-                        <div class="act-dropdown__row">
-                            <span class="act-dropdown__label">Shipping</span>
-                            <span class="act-dropdown__value">$10.00</span>
-                        </div> --}}
+                   
                         <div class="act-dropdown__row act-dropdown__row--bold">
                             <span class="act-dropdown__label">Total Price</span>
                             <span class="act-dropdown__value">${{ $total }}</span>
