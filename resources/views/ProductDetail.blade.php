@@ -1,7 +1,55 @@
 @extends('Layout.layout')
 @section('content')
 @include('components.notification')
+<style>
+    .cart-item__input_quantity{
+         margin: 20px 0 0 0 ;
+    }
+</style>
+<script>
+     document.addEventListener("DOMContentLoaded", function() {
+            var cartItems = document.querySelectorAll('.cart-item');
 
+            // Duyệt qua mỗi sản phẩm trong giỏ hàng và tính toán giá trị totalPrice
+            cartItems.forEach(function(cartItem) {
+                var quantityInput = cartItem.querySelector('.quantity_coffee');
+                calculateTotalPrice(quantityInput);
+            });
+
+            var minusButtons = document.querySelectorAll('.minus_btn');
+            var plusButtons = document.querySelectorAll('.plus_btn');
+
+            minusButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var input = button.parentElement.querySelector('.quantity_coffee');
+                    decreaseQuantity(input);
+                    calculateTotalPrice(input); // Gọi lại hàm tính toán giá tiền tổng cộng sau khi giảm số lượng
+                    calculateTotal();
+                });
+            });
+
+            plusButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var input = button.parentElement.querySelector('.quantity_coffee');
+                    increaseQuantity(input);
+                    calculateTotalPrice(input); // Gọi lại hàm tính toán giá tiền tổng cộng sau khi tăng số lượng
+                    calculateTotal();
+                });
+            });
+
+            function decreaseQuantity(input) {
+                var currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+            }
+
+            function increaseQuantity(input) {
+                var currentValue = parseInt(input.value);
+                input.value = currentValue + 1;
+            }
+        });
+</script>
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->
@@ -86,25 +134,23 @@
                                     </div>
                                     <label for="" class="form__label prod-info__label">Size/Weight</label>
                                     <div class="filter__form-group">
-                                        <div class="form__select-wrap">
-
-                                                <select style="--width: 140px" class=" form__select">
-                                                    <option  selected>200</option>
-                                                    <option value="300">300</option>
-                                                    <option value="400">400</option>
-                                                    <option value="500">500</option>
-                                                  </select>
-                                                <div class=" form__select">Gam</div>
-                                        </div>
-                                    </div>
-                                    <div class="filter__form-group">
-                                        <div class="form__tags">
-                                            <button class="form__tag prod-info__tag">Small</button>
-                                            <button class="form__tag prod-info__tag">Medium</button>
-                                            <button class="form__tag prod-info__tag">Large</button>
+                                        <div class="form__select-wrap pr-5 p-3">
+                                            <input type="text" disabled class="" name="weight" class="" value="{{ $item->weight }}| Gram">
+                                            <input class="mr-5 font-bold" value="{{ $item->size }}"/>
                                         </div>
                                     </div>
 
+                                    <div class="cart-item__input cart-item__input_quantity">
+
+                                        <p class="cart-item__input-btn minus_btn">
+                                            <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                        </p>
+                                        <input name="quantity" type="text" style="width:2rem" class="quantity_coffee" value="1" id="quantity">
+                                        <p class="cart-item__input-btn plus_btn">
+                                            <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                        </p>
+
+                                </div>
                                 </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
@@ -139,18 +185,32 @@
                                             </div>
 
                                         </div>
-                                        <div class='row'>
-                                            <div class="prod-info__card">
-                                                <div class="prod-info__row">
-                                                    <span class="prod-info__price">${{$item->price}}</span>
-                                                    <span class="prod-info__tax">10%</span>
-                                                </div>
-                                            <p class="prod-info__total-price">$540.00</p>
+                                        <div class="prod-info__card">
+                                            <div class="prod-info__row">
+                                                <span class="prod-info__price">${{$item->price}}</span>
+                                                <span class="prod-info__tax">{{$item->discount}}%</span>
+                                            </div>
+                                            <p class="prod-info__total-price">$</p>
+                                            <script>
+                                                // Lấy các phần tử cần thiết
+                                                var priceElement = document.querySelector('.prod-info__price');
+                                                var taxElement = document.querySelector('.prod-info__tax');
+                                                var totalPriceElement = document.querySelector('.prod-info__total-price');
+
+                                                // Lấy giá và thuế từ các phần tử và chuyển đổi thành số
+                                                var price = parseFloat(priceElement.textContent.replace('$', ''));
+                                                var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
+
+                                                // Tính toán giá cuối cùng
+                                                var totalPrice = price-(price * (taxPercentage / 100));
+
+                                                // Hiển thị giá cuối cùng trong phần tử
+                                                totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
+                                            </script>
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
-                                                <x-button content="Add to card" border_radius="rounded" ></x-button>
-
-                                                 <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
+                                                    <x-button link="{{route('AddToCart',['id' => $item->id])}}" content="Add to card" border_radius="rounded" ></x-button>
+                                                    <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"
                                                         alt=""

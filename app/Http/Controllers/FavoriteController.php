@@ -111,5 +111,19 @@ class FavoriteController extends Controller
 
         return redirect()->back()->with('success', 'Added to favorites list successfully!');
     }
+    public function removeFromFavorites($product_id)
+    {
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
 
+            $favorite = FavoriteList::where('user_id', $user_id)->where('product_id', $product_id)->first();
+
+            if ($favorite) {
+                $favorite->delete();
+                return redirect()->back()->with('success', 'The product has been removed from the favorites list!');
+            } else {
+                return redirect()->back()->with('error', 'Sản phẩm không tồn tại trong danh sách yêu thích!');
+            }
+        }
+    }
 }
