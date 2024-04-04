@@ -1,4 +1,3 @@
-
 @extends('Layout.layout')
 @section('content')
 <style>
@@ -29,6 +28,10 @@
     @elseif(session('error'))
     <p class="alert-error">
         {{ session('error')  }}
+    </p>
+    @elseif(session('info'))
+    <p class="alert-error">
+        {{ session('info')  }}
     </p>
     @endif
 </div>
@@ -126,6 +129,7 @@
                                             <input class="mr-5 font-bold" value="{{ $item->size }}"/>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
@@ -158,6 +162,7 @@
                                                 <h4 class="prod-prop__title">Pickup</h4>
                                                 <p class="prod-prop__desc">Out of 2 store, today</p>
                                             </div>
+
                                         </div>
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
@@ -184,7 +189,7 @@
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
                                                     <x-button link="{{route('AddToCart',['id' => $item->id])}}" content="Add to card" border_radius="rounded" ></x-button>    
-                                                <button class="like-btn prod-info__like-btn">
+                                                    <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"
                                                         alt=""
@@ -195,9 +200,11 @@
                                                         alt=""
                                                         class="like-btn__icon--liked"
                                                     />
-                                                </button>
+                                                </a>
+                                            </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -737,4 +744,11 @@
     </div>
 </main>
 
+<style>
+    .wishlist{
+        background-color:  brown !important;
+        width: 90%;
+
+    }
+</style>
 @endsection
