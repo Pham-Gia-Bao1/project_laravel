@@ -14,6 +14,7 @@ use Database\Factories\ShoppingCartFactory;
 // use App\Models\ShoppingCard;
 use Illuminate\Http\Request;
 use App\Models\FavoriteList;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -27,24 +28,46 @@ class HomeController extends Controller
      */
 
     protected $coffe; // Remove the instantiation here
-
     public function __construct()
     {
         $this->coffe = new CoffeModel(); // Move the instantiation to the constructor
     }
-
-
     public function index(Request $request)
     {
-
         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
         if (Auth::user()) {
 
             if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
-                $notifiction = 'Payment success';
-                DB::table('shopping_cart')->where('user_id', Auth::id())->delete();
-                return view('Home', compact('data'))->with('success', $notifiction);
+                $notification = 'Payment success';
+                // total_amount
+                $total_amount = $request->vnp_Amount;
+                //status
+                $status = 'pending';
+                // Lấy user_id
+                $user_id = Auth::id();
+                // Lấy danh sách product_id
+                $list_product_ids = DB::table('shopping_cart')
+                    ->where('user_id', $user_id)
+                    ->pluck('product_id')
+                    ->toArray();
+                //order_date
+                $order_date = $request->input('vnp_PayDate'); // Lấy giá trị của trường vnp_PayDate từ request
+                $order_date = \DateTime::createFromFormat('YmdHis', $order_date)->format('Y-m-d H:i:s'); // Định dạng lại giá trị
+                //created_at
+                $created_at = $updated_at = now()->format('Y-m-d H:i:s');
+                // Tạo đơn hàng mới
+                $order = new Orders();
+                $order->user_id = $user_id;
+                $order->product_ids = json_encode($list_product_ids);
+                $order->total_amount = $total_amount;
+                $order->status = $status;
+                $order->order_date = $order_date;
+                $order->save();
+                // Xóa các sản phẩm trong giỏ hàng của người dùng
+                DB::table('shopping_cart')->where('user_id', $user_id)->delete();
+                return redirect()->route('home')->with('success',$notification);
             }
+
         }
         if (isset($request->search)) {
             $search = "%{$request->search}%";
@@ -60,5 +83,4 @@ class HomeController extends Controller
 
         return view('Home', compact('data'));
     }
-
 }

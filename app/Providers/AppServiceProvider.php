@@ -40,40 +40,48 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('button', button::class);
 
         View::composer(['Layout.subNavBar','Shipping','Layout.header'], function ($view) {
-            $user = User::find(Auth::user()->id);
+            $user = Auth::user();
+            if(is_null($user)){
+                return; // Trả về ngay nếu người dùng không đăng nhập
+            }
+
             $products = [];
             $favoriteCount = 0;
 
-            if (isset($user)) {
-                $cartItems = Shopping_cart::where('user_id', $user->id)->get();
+            // Lấy các sản phẩm trong giỏ hàng của người dùng đăng nhập
+            $cartItems = Shopping_cart::where('user_id', $user->id)->get();
+            $productIds = $cartItems->pluck('product_id')->toArray();
 
-                // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
-                $productIds = $cartItems->pluck('product_id')->toArray();
-                $products = CoffeModel::join('coffee_shops', 'coffe.coffe_shop_id', '=', 'coffee_shops.id')
-                    ->join('shopping_cart', 'shopping_cart.product_id', '=', 'coffe.id')
-                    ->select(
-                        'coffe.*',
-                        'shopping_cart.quantity as quantity_categories',
-                        'shopping_cart.total as total_price',
-                        'coffee_shops.name as coffee_shops_name'
-                    )
-                    ->where('user_id', $user->id)
-                    ->get();
-            }
+            // Lấy ra thông tin chi tiết của các sản phẩm trong giỏ hàng
+            $products = CoffeModel::join('coffee_shops', 'coffe.coffe_shop_id', '=', 'coffee_shops.id')
+                ->join('shopping_cart', 'shopping_cart.product_id', '=', 'coffe.id')
+                ->select(
+                    'coffe.*',
+                    'shopping_cart.quantity as quantity_categories',
+                    'shopping_cart.total as total_price',
+                    'coffee_shops.name as coffee_shops_name'
+                )
+                ->whereIn('shopping_cart.product_id', $productIds)
+                ->where('shopping_cart.user_id', $user->id)
+                ->get();
 
-            $user_id = Auth::user()->id;
+            // Lấy danh sách sản phẩm yêu thích của người dùng
             $favorites = DB::table('favorites')
                 ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
                 ->select('coffe.*')
-                ->where('favorites.user_id', $user_id)
+                ->where('favorites.user_id', $user->id)
                 ->get();
 
-            $all_products_in_checkout = DB::table('shopping_cart')->where('user_id',$user_id)->get();
+            // Đếm số lượng sản phẩm yêu thích
+            $favoriteCount = FavoriteList::where('user_id', $user->id)->count();
 
-            // Lấy số lượng sản phẩm yêu thích dựa trên user_id
-            $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
-
-            $view->with(['products' => $products, 'favoriteCount' => $favoriteCount, 'favorites' => $favorites,'all_products_in_checkout' =>$all_products_in_checkout]);
+            // Chia sẻ dữ liệu với view
+            $view->with([
+                'products' => $products,
+                'favoriteCount' => $favoriteCount,
+                'favorites' => $favorites,
+                'all_products_in_checkout' => $cartItems
+            ]);
         });
     }
 }
