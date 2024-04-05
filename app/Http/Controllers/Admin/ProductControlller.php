@@ -10,6 +10,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 trait UpLoadFileTrait // Corrected trait name
 {
@@ -163,8 +164,12 @@ class ProductControlller extends Controller
 
     public function destroy($id)
     {
-        $car = CoffeModel::find($id);
-        $car->delete();
-        return redirect()->route('admin.products')->with('success', 'Delete sucessfully!');    
-    }
-}
+        $product = CoffeModel::find($id);
+        $image_path = public_path("assets/img/product/{$product->images}");
+
+        if (File::exists($image_path)) {
+            File::delete($image_path);
+        }
+        $product->delete();
+        return redirect()->route('admin.products')->with('success', 'Delete sucessfully!'); 
+} }
