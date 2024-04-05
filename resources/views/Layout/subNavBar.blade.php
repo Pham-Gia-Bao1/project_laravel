@@ -32,7 +32,7 @@
                         @endisset item(s)</h2>
 
                     </div>
-                    <div class="row row-cols-3 gx-2 act-dropdown__list">
+                    <div class="row row-cols-3 gx-2 act-dropdown__list d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
                         @if(isset($favorites))
                             @foreach ($favorites as $item)
                                 <div class="col">
@@ -66,27 +66,27 @@
 
         <div class="top-act__separate"></div>
 
-        <div class="top-act__btn-wrap">
+        <div class="top-act__btn-wrap" style="z-index: 20 !important">
             <button class="top-act__btn">
                 <img src="./assets/icons/buy.svg" alt="" class="icon top-act__icon" />
-                <span class="top-act__title">$65.42</span>
+                <span class="top-act__title">{{ count($all_products_in_checkout) }}</span>
             </button>
 
             <!-- Dropdown -->
-            <div class="act-dropdown">
-                <div class="act-dropdown__inner">
+            <div class="act-dropdown" style="z-index: 20 !important">
+                <div class="act-dropdown__inner" style="z-index: 20">
                     <img src="./assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
                     <div class="act-dropdown__top">
                         <h2 class="act-dropdown__title">You have {{ count($products) }} item(s)</h2>
                         <a href="checkout" class="act-dropdown__view-all">See All</a>
                     </div>
-                    <div class="row row-cols-3 gx-2 act-dropdown__list">
+                    <div class="row row-cols-3 gx-2 act-dropdown__list  d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
                         @php
                             $total = 0;
                         @endphp
                         @foreach ($products as $product)
                             <!-- Cart preview item 3 -->
-                            <div class="col">
+                            <div class="col" style="z-index: 20 !important">
                                 <article class="cart-preview-item">
                                     <div class="cart-preview-item__img-wrap">
                                         <img
@@ -106,12 +106,12 @@
                             @endphp
                         @endforeach
                     </div>
-                    <div class="act-dropdown__bottom">
-                        <div class="act-dropdown__row">
+                    <div class="act-dropdown__bottom" style="z-index: 20">
+                        <div class="act-dropdown__row" style="z-index: 20">
                             <span class="act-dropdown__label">Quantity of products</span>
                             <span class="act-dropdown__value">{{ count($products) }}</span>
                         </div>
-                   
+
                         <div class="act-dropdown__row act-dropdown__row--bold">
                             <span class="act-dropdown__label">Total Price</span>
                             <span class="act-dropdown__value">${{ $total }}</span>

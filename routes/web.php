@@ -37,6 +37,9 @@ use App\Http\Middleware\Authenticate;
 Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Route::middleware('check.user.status')->group(function () {
+        // Các route cần kiểm tra trạng thái của người dùng
+
     Route::get('profile_edit', [ProfileController::class, 'get_info_user'])->name('profile.edit'); // Đặt tên đặc biệt cho route
     Route::get('create_card', function () {
         return view('profile.Add-new-card');
@@ -80,14 +83,16 @@ Route::middleware('auth')->group(function () {
                 Route::get('/create', [ProductControlller::class,'create'])->name('admin.products.create');
             });
         });
-    });
-    require __DIR__ . '/auth.php';
-    Route::get('/', [HomeController::class, 'index']);
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('forgot-password', function () {
-        return view('ResetPassword');
+    // });
+});
+
+require __DIR__ . '/auth.php';
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('forgot-password', function () {
+    return view('ResetPassword');
     })->name('ResetPassword');
-    Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
+Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
 Route::get('resetpassworded', function () {
     return view('ResetPasswordEmailed');
 })->name('ResetPasswordEmailed');
@@ -95,3 +100,10 @@ Route::get('shipping', [ShippingController::class,'index'])->name('Shipping');
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('login/facebook', [LoginController::class, 'redirectToFacebook']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
+Route::get('/blocked',function(){
+        return view('BlockedPage');
+})->name('BlockedPage');
+
+Route::get('/test',function(){
+    return view('components.side_bar');
+});

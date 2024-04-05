@@ -1,15 +1,18 @@
 <style>
-   .notification {
+  .notification {
     position: fixed;
-    top: 100px;
-    right: 10px;
+    top: 100px; /* Điều chỉnh vị trí ban đầu theo yêu cầu của bạn */
+    right: -500px; /* Vị trí ban đầu ẩn ngoài màn hình */
     padding: 10px;
     border-radius: 5px;
     z-index: 100;
     opacity: 0; /* Không hiển thị ban đầu */
-    transition: opacity 0.5s ease; /* Hiệu ứng transition cho opacity */
+    transition: opacity 0.5s ease, right 0.5s ease, top 0.5s ease; /* Hiệu ứng transition cho opacity, right, top */
     padding: 20px;
 }
+
+/* Các lớp còn lại không thay đổi */
+
 
 .success {
     background-color: rgb(23, 225, 60);
@@ -46,6 +49,12 @@
 @endif
 
 
+@if (isset($success))
+<div class="success notification" id="messageNotification">
+    {{ $success }}
+</div>
+@endif
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
     var errorNotification = document.getElementById('errorNotification');
@@ -55,19 +64,29 @@
 
     // Hiển thị thông báo
     function showNotification(notification) {
+        notification.style.opacity = '0.5'; // Set opacity to 1 để hiển thị
+        notification.style.right = '0px'; // Di chuyển thông báo ra khỏi màn hình bên phải
         notification.style.opacity = '1'; // Set opacity to 1 để hiển thị
+
+
         setTimeout(function() {
             hideNotification(notification); // Ẩn thông báo sau 3 giây
         }, 3000);
     }
 
     // Ẩn thông báo
-    function hideNotification(notification) {
-        notification.style.opacity = '0'; // Set opacity to 0 để ẩn
-        setTimeout(function() {
-            notification.style.display = 'none'; // Sau khi ẩn, ẩn đi luôn
-        }, 3000); // Thời gian phải lớn hơn thời gian transition trong CSS
-    }
+ // Ẩn thông báo
+function hideNotification(notification) {
+    notification.style.opacity = '0'; // Set opacity to 0 để ẩn
+    // notification.style.right = '-00px'; // Di chuyển thông báo ra khỏi màn hình bên phải
+    notification.style.top = '50%'; // Di chuyển thông báo xuống dưới màn hình
+    notification.style.opacity = '0'; // Set opacity to 0 để ẩn
+
+    setTimeout(function() {
+        notification.style.display = 'none'; // Sau khi ẩn, ẩn đi luôn
+    }, 500); // Thời gian phải lớn hơn thời gian transition trong CSS
+}
+
 
     // Xác định thông báo và hiển thị
     if (errorNotification) {

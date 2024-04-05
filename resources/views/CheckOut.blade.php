@@ -24,15 +24,7 @@
    @include('components.notification')
     <div class="container">
         <!-- Search bar -->
-        <div class="checkout-container">
-            <div class="search-bar d-none d-md-flex">
-                <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
-                <button class="search-bar__submit">
-                    <img src="./assets/icons/search.svg" alt="" class="search-bar__icon icon" />
-                </button>
-            </div>
-        </div>
-
+        @include('components.search_small_screen')
         <!-- Breadcrumbs -->
         <div class="checkout-container">
             <ul class="breadcrumbs checkout-page__breadcrumbs">
@@ -47,7 +39,6 @@
                 </li>
             </ul>
         </div>
-
         <!-- Checkout content -->
         <div class="checkout-container">
             <div class="row gy-xl-3">
@@ -145,7 +136,7 @@
                         <div class="cart-info__separate"></div>
                         <div class="cart-info__row">
                             <span>Estimated Total</span>
-                            <span class="estimated_total">{{ $total - 10.00}}</span>
+                            <span class="estimated_total">{{ $total + 10.00}}</span>
                         </div>
                         <x-button content="Continue to checkout" border_radius="" link="shipping" ></x-button>
                     </div>

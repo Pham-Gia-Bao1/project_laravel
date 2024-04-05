@@ -3,6 +3,7 @@
     @include('components.notification')
     <!-- MAIN -->
     <main class="container home">
+        @include('components.search_small_screen')
         <!-- Slideshow -->
         @include('Layout.hero')
         <!-- Browse Categories -->

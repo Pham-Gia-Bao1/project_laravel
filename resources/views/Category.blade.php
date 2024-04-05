@@ -18,8 +18,8 @@ input[type="radio"]:checked + label {
 <section class="home__container pb-20">
     <div class="home__row">
         <h2 class="home__heading">Total LavAzza 1320</h2>
-        <div class="filter-wrap">
-            <button id="filter_btn" class="filter-btn js-toggle" style="background-color: #77DAE6" toggle-target="#home-filter">
+        <div class="filter-wrap" style="z-index: 1">
+            <button id="filter_btn" class="filter-btn js-toggle" style="background-color: #77DAE6; z-index:0" toggle-target="#home-filter">
                 Filter
                 <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
             </button>

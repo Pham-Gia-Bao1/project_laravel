@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('card_product_top', card_product_top::class);
         Blade::component('button', button::class);
 
-        View::composer(['Layout.subNavBar','Shipping'], function ($view) {
+        View::composer(['Layout.subNavBar','Shipping','Layout.header'], function ($view) {
             $user = User::find(Auth::user()->id);
             $products = [];
             $favoriteCount = 0;
@@ -68,10 +68,12 @@ class AppServiceProvider extends ServiceProvider
                 ->where('favorites.user_id', $user_id)
                 ->get();
 
+            $all_products_in_checkout = DB::table('shopping_cart')->where('user_id',$user_id)->get();
+
             // Lấy số lượng sản phẩm yêu thích dựa trên user_id
             $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
 
-            $view->with(['products' => $products, 'favoriteCount' => $favoriteCount, 'favorites' => $favorites]);
+            $view->with(['products' => $products, 'favoriteCount' => $favoriteCount, 'favorites' => $favorites,'all_products_in_checkout' =>$all_products_in_checkout]);
         });
     }
 }

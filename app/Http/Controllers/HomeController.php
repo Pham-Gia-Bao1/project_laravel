@@ -41,7 +41,8 @@ class HomeController extends Controller
         if (Auth::user()) {
 
             if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
-                $notifiction = 'success';
+                $notifiction = 'Payment success';
+                DB::table('shopping_cart')->where('user_id', Auth::id())->delete();
                 return view('Home', compact('data'))->with('success', $notifiction);
             }
         }

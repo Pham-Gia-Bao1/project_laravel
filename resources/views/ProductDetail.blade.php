@@ -23,8 +23,10 @@
         var totalPrice = quantity * price;
         totalPriceElement.textContent = totalPrice.toFixed(2);
          // Update the total price in the DOM
-         total.textContent = totalPrice - (totalPrice / 100).toFixed(2);
-         document.getElementById('total_input').value = totalPrice - (totalPrice / 100).toFixed(2);
+         let endDisCount = totalPrice - (totalPrice * (discount / 100));
+         console.log(endDisCount)
+         total.textContent = endDisCount.toFixed(2);
+         document.getElementById('total_input').value = endDisCount.toFixed(2);
     }
 
     // Initial calculation
@@ -66,15 +68,7 @@
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->
-        <div class="product-container">
-            <div class="search-bar d-none d-md-flex">
-                <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
-                <button class="search-bar__submit">
-                    <img src="./assets/icons/search.svg" alt="" class="search-bar__icon icon" />
-                </button>
-            </div>
-        </div>
-
+        @include('components.search_small_screen')
         <!-- Breadcrumbs -->
         <div class="product-container">
             <ul class="breadcrumbs">
@@ -212,6 +206,7 @@
                                             <script>
                                                 // Lấy các phần tử cần thiết
                                                 var priceElement = document.querySelector('.prod-info__price');
+                                                console.log(priceElement.innerHTML);
                                                 var taxElement = document.querySelector('.prod-info__tax');
                                                 var totalPriceElement = document.querySelector('.prod-info__total-price');
 
@@ -219,8 +214,8 @@
                                                 var price = parseFloat(priceElement.textContent.replace('$', ''));
                                                 var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
 
-                                                // Tính toán giá cuối cùng
-                                                var totalPrice = price-(price * (taxPercentage / 100));
+                                              // Tính toán giá cuối cùng
+                                                var totalPrice = price - (price * (taxPercentage / 100));
 
                                                 // Hiển thị giá cuối cùng trong phần tử
                                                 totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
