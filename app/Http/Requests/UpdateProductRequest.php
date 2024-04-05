@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,6 @@ class ProductRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-
     public function rules()
     {
         return [
@@ -29,14 +28,14 @@ class ProductRequest extends FormRequest
             'size' => 'required|in:Large,Medium,Extra',
             'weight' => 'required|',
             'price' => 'required|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image2' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image3' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image1' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'reviews' => 'required|string',
             'rating' => 'required|numeric|min:1|max:5',
             'quantity' => 'required|numeric|min:1',
-            'coffee_shop_id' => 'required|exists:coffee_shops,id',
+            //'coffee_shop_id' => 'required',
             'category_id' => 'required|exists:categories,id',
         ];
     }
@@ -57,14 +56,11 @@ class ProductRequest extends FormRequest
                 'image.image' => 'The file must be an image file.',
                 'image.mimes' => 'Image must be one of these kinds: jpeg, png, jpg, gif.',
                 'image.max' => 'Image can be bigger than 2MB.',
-                'image1.required' => 'Please upload an image!',
-                'image2.required' => 'Please upload an image!',
-                'image3.required' => 'Please upload an image!',
                 'rating.required' => 'Please rate 1 to 5.',
                 'reviews.required' => 'Please review for this product!',
                 'reviews.string' => 'The review feild must be a string!',
                 'quantity.required' => 'Please select the quantity!',
-                'coffee_shop_id.required' => 'Please choose the name of coffe shop.',
+                //'coffee_shop_id.required' => 'Please choose the name of coffe shop.',
                 'category_id.required' => 'Please choose the category.',
             ];
     }

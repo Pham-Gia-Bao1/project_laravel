@@ -64,6 +64,7 @@
                         <label for="size">Size:</label>
                         <br>
                         <select name="size" id="size" class="form-control" value="{{ old('size') }}">
+                            <option value="" disabled selected>Select a size</option>
                             <option value="Large">Large</option>
                             <option value="Medium">Medium</option>
                             <option value="Extra">Extra</option>
@@ -87,13 +88,37 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" class="form-control">
+                        <label for="image">Main image:</label>
+                        <input type="file" name="image" id="image" class="form-control mb-2" onchange="previewImage(event, 'preview1')">
+                        <img id="preview1" src="#" style="display: none; max-width: 80%; height: auto;">
                         @error('image')
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
                     </div>
-
+                    <div class="form-group">
+                        <label for="image">Secondary image 1:</label>
+                        <input type="file" name="image1" id="image1" class="form-control mb-2" onchange="previewImage(event, 'preview2')">
+                        <img id="preview2" src="#" style="display: none; max-width: 80%; height: auto;">
+                        @error('image')
+                            <span style="color:red;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Secondary image 2:</label>
+                        <input type="file" name="image2" id="image2" class="form-control mb-2" onchange="previewImage(event, 'preview3')">
+                        <img id="preview3" src="#" style="display: none; max-width: 80%; height: auto;">
+                        @error('image')
+                            <span style="color:red;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Secondary image 3:</label>
+                        <input type="file" name="image3" id="image3" class="form-control mb-2" onchange="previewImage(event, 'preview4')">
+                        <img id="preview4" src="#" style="display: none; max-width: 50%; max-height: 150px;">
+                        @error('image')
+                            <span style="color:red;">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <div class="form-group">
                         <label for="reviews">Reviews:</label>
                         <input type="text" name="reviews" id="reviews" class="form-control" value="{{ old('reviews') }}">
@@ -104,6 +129,7 @@
                     <div class="form-group">
                         <label for="rating">Rating:</label>
                         <select name="rating" id="rating" class="form-control" value="{{ old('rating') }}">
+                            <option value="" disabled selected>Rating for this product</option>
                             @for ($i = 1; $i <= 5; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
@@ -123,6 +149,7 @@
                     <div class="form-group">
                         <label for="coffee_shop_id">Coffee Shop name:</label>
                         <select name="coffee_shop_id" id="coffee_shop_id" class="form-control" value="{{ old('coffee_shop_id') }}">
+                             <option value="" disabled selected>Select shop name</option>
                             @foreach ($coffe_shops as $shop)
                                 <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                             @endforeach
@@ -134,6 +161,7 @@
                     <div class="form-group">
                         <label for="category_id">Category name:</label>
                         <select name="category_id" id="category_id" class="form-control" value="{{ old('category_id') }}">
+                            <option value="" disabled selected>Choose a category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -151,3 +179,15 @@
         </div>
     </main>
 @endsection
+<script>
+    function previewImage(event, previewId) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function(){
+        var preview = document.getElementById(previewId);
+        preview.src = reader.result;
+        preview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+</script>

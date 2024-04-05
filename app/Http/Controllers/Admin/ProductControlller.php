@@ -7,8 +7,10 @@ use App\Models\CoffeShop;
 use App\Models\Cartegory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 trait UpLoadFileTrait // Corrected trait name
 {
     public function upLoadFile(Request $request, string $inputName, ?string $olfPath = null, string $path = '/assets/img/product')
@@ -27,6 +29,12 @@ trait UpLoadFileTrait // Corrected trait name
 class ProductControlller extends Controller
 {
     use UpLoadFileTrait; // Ensure trait name matches exactly
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new CoffeModel();
+    }
 
     public function index(Request $request)
     {
@@ -45,17 +53,38 @@ class ProductControlller extends Controller
         $coffee->size = $request->get('size');
         $coffee->weight = $request->get('weight');
         $coffee->price = $request->get('price');
-        $avatarFile = $request->get('image');
-        $filePath = 'assets/img/product/';
-        $saveFile = $this->upLoadFile($request,'name');
-        $coffee->images = json_encode([$filePath]);
+
+        
         $coffee->reviews = $request->get('reviews');
         $coffee->rating = $request->get('rating');
         $coffee->quantity = $request->get('quantity');
         $coffee->coffe_shop_id = $request->get('coffee_shop_id');
         $coffee->category_id = $request->get('category_id');
+        $mainImageName = '';
+        $secondaryImages = [];
+        // Xử lý tệp ảnh chính
+        if ($request->hasfile('image')) {
+            $mainImage = $request->file('image');
+            $mainImageName = time() . '_' . $mainImage->getClientOriginalName();
+            $mainImage->move(public_path('assets/img/product/'), $mainImageName);
+        }
+        // Xử lý tệp ảnh phụ
+        for ($i = 1; $i <= 3; $i++) {
+            $inputName = 'image' . $i;
+            if ($request->hasfile($inputName)) {
+                $file = $request->file($inputName);
+                $imageName = $file->getClientOriginalName();
+                $file->move(public_path('assets/img/product/'), $imageName);
+                $secondaryImages[] = $imageName;
+            }
+        }
+        // Đưa tất cả các ảnh vào cùng một mảng
+        $imagePaths = [$mainImageName];
+        $imagePaths = array_merge($imagePaths, $secondaryImages);
+        $coffee->images = json_encode($imagePaths);
         $coffee->save();
-        return redirect()->route('admin.products')->with('success', 'add new product sucessfully!'); 
+        return redirect()->route('admin.products')->with('success', 'Add new product sucessfully!');
+
     }
 
     public function create(){
@@ -89,30 +118,53 @@ class ProductControlller extends Controller
        return view('admin.products.updateProduct', compact('coffe', 'categories', 'coffe_shops'));
     }
 
-    public function update(ProductRequest $request, $id){
-        $coffee = CoffeModel::find($id);
-        $coffee->name = $request->get('name');
-        $coffee->size = $request->get('size');
-        $coffee->weight = $request->get('weight');
-        $coffee->price = $request->get('price');
-        $avatarFile = $request->get('image');
-        $filePath = 'assets/img/product/';
-        $saveFile = $this->upLoadFile($request, 'name');
-        $coffee->images = json_encode([$filePath]);
-        $coffee->reviews = $request->get('reviews');
-        $coffee->rating = $request->get('rating');
-        $coffee->quantity = $request->get('quantity');
-        $coffee->coffe_shop_id = $request->get('coffee_shop_id');
-        $coffee->category_id = $request->get('category_id');
-        $coffee->save();
-        return redirect()->route('admin.products')->with('success', 'Update product sucessfully!'); 
+    public function update(UpdateProductRequest $request, $id){
+        $coffee = $this->products::findOrFail($id);
+
+        $data = $request->only([
+            'name', 'size', 'weight', 'price', 'reviews', 'rating', 'quantity', 'coffe_shop_id', 'category_id'
+        ]);
+        $mainImageName = '';
+        $secondaryImages = [];
+        // Xử lý tệp ảnh chính
+        if ($request->hasfile('image')) {
+            $mainImage = $request->file('image');
+            $mainImageName = time() . '_' . $mainImage->getClientOriginalName();
+            $mainImage->move(public_path('assets/img/product/'), $mainImageName);
+        } else {
+            $mainImageName = $coffee->images ? json_decode($coffee->images)[0] : '';
+        }
+
+        $data['images'] = json_encode([$mainImageName]);
+
+        // Xử lý tệp ảnh phụ
+        for ($i = 1; $i <= 3; $i++) {
+            $inputName = 'image' . $i;
+            if ($request->hasfile($inputName)) {
+                $file = $request->file($inputName);
+                $imageName = $file->getClientOriginalName();
+                $file->move(public_path('assets/img/product/'), $imageName);
+                $secondaryImages[] = $imageName;
+            }
+        }
+
+        // Nếu không có file ảnh chính mới được tải lên, và không có ảnh trong cơ sở dữ liệu,
+        // thì giữ nguyên các ảnh phụ từ cơ sở dữ liệu
+        if (empty($mainImageName) && empty($secondaryImages)) {
+            $data['images'] = $coffee->images;
+        } elseif (!empty($secondaryImages)) {
+            // Nếu có file ảnh phụ mới được tải lên, thêm chúng vào mảng images
+            $data['images'] = json_encode(array_merge([$mainImageName], $secondaryImages));
+        }
+
+        $coffee->update($data);
+        return redirect()->route('admin.products')->with('success', 'Update product successfully!');
     }
 
     public function destroy($id)
     {
         $car = CoffeModel::find($id);
         $car->delete();
-        return redirect()->route('admin.products')->with('success', 'Delete sucessfully!');
-      
+        return redirect()->route('admin.products')->with('success', 'Delete sucessfully!');    
     }
 }

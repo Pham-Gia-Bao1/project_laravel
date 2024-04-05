@@ -71,7 +71,7 @@
                             <td style="padding-right: 10px">
                                 <img src="{{ asset('assets/img/product').'/'.json_decode($product->images)[0] }}" alt="">
                             </td>
-                            <td class='reviews'>{{$product->reviews}}</td>
+                            <td class='reviews' style="padding-right: 10px">{{$product->reviews}}</td>
                             <td style="padding-right: 10px">{{$product->rating}}</td>
 
                             <td>{{$product->quantity}}</td>
