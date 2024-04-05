@@ -11,9 +11,9 @@ use App\Http\Controllers\Admin\CategoriesAdminController;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\ProductControlller;
-
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -71,7 +71,6 @@ Route::middleware('auth')->group(function () {
                 Route::get('/update/{id}',[CategoriesAdminController::class,'update'])->name('admin.categories.update');
                 Route::get('/delete',[CategoriesAdminController::class,'delete'])->name('admin.categories.delete');
             });
-
             Route::prefix('/products')->group(function(){
                 Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
                 Route::get('/create', [ProductControlller::class,'create'])->name('admin.product.create');
@@ -82,50 +81,22 @@ Route::middleware('auth')->group(function () {
             });
     });
 });
-
 require __DIR__ . '/auth.php';
-
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
-
-Route::get('checkout', function () {
-    return view('CheckOut');
-})->name('CheckOut');
-
-
+Route::get('checkout',[CheckoutController::class,'index'])->name('CheckOut');
+Route::get('AddToCart/{id}', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
+Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
 Route::get('forgot-password', function () {
     return view('ResetPassword');
 })->name('ResetPassword');
-
 Route::get('resetpassworded', function () {
     return view('ResetPasswordEmailed');
 })->name('ResetPasswordEmailed');
-
 Route::get('shipping', function () {
     return view('Shipping');
 })->name('Shipping');
-
-
-// cổng thanh toán
-
-
-// Route::get('AddNewCard', function () {
-//     return view('AddNewCard');
-// })->name('AddNewCard');
-
-//Route::get('/set_cookie',function(){
-//        $reponse = (new Response())->cookie('unicode', 'day laf cookie ', '30');
-//        return $reponse;
-//})->name('cookie');
-//Route::get('/get_cookie',function(Request $request){
-//     return $request->cookie('unicode');
-//
-//});
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
-// Route::post('/test',[TestController::class,'processTest']);
-
-
 Route::get('login/facebook', [LoginController::class, 'redirectToFacebook']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
