@@ -460,8 +460,7 @@ body {
 	padding-left: 6px;
 }
 #content main .table-data .order table td img {
-	width: 36px;
-	height: 36px;
+	width: 50px;
 	border-radius: 50%;
 	object-fit: cover;
 }
