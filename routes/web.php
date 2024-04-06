@@ -78,6 +78,11 @@ Route::middleware('auth')->group(function () {
             });
             Route::prefix('/users')->group(function(){
                 Route::get('/',[UserController::class,'index'])->name('admin.users');
+                Route::get('/create',[UserController::class,'create'])->name('admin.users.create');
+                Route::post('/create',[UserController::class,'store'])->name('admin.user.store');
+                Route::get('/update/{id}',[UserController::class,'update'])->name('admin.user.update');
+
+
             });
     });
 });
