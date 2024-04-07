@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\ProductControlller;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\TestController;
@@ -86,9 +87,19 @@ Route::middleware('auth')->group(function () {
                 Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
                 Route::get( '/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
             });
-        });
-    // });
+
+            Route::prefix('/users')->group(function(){
+                Route::get('/',[UserController::class,'index'])->name('admin.users');
+                Route::get('/create',[UserController::class,'create'])->name('admin.users.create');
+                Route::post('/create',[UserController::class,'store'])->name('admin.user.store');
+                Route::get('/update/{id}',[UserController::class,'update'])->name('admin.user.update');
+
+
+            });
+    });
 });
+
+
 
 require __DIR__ . '/auth.php';
 Route::get('/', [HomeController::class, 'index']);
