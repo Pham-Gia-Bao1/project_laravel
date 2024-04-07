@@ -24,7 +24,7 @@
                 <h1>Dashboard</h1>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="#">Dashboard</a>
+                        <a class="active" href="{{ route('admin') }}">Dashboard</a>
                     </li>
                     <li><i class='bx bx-chevron-right' ></i></li>
                     <li>
@@ -41,7 +41,7 @@
                     <h3>Product List</h3>
                 </div>
                 <a href="{{route('admin.product.create')}}">
-                    <button type="button" class="btn btn-primary mb-4">Add new product</button>
+                    <button type="button" class="btn btn-primary mb-4"> + </button>
                 </a>
                 <table>
                     <thead>
