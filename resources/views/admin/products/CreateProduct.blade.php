@@ -10,6 +10,9 @@
         border: none !important;
         margin: 5px 5px 0 0px;
     }
+    img{
+        width: 200px;
+    }
 </style>
 @section('main_content_admin')
     <main>
@@ -138,7 +141,13 @@
                             <span style="color:red;">{{ $message }}</span>
                         @enderror
                     </div>
-
+                    <div class="form-group">
+                        <label for="reviews">Discount:</label>
+                        <input type="text" name="discount" id="discount" class="form-control" value="{{ old('discount') }}">
+                        @error('discount')
+                            <span style="color:red;">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <div class="form-group">
                         <label for="quantity">Quantity:</label>
                         <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="{{ old('quantity') }}">

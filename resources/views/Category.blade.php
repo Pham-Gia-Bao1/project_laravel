@@ -18,8 +18,8 @@ input[type="radio"]:checked + label {
 <section class="home__container pb-20">
     <div class="home__row">
         <h2 class="home__heading">Total LavAzza 1320</h2>
-        <div class="filter-wrap">
-            <button id="filter_btn" class="filter-btn js-toggle" style="background-color: #77DAE6" toggle-target="#home-filter">
+        <div class="filter-wrap" style="z-index: 1">
+            <button id="filter_btn" class="filter-btn js-toggle" style="background-color: #77DAE6; z-index:0" toggle-target="#home-filter">
                 Filter
                 <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
             </button>
@@ -104,7 +104,6 @@ input[type="radio"]:checked + label {
                                 // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
                                 priceRangeMax.value = Math.max(maxPrice, priceRange.value);
                             });
-
                             // Lắng nghe sự kiện khi dropdown thay đổi
                             document.getElementById('sizeDropdown').addEventListener('change', function() {
                                 // Lấy giá trị được chọn trong dropdown
@@ -113,7 +112,6 @@ input[type="radio"]:checked + label {
                                 console.log(selectedValue);
                             });
                         </script>
-
 
 
                     </div>

@@ -1,31 +1,4 @@
 
-<?php 
-use App\Models\Shopping_cart;
-use App\Models\User;
-use App\Models\CoffeModel;
-use App\Models\FavoriteList;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-$user = User::find(Auth::user()->id);
-
-if (isset($user)) {
-    $cartItems = Shopping_cart::where('user_id', $user->id)->get();
-
-    // Lấy ra các sản phẩm tương ứng từ bảng Coffee dựa trên product_id trong giỏ hàng
-    $productIds = $cartItems->pluck('product_id')->toArray();
-    $products = CoffeModel::whereIn('id', $productIds)->get();
-}
-
- $user_id = Auth::user()->id;
-            $favorites = DB::table('favorites')
-            ->join('coffe', 'favorites.product_id', '=', 'coffe.id')
-            ->select('coffe.*')
-                ->where('favorites.user_id', $user_id)
-                ->get();
-
-            // Lấy số lượng sản phẩm yêu thích dựa trên user_id
-            $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
-?>
 <div class="top-act">
     <div class="top-act__group d-md-none top-act__group--single">
 
@@ -57,9 +30,9 @@ if (isset($user)) {
                         <h2 class="act-dropdown__title">You have @isset($favoriteCount)
                             {{$favoriteCount}}
                         @endisset item(s)</h2>
-                        <a href="{{route('FavoriteList')}}" class="act-dropdown__view-all">See All</a>
+
                     </div>
-                    <div class="row row-cols-3 gx-2 act-dropdown__list">
+                    <div class="row row-cols-3 gx-2 act-dropdown__list d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
                         @if(isset($favorites))
                             @foreach ($favorites as $item)
                                 <div class="col">
@@ -84,12 +57,8 @@ if (isset($user)) {
                     </div>
                     <div class="act-dropdown__separate"></div>
                     <div class="act-dropdown__checkout">
-                        <a
-                            href="checkout"
-                            class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
-                        >
-                            Check Out All
-                        </a>
+                        <a href="{{route('FavoriteList')}}"
+                        class="btn btn--primary btn--rounded act-dropdown__checkout-btn">See All</a>
                     </div>
                 </div>
             </div>
@@ -97,27 +66,27 @@ if (isset($user)) {
 
         <div class="top-act__separate"></div>
 
-        <div class="top-act__btn-wrap">
+        <div class="top-act__btn-wrap" style="z-index: 20 !important">
             <button class="top-act__btn">
                 <img src="./assets/icons/buy.svg" alt="" class="icon top-act__icon" />
-                <span class="top-act__title">$65.42</span>
+                <span class="top-act__title">{{ count($all_products_in_checkout) }}</span>
             </button>
 
             <!-- Dropdown -->
-            <div class="act-dropdown">
-                <div class="act-dropdown__inner">
+            <div class="act-dropdown" style="z-index: 20 !important">
+                <div class="act-dropdown__inner" style="z-index: 20">
                     <img src="./assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
                     <div class="act-dropdown__top">
                         <h2 class="act-dropdown__title">You have {{ count($products) }} item(s)</h2>
                         <a href="checkout" class="act-dropdown__view-all">See All</a>
                     </div>
-                    <div class="row row-cols-3 gx-2 act-dropdown__list">
+                    <div class="row row-cols-3 gx-2 act-dropdown__list  d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
                         @php
                             $total = 0;
                         @endphp
                         @foreach ($products as $product)
                             <!-- Cart preview item 3 -->
-                            <div class="col">
+                            <div class="col" style="z-index: 20 !important">
                                 <article class="cart-preview-item">
                                     <div class="cart-preview-item__img-wrap">
                                         <img
@@ -127,27 +96,22 @@ if (isset($user)) {
                                         />
                                     </div>
                                     <h3 class="cart-preview-item__title">{{ $product->name }}</h3>
-                                    <p class="cart-preview-item__price">${{ $product->price }}</p>
+                                    <p class="cart-preview-item__price">${{ $product->total_price }}</p>
+                                    <p class="cart-preview-item__price">{{ $product->quantity_categories }}</p>
+
                                 </article>
                             </div>
                             @php
-                                $total += $product->price ;
+                                $total += $product->total_price ;
                             @endphp
                         @endforeach
                     </div>
-                    <div class="act-dropdown__bottom">
-                        <div class="act-dropdown__row">
+                    <div class="act-dropdown__bottom" style="z-index: 20">
+                        <div class="act-dropdown__row" style="z-index: 20">
                             <span class="act-dropdown__label">Quantity of products</span>
                             <span class="act-dropdown__value">{{ count($products) }}</span>
                         </div>
-                        {{-- <div class="act-dropdown__row">
-                            <span class="act-dropdown__label">Texes</span>
-                            <span class="act-dropdown__value">Free</span>
-                        </div>
-                        <div class="act-dropdown__row">
-                            <span class="act-dropdown__label">Shipping</span>
-                            <span class="act-dropdown__value">$10.00</span>
-                        </div> --}}
+
                         <div class="act-dropdown__row act-dropdown__row--bold">
                             <span class="act-dropdown__label">Total Price</span>
                             <span class="act-dropdown__value">${{ $total }}</span>
