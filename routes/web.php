@@ -78,7 +78,8 @@ Route::middleware('auth')->group(function () {
                 Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
                 Route::get( '/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
             });
-            Route::get('/order', [OrderController::class, 'index']);
+            Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
+            Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
     });
 });
 require __DIR__ . '/auth.php';
