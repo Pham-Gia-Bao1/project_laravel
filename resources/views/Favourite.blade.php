@@ -124,6 +124,22 @@
                                     </a>
                                 </div>
 
+                                <input type="hidden" value="[]" class="all_value_checked" name="favorite_product">
+                                <script>
+                                    // JavaScript
+                                    const checkboxes = document.querySelectorAll('.checkbox');
+                                    const inputText = document.querySelector('.all_value_checked');
+
+                                   checkboxes.forEach(checkbox => {
+                                        checkbox.addEventListener('change', function() {
+                                            const checkedValues = Array.from(checkboxes)
+                                                .filter(checkbox => checkbox.checked)
+                                                .map(checkbox => checkbox.value);
+
+                                            inputText.value = JSON.stringify(checkedValues);
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
