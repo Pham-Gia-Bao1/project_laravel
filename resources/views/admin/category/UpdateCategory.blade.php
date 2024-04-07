@@ -64,11 +64,11 @@
                 <h1>Dashboard</h1>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="#">Dashboard</a>
+                        <a class="active" href="{{ route('admin') }}">Dashboard</a>
                     </li>
                     <li><i class='bx bx-chevron-right' ></i></li>
                     <li>
-                        <a class="active" href="#">categories</a>
+                        <a class="active" href="{{ route('admin.categories') }}">categories</a>
                     </li>
                     <li>
                         <i class='bx bx-chevron-right' ></i>

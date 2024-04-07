@@ -10,7 +10,7 @@ class CoffeFactory
         $faker = \Faker\Factory::create(); // Add this line to create an instance of Faker
         $floatPart = $faker->randomFloat(2, 1, 10);
         $integerPart = $faker->numberBetween(100, 999);
-        
+
 
         //        create random data
         return [

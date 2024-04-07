@@ -13,7 +13,9 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductControlller;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,36 +37,65 @@ use App\Http\Middleware\Authenticate;
 Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('profile_edit', [ProfileController::class, 'get_info_user'])->name('profile.edit'); // Đặt tên đặc biệt cho route
-    Route::get('create_card', function () {
-        return view('profile.Add-new-card');
-    });
-    Route::post('create_card', [ProfileController::class, 'create_card']);
-    Route::get('profile', function () {
-        return view('profile.Wallet');
-    })->name('Profile');
+    Route::middleware('check.user.status')->group(function () {
+        // Các route cần kiểm tra trạng thái của người dùng
 
-    Route::get('/favourite/{product}', [HomeController::class, 'favorite'])->name('Favorite');
+        Route::get('profile_edit', [ProfileController::class, 'get_info_user'])->name('profile.edit'); // Đặt tên đặc biệt cho route
+        Route::get('create_card', function () {
+            return view('profile.Add-new-card');
+        });
+        Route::post('create_card', [ProfileController::class, 'create_card']);
+        Route::get('profile', function () {
+            return view('profile.Wallet');
+        })->name('Profile');
 
+        Route::get('shipping', [ShippingController::class, 'index'])->name('Shipping');
 
-    Route::get('/favouriteList', [HomeController::class, 'viewAllFavoriteList'])->name('FavoriteList');
+        Route::get('/favourite/{product}', [FavoriteController::class, 'favorite'])->name('Favorite');
+        Route::get('/favouriteList', [FavoriteController::class, 'viewAllFavoriteList'])->name('FavoriteList');
+        Route::get('/deleteFavoriteProduct/{id}', [FavoriteController::class, 'removeFromFavorites'])->name('deleteFavoriteList');
 
-    Route::get('/deleteFavoriteProduct/{id}', [HomeController::class, 'removeFromFavorites'])->name('deleteFavoriteList');
+        Route::post('profile', [ProfileController::class, 'edit_profile'])->name('Profile');
 
-    Route::post('profile',[ProfileController::class, 'edit_profile'])->name('Profile');
+        Route::get('changeAvatar', function () {
+            return view('profile.Edit_avatar');
+        })->name('changeAvatar');
 
-    Route::get('changeAvatar', function () {
-        return view('profile.Edit_avatar');
-    })->name('changeAvatar');
+        Route::post('changeAvatar', [ProfileController::class, 'changeAvatar'])->name('changeAvatar');
+        Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
+        Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
+        Route::get('checkout', [CheckoutController::class, 'index'])->name('CheckOut');
+        Route::get('AddToCart', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
+        Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
 
-    Route::post('changeAvatar', [ProfileController::class, 'changeAvatar'])->name('changeAvatar');
-    Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
-    Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
+        Route::middleware('check.user.role')->group(function () {
 
-    Route::prefix('/admin')->group(function(){
-            Route::get('/', [HomeAdminController::class,'index'])->name('admin');
-            Route::prefix('/categories')->group(function(){
+            Route::prefix('/admin')->group(function () {
+                Route::get('/', [HomeAdminController::class, 'index'])->name('admin');
+                Route::prefix('/categories')->group(function () {
 
+                    Route::get('/', [CategoriesAdminController::class, 'index'])->name('admin.categories');
+                    Route::get('/create', [CategoriesAdminController::class, 'create'])->name('admin.categories.create');
+                    Route::get('/update/{id}', [CategoriesAdminController::class, 'update'])->name('admin.categories.update');
+                    Route::get('/delete', [CategoriesAdminController::class, 'delete'])->name('admin.categories.delete');
+                });
+                Route::prefix('/products')->group(function () {
+                    Route::get('/', [ProductControlller::class, 'index'])->name('admin.products');
+                    Route::get('/create', [ProductControlller::class, 'create'])->name('admin.product.create');
+                    Route::post('/create', [ProductControlller::class, 'store'])->name('admin.product.store');
+                    Route::get('/update/{id}', [ProductControlller::class, 'edit'])->name('admin.product.edit');
+                    Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
+                    Route::get('/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
+                });
+
+                Route::prefix('/users')->group(function () {
+                    Route::get('/', [UserController::class, 'index'])->name('admin.users');
+                    Route::get('/create', [UserController::class, 'create'])->name('admin.users.create');
+                    Route::post('/create', [UserController::class, 'store'])->name('admin.user.store');
+                    Route::get('/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
+                });
+            });
+        });
                 Route::get('/', [CategoriesAdminController::class,'index'])->name('admin.categories');
                 Route::get('/create', [CategoriesAdminController::class,'create'])->name('admin.categories.create');
                 Route::get('/update/{id}',[CategoriesAdminController::class,'update'])->name('admin.categories.update');
@@ -81,23 +112,27 @@ Route::middleware('auth')->group(function () {
             Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
             Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
     });
-});
+
+
+
+
 require __DIR__ . '/auth.php';
-Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
-Route::get('checkout',[CheckoutController::class,'index'])->name('CheckOut');
-Route::get('AddToCart/{id}', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
-Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
+Route::get('/', [HomeController::class, 'index']);
 Route::get('forgot-password', function () {
     return view('ResetPassword');
 })->name('ResetPassword');
+Route::get('ProductDetail', [DetailCoffeController::class, 'show'])->name('ProductDetail');
 Route::get('resetpassworded', function () {
     return view('ResetPasswordEmailed');
 })->name('ResetPasswordEmailed');
-Route::get('shipping', function () {
-    return view('Shipping');
-})->name('Shipping');
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
 Route::get('login/facebook', [LoginController::class, 'redirectToFacebook']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
+Route::get('/blocked', function () {
+    return view('BlockedPage');
+})->name('BlockedPage');
+
+Route::get('/test', function () {
+    return view('components.side_bar');
+});

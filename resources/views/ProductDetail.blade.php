@@ -1,57 +1,74 @@
 @extends('Layout.layout')
 @section('content')
+@include('components.notification')
 <style>
-    .alert-success, .alert-error{
-        width: 20%;
-        position: absolute;
-        right: 0;
-        padding: 20px;
-        border-radius: 5px;
-        color: white;
-        opacity: 0.7;
-        transition: opacity 0.3s ease; /* Thêm transition cho hiệu ứng mờ */
+    .cart-item__input_quantity{
+         margin: 20px 0 0 0 ;
     }
-    .alert-success{
-        background-color: green;
-    }
-    .alert-error{
-        background-color: red;
-    }
-
 </style>
-
-<div class="notification" id="notification">
-    @if (session('success'))
-    <p class="alert-success">
-        {{ session('success')  }}
-    </p>
-    @elseif(session('error'))
-    <p class="alert-error">
-        {{ session('error')  }}
-    </p>
-    @elseif(session('info'))
-    <p class="alert-error">
-        {{ session('info')  }}
-    </p>
-    @endif
-</div>
 <script>
-    setTimeout(function(){
-            document.getElementById('notification').style.display='none';
-        },3000);
+  document.addEventListener("DOMContentLoaded", function() {
+    var quantityInput = document.querySelector('.quantity_coffee');
+    var priceInput = document.getElementById('check_price');
+    var totalPriceElement = document.getElementById('price');
+    var discount = document.getElementById('discount').value;
+    var total = document.getElementById('total');
+
+    console.log(discount)
+
+    // Function to calculate total price
+    function calculateTotalPrice() {
+        var quantity = parseInt(quantityInput.value);
+        var price = parseFloat(priceInput.value);
+        var totalPrice = quantity * price;
+        totalPriceElement.textContent = totalPrice.toFixed(2);
+         // Update the total price in the DOM
+         let endDisCount = totalPrice - (totalPrice * (discount / 100));
+         console.log(endDisCount)
+         total.textContent = endDisCount.toFixed(2);
+         document.getElementById('total_input').value = endDisCount.toFixed(2);
+    }
+
+    // Initial calculation
+    calculateTotalPrice();
+
+    // Event listeners for quantity change
+    quantityInput.addEventListener('change', function() {
+        calculateTotalPrice();
+    });
+
+    // Event listeners for decrease and increase buttons
+    var minusButton = document.querySelector('.minus_btn');
+    var plusButton = document.querySelector('.plus_btn');
+
+    minusButton.addEventListener('click', function() {
+        decreaseQuantity();
+        calculateTotalPrice();
+    });
+
+    plusButton.addEventListener('click', function() {
+        increaseQuantity();
+        calculateTotalPrice();
+    });
+
+    function decreaseQuantity() {
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    }
+
+    function increaseQuantity() {
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+    }
+});
+
 </script>
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->
-        <div class="product-container">
-            <div class="search-bar d-none d-md-flex">
-                <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
-                <button class="search-bar__submit">
-                    <img src="./assets/icons/search.svg" alt="" class="search-bar__icon icon" />
-                </button>
-            </div>
-        </div>
-
+        @include('components.search_small_screen')
         <!-- Breadcrumbs -->
         <div class="product-container">
             <ul class="breadcrumbs">
@@ -111,7 +128,7 @@
                     </div>
                 </div>
                 <div class="col-7 col-xl-6 col-lg-12">
-                    <form action="" class="form">
+                    <form action="{{ route('AddToCart') }}" class="form">
                         <section class="prod-info">
                             <h1 class="prod-info__heading">
                                 {{$item->name}}
@@ -130,6 +147,17 @@
                                         </div>
                                     </div>
 
+                                    <div class="cart-item__input cart-item__input_quantity">
+
+                                        <p class="cart-item__input-btn minus_btn">
+                                            <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                        </p>
+                                        <input name="quantity" type="text" style="width:2rem" class="quantity_coffee" value="1" id="quantity">
+                                        <p class="cart-item__input-btn plus_btn">
+                                            <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                        </p>
+
+                                </div>
                                 </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
@@ -166,29 +194,35 @@
                                         </div>
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
-                                                <span class="prod-info__price">${{$item->price}}</span>
-                                                <span class="prod-info__tax">{{$item->discount}}%</span>
+                                                <input type="hidden" id="check_price" value="{{ $item->price }}">
+                                                <span id="price" class="prod-info__price">${{$item->price}}</span>
+                                                <span  class="prod-info__tax">{{$item->discount}}%</span>
+                                                <input type="hidden" id="discount" value="{{$item->discount}}" name="">
                                             </div>
-                                            <p class="prod-info__total-price">$</p>
+
+                                            <p class="prod-info__total-price" id="total"></p>
+                                            <input type="hidden" name="total" value="" id="total_input">
+                                            <input type="hidden" name="product_id" value="{{ $item->id }}">
                                             <script>
                                                 // Lấy các phần tử cần thiết
                                                 var priceElement = document.querySelector('.prod-info__price');
+                                                console.log(priceElement.innerHTML);
                                                 var taxElement = document.querySelector('.prod-info__tax');
                                                 var totalPriceElement = document.querySelector('.prod-info__total-price');
-                                            
+
                                                 // Lấy giá và thuế từ các phần tử và chuyển đổi thành số
                                                 var price = parseFloat(priceElement.textContent.replace('$', ''));
                                                 var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
-                                            
-                                                // Tính toán giá cuối cùng
-                                                var totalPrice = price-(price * (taxPercentage / 100));
-                                            
+
+                                              // Tính toán giá cuối cùng
+                                                var totalPrice = price - (price * (taxPercentage / 100));
+
                                                 // Hiển thị giá cuối cùng trong phần tử
                                                 totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
                                             </script>
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
-                                                    <x-button link="{{route('AddToCart',['id' => $item->id])}}" content="Add to card" border_radius="rounded" ></x-button>    
+                                                   <button type="submit" class="btn" style="background-color: #ffb700">Add to cart</button>
                                                     <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"

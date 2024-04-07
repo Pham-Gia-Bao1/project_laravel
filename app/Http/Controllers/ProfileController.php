@@ -50,71 +50,45 @@ class ProfileController extends Controller
             $user->update($info);
 
             // You might want to add a success message here or handle success in some way
-            return redirect()->route('Profile')->with('message', 'Card created successfully.');
+            return redirect()->route('Profile')->with('success', 'Card created successfully.');
                 }
         return $this->index();
     }
 
     public function create_card(Request $request)
-    {
-        $validationRules = [
-            'first_name' => 'required|min:5',
-            'last_name' => 'required|min:5',
-            'card_number' => 'required|numeric|digits:16',
-            'expiration_date' => 'required|date',
-            'cvv' => 'required|numeric|digits:3',
-            'phone_number' => 'required|numeric|digits:10'
-        ];
+{
+    // Define validation rules
+    $validationRules = [
+        'first_name' => 'required|min:5',
+        'last_name' => 'required|min:5',
+        'card_number' => 'required|numeric|digits:16',
+        'expiration_date' => 'required|date',
+        'cvv' => 'required|numeric|digits:3',
+        'phone_number' => 'required|numeric|digits:10'
+    ];
 
-        // Validate the request
-        $this->validate($request, $validationRules);
+    // Validate the request
+    $validatedData = $request->validate($validationRules);
 
-        // Process the request after successful validation
-        $info = $request->only('user_id', 'first_name', 'last_name', 'card_number', 'expiration_date', 'cvv', 'phone_number');
-        $info['set_default_card'] = $request->input('set_default_card', '0');
+    // Process the request after successful validation
+    $info = $request->only('user_id', 'first_name', 'last_name', 'card_number', 'expiration_date', 'cvv', 'phone_number');
+    $info['set_default_card'] = $request->input('set_default_card', '0');
 
-        // Create a new Card instance and set the attributes
-        $card = new Card($info);
-        // dd($card);
+    // Create a new Card instance and set the attributes
+    $card = new Card($info);
 
-        // Save the card to the database
-       $result = $card->save();
+    // Save the card to the database
+    $result = $card->save();
 
-        if($result){
-            return $this->index()->with('message', 'Card created successfully.');
-        }
-        return redirect()->back()->with('message', 'Card created unsuccessfully.');
+    // Check if card was saved successfully
+    if ($result) {
+        return $this->index()->with('success', 'Card created successfully.');
+    } else {
+        return redirect()->back()->with('error', 'Failed to create card.');
     }
+}
 
-    /**
-     * Display the user's profile form.
-     */
-    // public function edit(Request $request): View
-    // {
-    //     return view('profile.edit', [
-    //         'user' => $request->user(),
-    //     ]);
-    // }
 
-    /**
-     * Update the user's profile information.
-     */
-    // public function update(ProfileUpdateRequest $request): RedirectResponse
-    // {
-    //     $request->user()->fill($request->validated());
-
-    //     if ($request->user()->isDirty('email')) {
-    //         $request->user()->email_verified_at = null;
-    //     }
-
-    //     $request->user()->save();
-
-    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    // }
-
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
@@ -143,16 +117,16 @@ class ProfileController extends Controller
                     $avatarPath = $avatarFile->storeAs('assets/img/avatar', $fileName);
                     $avatarFile->move(public_path('assets/img/avatar'), $fileName);
                     if (!$avatarPath) {
-                        return redirect()->back()->with('message', 'Không thể lưu ảnh.');
+                        return redirect()->back()->with('error', 'Không thể lưu ảnh.');
                     }
                     $user->img  = str_replace('assets/img/avatar/', '', $avatarPath);
                     $user->save();
-                    return redirect()->back()->with('message', 'Avatar đã được thay đổi thành công.');
+                    return redirect()->back()->with('success', 'Avatar đã được thay đổi thành công.');
                 } else {
-                    return redirect()->back()->with('message', 'Tệp tin ảnh không hợp lệ.');
+                    return redirect()->back()->with('success', 'Tệp tin ảnh không hợp lệ.');
                 }
             } else {
-                return redirect()->back()->with('message', 'Bạn chưa chọn ảnh mới.');
+                return redirect()->back()->with('error', 'Bạn chưa chọn ảnh mới.');
             }
         } else {
             return view('profile.Edit_avatar');

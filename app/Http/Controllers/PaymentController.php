@@ -80,6 +80,7 @@ class PaymentController extends Controller
             header('Location: ' . $vnp_Url);
             die();
         }
+        // return redirect()->route('/');
     }
 
 }

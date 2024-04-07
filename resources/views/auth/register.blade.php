@@ -76,6 +76,7 @@
                             <img src="./assets/icons/form-error.svg" alt="" class="form__input-icon-error" />
                             </div>
                             <p class="form__error">Name is not in correct format</p>
+                            
                         </div>
                         <div class="form__group">
                             <div class="form__text-input">

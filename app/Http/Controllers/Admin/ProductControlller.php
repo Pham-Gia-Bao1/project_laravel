@@ -55,9 +55,9 @@ class ProductControlller extends Controller
         $coffee->weight = $request->get('weight');
         $coffee->price = $request->get('price');
 
-        
         $coffee->reviews = $request->get('reviews');
         $coffee->rating = $request->get('rating');
+        $coffee->discount = $request->get('discount');
         $coffee->quantity = $request->get('quantity');
         $coffee->coffe_shop_id = $request->get('coffee_shop_id');
         $coffee->category_id = $request->get('category_id');
@@ -171,5 +171,5 @@ class ProductControlller extends Controller
             File::delete($image_path);
         }
         $product->delete();
-        return redirect()->route('admin.products')->with('success', 'Delete sucessfully!'); 
+        return redirect()->route('admin.products')->with('success', 'Delete sucessfully!');
 } }

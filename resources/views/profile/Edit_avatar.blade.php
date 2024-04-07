@@ -64,22 +64,9 @@ form{
     width: 100%;
 }
 
-    .notification{
-        width: 30%;
-        background-color: rgb(23, 225, 60);
-        position: absolute;
-        right: 10px;
-        padding: 30px;
-        display: block;
-        position: fixed;
-        border-radius: 5px;
-    }
 </style>
-<script>
-   setTimeout(function(){
-       document.getElementById('notification').style.display = 'none';
-   },4000)
-</script>
+@include('components.notification')
+
 <a href="profile">
     <img
         src="./assets/icons/arrow-left.svg"
@@ -123,9 +110,7 @@ form{
         }
     });
 </script>
-@if (session('message'))
-    <h1 class="notification" id="notification">{{session('message')}}</h1>
-@endif
+
 @endsection
 
 

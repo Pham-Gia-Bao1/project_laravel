@@ -2,27 +2,11 @@
 @extends('profile.Profile')
 @section('content-profile')
 @section('profile-css')
-       <style>
-            .notification{
-                background-color: rgb(23, 225, 60);
-                position: absolute;
-                right: 10px;
-                padding: 30px;
-                display: block;
-                position: fixed;
-                border-radius: 5px;
-            }
-       </style>
-       <script>
-           setTimeout(function(){
-               document.getElementById('notification').style.display = 'none';
-           },3000)
-       </script>
+
+
 @endsection
 
-@if (isset($message))
-    <h1 class="notification" id="notification" >{{$message}}</h1>
-@endif
+@include('components.notification')
 
 <div class="col-12 content-profile ">
 

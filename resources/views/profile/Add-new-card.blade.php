@@ -1,5 +1,6 @@
 @extends('profile.Profile')
 @section('content-profile')
+@include('components.notification')
 
 <div class="col-12 col-xl-12 col-lg-12">
     <div class="cart-info">
