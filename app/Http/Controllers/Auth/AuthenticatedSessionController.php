@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,16 +27,18 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        $role = 'home';
         $email = $request->email;
-        if($email == 'phamthithieu@gmail.com'){
-            $role = 'admin';
+        $user = User::where('email', $email)->first(); // Assuming email is unique
+
+        if($user && $user->role == 'admin'){ // Assuming 'role' is a field in your User model
+            $page = 'admin'; // Change this to your admin page route name
+        } else {
+            $page = 'home';
         }
 
-        return redirect()->route($role);
+        return redirect()->route($page);
     }
 
     /**
