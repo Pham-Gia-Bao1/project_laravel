@@ -41,7 +41,7 @@
                     <h3>Product List</h3>
                 </div>
                 <a href="{{route('admin.product.create')}}">
-                    <button type="button" class="btn btn-primary mb-4"> + </button>
+                    <button type="button" class="btn btn-primary mb-4"> Create new product </button>
                 </a>
                 <table>
                     <thead>

@@ -47,7 +47,7 @@
                             <th style="padding-right: 10px">Email</th>
                             <th style="padding-right: 10px">Phone number</th>
                             <th>Name product</th>
-                            <th style="padding-right: 10px">Quantity</th>
+                            {{-- <th style="padding-right: 10px">Quantity</th> --}}
                             <th>Total price</th>
                             <th style="padding-right: 10px">Order date</th>
                             <th style="padding-right: 10px; text-align: center">Status</th>
@@ -60,8 +60,11 @@
                             <td style="padding-right: 10px; width:10px">{{$order->name}}</td>
                             <td style="padding-right: 10px" class='email'>{{$order->email}}</td>
                             <td style="padding-right: 10px">{{$order->phone_number}}</td>
-                            <td>{{$order->product_name}}</td>
-                            <td class='reviews' style="padding-right: 10px">{{$order->product_quantity}}</td>
+                            <td>
+                                 @foreach ($order->products as $product)
+                                    <p>Product name: {{ $product->product_name }} - Quantity: {{ $product->product_quantity }}</p>
+                                @endforeach
+                            </td>
                             <td style="padding-right: 10px">{{$order->total_amount}}</td>
                             <td style="width:10px; padding-right: 20px">{{$order->order_date}}</td>
                             <td>
