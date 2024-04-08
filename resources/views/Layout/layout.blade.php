@@ -23,6 +23,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="./assets/css/main.css" />
+        <link rel="stylesheet" href="./assets/css/detail.css"/>
 
         <!-- Scripts -->
         <script src="./assets/js/scripts.js"></script>

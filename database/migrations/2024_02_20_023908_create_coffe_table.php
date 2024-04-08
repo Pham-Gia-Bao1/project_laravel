@@ -13,11 +13,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('size');
             $table->string('weight');
-            $table->decimal('price', 8, 2);
+            $table->decimal('price', 8, 3);
             $table->json('images')->nullable(); // Thêm cột để lưu trữ đường dẫn ảnh
             $table->string('reviews');
             $table->string('rating');
             $table->string('quantity');
+            $table->integer('discount');
             $table->unsignedBigInteger('coffe_shop_id');
             // Thêm các trường khác nếu cần thiết
             $table->unsignedBigInteger('category_id'); // Thêm trường category

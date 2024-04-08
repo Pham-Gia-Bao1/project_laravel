@@ -1,26 +1,74 @@
 @extends('Layout.layout')
 @section('content')
-@if (Session::has('success'))
-    <div class="alert alert-success text-center" style="width: 50%; margin: 0 auto; text-align: center;background-color:green !important,padding:20px;color:white">
-        {{ Session('success') }}
-    </div>
-@elseif(Session::has('info'))
-    <div class="alert alert-info" style="width: 50%; margin: 0 auto; text-align: center;background-color:green;padding:20px;color:white">
-        {{ Session('info') }}
-    </div>
-@endif
+@include('components.notification')
+<style>
+    .cart-item__input_quantity{
+         margin: 20px 0 0 0 ;
+    }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var quantityInput = document.querySelector('.quantity_coffee');
+    var priceInput = document.getElementById('check_price');
+    var totalPriceElement = document.getElementById('price');
+    var discount = document.getElementById('discount').value;
+    var total = document.getElementById('total');
+
+    console.log(discount)
+
+    // Function to calculate total price
+    function calculateTotalPrice() {
+        var quantity = parseInt(quantityInput.value);
+        var price = parseFloat(priceInput.value);
+        var totalPrice = quantity * price;
+        totalPriceElement.textContent = totalPrice.toFixed(2);
+         // Update the total price in the DOM
+         let endDisCount = totalPrice - (totalPrice * (discount / 100));
+         console.log(endDisCount)
+         total.textContent = endDisCount.toFixed(2);
+         document.getElementById('total_input').value = endDisCount.toFixed(2);
+    }
+
+    // Initial calculation
+    calculateTotalPrice();
+
+    // Event listeners for quantity change
+    quantityInput.addEventListener('change', function() {
+        calculateTotalPrice();
+    });
+
+    // Event listeners for decrease and increase buttons
+    var minusButton = document.querySelector('.minus_btn');
+    var plusButton = document.querySelector('.plus_btn');
+
+    minusButton.addEventListener('click', function() {
+        decreaseQuantity();
+        calculateTotalPrice();
+    });
+
+    plusButton.addEventListener('click', function() {
+        increaseQuantity();
+        calculateTotalPrice();
+    });
+
+    function decreaseQuantity() {
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    }
+
+    function increaseQuantity() {
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+    }
+});
+
+</script>
 <main class="product-page">
     <div class="container">
         <!-- Search bar -->
-        <div class="product-container">
-            <div class="search-bar d-none d-md-flex">
-                <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
-                <button class="search-bar__submit">
-                    <img src="./assets/icons/search.svg" alt="" class="search-bar__icon icon" />
-                </button>
-            </div>
-        </div>
-
+        @include('components.search_small_screen')
         <!-- Breadcrumbs -->
         <div class="product-container">
             <ul class="breadcrumbs">
@@ -80,7 +128,7 @@
                     </div>
                 </div>
                 <div class="col-7 col-xl-6 col-lg-12">
-                    <form action="" class="form">
+                    <form action="{{ route('AddToCart') }}" class="form">
                         <section class="prod-info">
                             <h1 class="prod-info__heading">
                                 {{$item->name}}
@@ -93,25 +141,23 @@
                                     </div>
                                     <label for="" class="form__label prod-info__label">Size/Weight</label>
                                     <div class="filter__form-group">
-                                        <div class="form__select-wrap">
-
-                                                <select style="--width: 140px" class=" form__select">
-                                                    <option  selected>200</option>
-                                                    <option value="300">300</option>
-                                                    <option value="400">400</option>
-                                                    <option value="500">500</option>
-                                                  </select>
-                                                <div class=" form__select">Gam</div>
-                                        </div>
-                                    </div>
-                                    <div class="filter__form-group">
-                                        <div class="form__tags">
-                                            <button class="form__tag prod-info__tag">Small</button>
-                                            <button class="form__tag prod-info__tag">Medium</button>
-                                            <button class="form__tag prod-info__tag">Large</button>
+                                        <div class="form__select-wrap pr-5 p-3">
+                                            <input type="text" disabled class="" name="weight" class="" value="{{ $item->weight }}| Gram">
+                                            <input class="mr-5 font-bold" value="{{ $item->size }}"/>
                                         </div>
                                     </div>
 
+                                    <div class="cart-item__input cart-item__input_quantity">
+
+                                        <p class="cart-item__input-btn minus_btn">
+                                            <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                        </p>
+                                        <input name="quantity" type="text" style="width:2rem" class="quantity_coffee" value="1" id="quantity">
+                                        <p class="cart-item__input-btn plus_btn">
+                                            <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                        </p>
+
+                                </div>
                                 </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
@@ -146,18 +192,38 @@
                                             </div>
 
                                         </div>
-                                        <div class='row'>
-                                            <div class="prod-info__card">
-                                                <div class="prod-info__row">
-                                                    <span class="prod-info__price">${{$item->price}}</span>
-                                                    <span class="prod-info__tax">10%</span>
-                                                </div>
-                                            <p class="prod-info__total-price">$540.00</p>
+                                        <div class="prod-info__card">
+                                            <div class="prod-info__row">
+                                                <input type="hidden" id="check_price" value="{{ $item->price }}">
+                                                <span id="price" class="prod-info__price">${{$item->price}}</span>
+                                                <span  class="prod-info__tax">{{$item->discount}}%</span>
+                                                <input type="hidden" id="discount" value="{{$item->discount}}" name="">
+                                            </div>
+
+                                            <p class="prod-info__total-price" id="total"></p>
+                                            <input type="hidden" name="total" value="" id="total_input">
+                                            <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                            <script>
+                                                // Lấy các phần tử cần thiết
+                                                var priceElement = document.querySelector('.prod-info__price');
+                                                console.log(priceElement.innerHTML);
+                                                var taxElement = document.querySelector('.prod-info__tax');
+                                                var totalPriceElement = document.querySelector('.prod-info__total-price');
+
+                                                // Lấy giá và thuế từ các phần tử và chuyển đổi thành số
+                                                var price = parseFloat(priceElement.textContent.replace('$', ''));
+                                                var taxPercentage = parseFloat(taxElement.textContent.replace('%', ''));
+
+                                              // Tính toán giá cuối cùng
+                                                var totalPrice = price - (price * (taxPercentage / 100));
+
+                                                // Hiển thị giá cuối cùng trong phần tử
+                                                totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
+                                            </script>
                                             <div class="prod-info__row">
                                                 {{-- button coomponent --}}
-                                                <x-button content="Add to card" border_radius="rounded" ></x-button>
-
-                                                 <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
+                                                   <button type="submit" class="btn" style="background-color: #ffb700">Add to cart</button>
+                                                    <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
                                                     <img
                                                         src="./assets/icons/heart.svg"
                                                         alt=""

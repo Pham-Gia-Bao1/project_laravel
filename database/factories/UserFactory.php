@@ -28,6 +28,8 @@ class UserFactory extends Factory
             'address' => fake()->address,
             'phone_number' => fake()->phoneNumber,
             'img' => 'avatar-'. fake()->numberBetween(1, 10) .'.png',
+            'status'=>fake()->randomElement(['active', 'inactive']),
+            'role' =>fake()->randomElement(['admin', 'user']),
             'created_at' => now(),
             'updated_at' => now(),
         ];

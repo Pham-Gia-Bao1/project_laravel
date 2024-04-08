@@ -5,14 +5,8 @@
     <main class="checkout-page">
         <div class="container">
             <!-- Search bar -->
-            <div class="checkout-container">
-                <div class="search-bar d-none d-md-flex">
-                    <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
-                    <button class="search-bar__submit">
-                        <img src="./assets/icons/search.svg" alt="" class="search-bar__icon icon" />
-                    </button>
-                </div>
-            </div>
+            @include('components.search_small_screen')
+
 
             <!-- Breadcrumbs -->
             <div class="checkout-container">

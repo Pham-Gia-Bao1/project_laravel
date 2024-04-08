@@ -41,6 +41,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone_number' => '',
+            'status'=>'active',
+            'role'=>'user',
             'img' => 'avatar-9.png',
         ]);
 
@@ -64,6 +66,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone_number' => '',
+            'status'=>'active',
+            'role'=>'user',
             'img' => 'avatar-9.png',
         ]);
 
