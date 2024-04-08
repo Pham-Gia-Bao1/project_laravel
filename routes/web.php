@@ -5,14 +5,13 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\CarController;
-use App\Http\Controllers;
 use App\Http\Controllers\Admin\CategoriesAdminController;
 use App\Http\Controllers\DetailCoffeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\HomeAdminController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductControlller;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PaymentController;
@@ -97,8 +96,23 @@ Route::middleware('auth')->group(function () {
                 });
             });
         });
+                Route::get('/', [CategoriesAdminController::class,'index'])->name('admin.categories');
+                Route::get('/create', [CategoriesAdminController::class,'create'])->name('admin.categories.create');
+                Route::get('/update/{id}',[CategoriesAdminController::class,'update'])->name('admin.categories.update');
+                Route::get('/delete',[CategoriesAdminController::class,'delete'])->name('admin.categories.delete');
+            });
+            Route::prefix('/products')->group(function(){
+                Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
+                Route::get('/create', [ProductControlller::class,'create'])->name('admin.product.create');
+                Route::post('/create', [ProductControlller::class, 'store'])->name('admin.product.store');
+                Route::get('/update/{id}', [ProductControlller::class, 'edit'])->name('admin.product.edit');
+                Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
+                Route::get( '/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
+            });
+            Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
+            Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
     });
-});
+
 
 
 
