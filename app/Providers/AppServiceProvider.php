@@ -9,6 +9,7 @@ use App\View\Components;
 use App\View\Components\button;
 use App\View\Components\card_product;
 use App\Models\Shopping_cart;
+use App\Models\Banners;
 use App\Models\User;
 use App\Models\CoffeModel;
 use App\Models\FavoriteList;
@@ -38,7 +39,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('card_product', card_product::class);
         Blade::component('card_product_top', card_product_top::class);
         Blade::component('button', button::class);
-
         View::composer(['Layout.subNavBar','Shipping','Layout.header'], function ($view) {
             $user = Auth::user();
             if(is_null($user)){
@@ -83,5 +83,7 @@ class AppServiceProvider extends ServiceProvider
                 'all_products_in_checkout' => $cartItems
             ]);
         });
+        $banner = Banners::first(); // Fetch the first banner from the database
+        View::share('banner', $banner);
     }
 }

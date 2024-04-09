@@ -54,7 +54,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="{{ route('admin.banner') }}">
 					<i class='bx bxs-message-dots' ></i>
 					<span class="text">Banner</span>
 				</a>
