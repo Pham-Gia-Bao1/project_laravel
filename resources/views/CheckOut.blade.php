@@ -47,7 +47,7 @@
                         <div class="cart-info__list">
                             <?php $total = 0 ?>
                            @foreach ($products as $product)
-                                <?php $total += $product->total_price ?>
+                                <?php $total += $product->total_price*$product->quantity_categories ?>
 
                                 <!-- Cart item 1 -->
                                 <article class="cart-item">
@@ -84,17 +84,16 @@
                                                 <p class="cart-item__total-price"></p>
                                                 <p class="prod-info__tax" style="float:right;width: 25%; display:none"></p>
                                             </div>
+                                            <p class="cart-item__total-price">${{ $product->total_price * $product->quantity_categories}}</p>
                                             <div class="cart-item__ctrl">
-                                                <button class="cart-item__ctrl-btn">
-                                                    <img src="./assets/icons/heart-2.svg" alt="" />
-                                                    Save
-                                                </button>
+
                                                 <form action="{{ route('deleteItem', ['id' => $product->id]) }}" method="GET">
                                                     <button type="submit" class="cart-item__ctrl-btn">
                                                         <img src="./assets/icons/trash.svg" alt="" />
                                                         Delete
                                                     </button>
                                                 </form>
+
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +135,7 @@
                         <div class="cart-info__separate"></div>
                         <div class="cart-info__row">
                             <span>Estimated Total</span>
-                            <span class="estimated_total">{{ $total + 10.00}}</span>
+                            <span class="estimated_total">${{ $total + 10.00}}</span>
                         </div>
                         <x-button content="Continue to checkout" border_radius="" link="shipping" ></x-button>
                     </div>
