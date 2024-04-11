@@ -1,6 +1,8 @@
 <?php
 
 // use App\Http\Controllers\LoginController;
+
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -108,6 +110,12 @@ Route::middleware('auth')->group(function () {
                 Route::get('/update/{id}', [ProductControlller::class, 'edit'])->name('admin.product.edit');
                 Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
                 Route::get( '/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
+            });
+            Route::prefix('/banner')->group(function(){
+                Route::get('/',[BannerController::class,'index'])->name('admin.banner');
+                Route::get('/update/{id}',[BannerController::class,'update'])->name('admin.banner.update');
+                Route::post('/update/{id}',[BannerController::class,'store'])->name('admin.banner.store');
+
             });
             Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
             Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
