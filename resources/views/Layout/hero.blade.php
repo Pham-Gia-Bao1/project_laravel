@@ -6,9 +6,10 @@
                     <picture>
                         <source
                             media="(max-width: 767.98px)"
-                            srcset="./assets/img/slideshow/item-1-md.png"
+                            srcset="./assets/img/slideshow/{{ $banner->image }}"
+                            
                         />
-                        <img src="./assets/img/slideshow/item-1.png" alt="" class="slideshow__img" />
+                        <img src="./assets/img/slideshow/{{ $banner->image }}" alt="" class="slideshow__img" />
                     </picture>
                 </a>
             </div>
