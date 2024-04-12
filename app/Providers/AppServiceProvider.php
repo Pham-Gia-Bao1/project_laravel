@@ -83,7 +83,9 @@ class AppServiceProvider extends ServiceProvider
                 'all_products_in_checkout' => $cartItems
             ]);
         });
-        $banner = Banners::first(); // Fetch the first banner from the database
-        View::share('banner', $banner);
+        View::composer('Layout.hero', function ($view) {
+            $banner = Banners::first();
+            $view->with('banner', $banner);
+        });
     }
 }

@@ -15,8 +15,8 @@ class BannerSeeder extends Seeder
      */
     public function run()
     {   
-        DB::table('banners')->insert([
-            'image'=>'image-1.png',
-        ]);
+        // DB::table('banners')->insert([
+        //     'image'=>'image-1.png',
+        // ]);
     }
 }

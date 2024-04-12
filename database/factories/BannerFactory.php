@@ -19,7 +19,7 @@ class BannerFactory extends Factory
     {
         $faker = \Faker\Factory::create();
         return [
-            'image' => 'item-1.png',
+            'image'=>'item-1.png',
         ];
     }
 }
