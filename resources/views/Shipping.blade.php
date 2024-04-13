@@ -2,6 +2,7 @@
     @section('content')
     @include('components.notification')
         <!-- MAIN -->
+        {{-- {{ dd($products)}} --}}
         <main class="checkout-page">
             <div class="container">
                 <!-- Search bar -->
@@ -108,7 +109,7 @@
                                 <div class="cart-info__list">
                                     <?php $total = 0 ?>
                                    @foreach ($products as $product)
-                                        <?php $total += $product->total_price*$product->quantity_categories ?>
+                                        <?php $total += $product->price*$product->quantity_categories ?>
 
                                         <!-- Cart item 1 -->
                                         <article class="cart-item">
@@ -142,10 +143,10 @@
                                                 </div>
                                                 <div class="cart-item__content-right">
                                                     <div class="sub_price">
-                                                        <p class="cart-item__total-price"></p>
+                                                        {{-- <p class="cart-item__total-price"></p> --}}
                                                         <p class="prod-info__tax" style="float:right;width: 25%; display:none"></p>
                                                     </div>
-                                                    <p class="cart-item__total-price">${{ $product->total_price * $product->quantity_categories}}</p>
+                                                    <p class="cart-item__total-price">${{ $product->quantity_categories*$product->price }}</p>
 
                                                     <div class="cart-item__ctrl">
 
