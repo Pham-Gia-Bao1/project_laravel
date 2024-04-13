@@ -97,22 +97,7 @@
                         </div>
                     </div>
                 </li>
-                {{-- <li class="navbar__item">
-                    <a href="{{ route('FavoriteList') }}" class="navbar__link">
-                        Favorite
-                        <span class="material-symbols-outlined">
-                            favorite
-                            </span>
-                    </a>
-                </li>
-                <li class="navbar__item">
-                    <a href="{{ route('CheckOut') }}" class="navbar__link">
-                        Shopping cart
-                        <span class="material-symbols-outlined">
-                            favorite
-                            </span>
-                    </a>
-                </li> --}}
+               
 
             </ul>
         </nav>

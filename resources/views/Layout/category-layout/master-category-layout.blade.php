@@ -56,11 +56,7 @@ justify-content: center;
 
 }
 .child ul li:hover{
-<<<<<<< HEAD
-    background: var(--secondary-color, #77DAE6);
-=======
     background: var(--secondary-color, #ffb700);
->>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
     cursor: pointer;
 }
 
@@ -70,8 +66,6 @@ height: 59.5px;
 flex-shrink: 0;
 }
 
-<<<<<<< HEAD
-=======
 .form__tags label{
      width:29%;
      display: flex;
@@ -81,7 +75,6 @@ flex-shrink: 0;
 .child-item1{
      width: 100%;
 }
->>>>>>> e5f8557848bde9a163d193e8a4de66a7bc039951
 </style>
 
 @if (isset($message))

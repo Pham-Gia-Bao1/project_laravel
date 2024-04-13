@@ -39,12 +39,13 @@
                     <h1 class="auth__heading">Reset your password</h1>
                     <p class="auth__desc">Enter your email and we'll send you a link to reset your password.</p>
                     <!-- <div class="auth__message message message--success">We have e-mailed your password reset link!</div> -->
-                    <form action="./reset-password-emailed.html" class="form auth__form auth__form-forgot">
+                    <form method="POST" action="{{ router('password.email')}}" class="form auth__form auth__form-forgot">
+                        @csrf
                         <div class="form__group">
                             <div class="form__text-input">
                                 <input
                                     type="email"
-                                    name=""
+                                    name="email"
                                     id=""
                                     placeholder="Email"
                                     class="form__input"
@@ -57,7 +58,9 @@
                             <p class="form__error">Email is not in correct format</p>
                         </div>
                         <div class="form__group auth__btn-group">
-                            <button class="btn btn--primary auth__btn form__submit-btn">Reset password</button>
+
+                                <button class="btn btn--primary auth__btn form__submit-btn">Reset password</button>
+
                         </div>
                     </form>
 

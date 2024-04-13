@@ -42,46 +42,52 @@ class FavoriteController extends Controller
                 ->select('coffe.*')
                 ->where('favorites.user_id', $user_id)
                 ->get();
-            if (isset($request->favorite_product)) {
-                $quantity = $request->get('quantity');
-                $total = $request->get('total');
-                $added_at = $currentTime = now()->format('Y-m-d H:i:s');
+                if (isset($request->favorite_product)) {
+                    $quantity = $request->get('quantity');
+                    $total = $request->get('total');
+                    $added_at = $currentTime = now()->format('Y-m-d H:i:s');
 
-                $item = json_decode($request->favorite_product);// id of favorite product
-                // dd($item);
+                    $productId = json_decode($request->favorite_product); // id of favorite product
 
-                    // Xử lý khi $request->favorite_product không phải là một mảng
-                    // Kiểm tra xem product_id đã tồn tại trong bảng shopping_cart chưa
+                    // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng hay chưa
                     $exists = DB::table('shopping_cart')
-                    ->where('user_id', $user_id)
-                        ->where('product_id', $item)
+                        ->where('user_id', $user_id)
+                        ->where('product_id', $productId)
                         ->exists();
 
                     if (!$exists) {
-                        // Nếu product_id chưa tồn tại, thêm mới
+                        // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
                         $result = DB::table('shopping_cart')->insert([
                             'user_id' => $user_id,
-                            'product_id' => $item,
+                            'product_id' => $productId,
                             'total' => $total,
                             'quantity' => $quantity,
                             'added_at' => $added_at
                         ]);
-                        return redirect()->back()->with('success','add to cart successfully');
-
+                        return redirect()->back()->with('success', 'Product added to cart successfully');
                     } else {
-                        $exit_id = DB::table('shopping_cart')->find($request->favorite_product);
-                        // Nếu product_id đã tồn tại, không làm gì
-                        return redirect()->back()->with('error',"$exit_id->id".' exited !');
-                    }
+                        // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+                        $existingCartItem = DB::table('shopping_cart')
+                            ->where('user_id', $user_id)
+                            ->where('product_id', $productId)
+                            ->first();
 
-            }
+                        if ($existingCartItem) {
+                            $newQuantity = $existingCartItem->quantity + $quantity;
+                            $result = DB::table('shopping_cart')
+                                ->where('id', $existingCartItem->id)
+                                ->update(['quantity' => $newQuantity]);
+                            return redirect()->back()->with('success', 'Product quantity updated in cart successfully');
+                        }
+                    }
+                }
+
 
 
             // Lấy số lượng sản phẩm yêu thích dựa trên user_id
             $favoriteCount = FavoriteList::where('user_id', $user_id)->count();
             return view('Favourite', compact('favoriteCount', 'favorites'));
         }
-
     }
 
 

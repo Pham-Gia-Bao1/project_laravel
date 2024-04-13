@@ -167,16 +167,17 @@
                         <a href="#!" class="user-menu__link">Settings</a>
                     </li>
                     <li class="user-menu__separate">
+                        
+                        <form id="logout_form" method="POST" action="{{ route('logout') }}">
+                            @csrf
 
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
+                            <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
 
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
 
                     </li>
                 </ul>

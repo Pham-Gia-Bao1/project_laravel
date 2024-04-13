@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\BannerFactory;
 use Database\Factories\CoffeShopFactory;
 use Illuminate\Support\Facades\DB;
 use Database\Factories\CardFactory;
@@ -44,6 +45,7 @@ class DatabaseSeeder extends Seeder
         $favoritesFactory = new FavoriteFactory();
         $ordersFactory = new OrderFactory();
         $categoryFactory = new CategoryFactory();
+        $bannerFactory = new BannerFactory();
 
         for ($i = 0; $i < 10; ++$i) {
             DB::table('users')->insert($userFactory->definition());
@@ -54,7 +56,8 @@ class DatabaseSeeder extends Seeder
             DB::table('coffee_shops')->insert($coffeShopFactory->definition());
             DB::table('orders')->insert($ordersFactory->definition());
             DB::table('categories')->insert($categoryFactory->definition());
-
+            
         }
+        DB::table('banners')->insert($bannerFactory->definition());
     }
 }
