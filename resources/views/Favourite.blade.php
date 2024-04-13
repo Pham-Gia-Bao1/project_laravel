@@ -121,7 +121,7 @@
                                             alt=""
                                         />
                                         Continue Shopping
-                                    </a>
+                                 </a>
                                 </div>
 
                                 <input type="hidden" value="[]" class="all_value_checked" name="favorite_product">

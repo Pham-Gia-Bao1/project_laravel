@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
         Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
         Route::get('checkout', [CheckoutController::class, 'index'])->name('CheckOut');
+        Route::get('checkoutRefesh', [CheckoutController::class, 'refreshProducts'])->name('checkoutRefesh');
         Route::get('AddToCart', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
         Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
 

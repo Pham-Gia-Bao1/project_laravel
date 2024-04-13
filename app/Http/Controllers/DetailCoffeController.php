@@ -94,7 +94,6 @@ class DetailCoffeController extends Controller
         //
     }
     public function AddToCart(Request $request){
-        // dd($request->total);
         $user = User::find(Auth::user()->id);
         $id = $request->product_id;
         $coffee = CoffeModel::find($id);
@@ -104,7 +103,8 @@ class DetailCoffeController extends Controller
                 ->where('product_id', $coffee->id)
                 ->first();
             if($existingCartItem!=null) {
-                return redirect()->route('ProductDetail', ['id' => $id])->with('error', 'The product already exists in the shopping cart');
+                $existingCartItem->quantity = $existingCartItem->quantity + $request->get('quantity');
+                $existingCartItem->save();
             } else {
                 $shopping_cart = new Shopping_cart();
                 $shopping_cart->user_id=$user->id;

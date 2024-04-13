@@ -20,13 +20,15 @@ class CategoryController extends Controller
         if (isset($request->box)) {
             if ($request->box !== 'all') {
                 $value = $request->input('box');
-                $dataQuery = $coffe->join('categories', 'categories.id','=','coffe.category_id')->where('categories.name','=',$value);
+                $dataQuery = $coffe->select('coffe.*')->join('categories', 'categories.id','=','coffe.category_id')->where('categories.name','=',$value);
+
                 if ($request->has('size')) {
                     $size = $request->input('size');
                     $dataQuery->where('size', '=', $size);
                 }
 
                 $data = $dataQuery->get();
+                // dd($data);
             }
         }
         $infor = $request->input('search');
