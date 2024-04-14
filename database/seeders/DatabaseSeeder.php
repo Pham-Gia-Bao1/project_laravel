@@ -58,6 +58,8 @@ class DatabaseSeeder extends Seeder
             DB::table('categories')->insert($categoryFactory->definition());
             
         }
-        DB::table('banners')->insert($bannerFactory->definition());
+        for($i = 0; $i < 7; ++$i){
+            DB::table('banners')->insert($bannerFactory->definition());
+        }
     }
 }

@@ -38,7 +38,7 @@
                     <li><i class='bx bx-chevron-right'></i></li>
 
                     <li>
-                        <a class="active" href="{{ route('admin.banner.update',$banner->id) }}">update</a>
+                        <a class="active" href="{{ route('admin.banner.update') }}">update</a>
                     </li>
                 </ul>
             </div>
@@ -49,12 +49,12 @@
                 <div class="head">
                     <h3 style="text-align: center;width:100%">Update banner form</h3>
                 </div>
-                <form method="post" action="{{ route('admin.banner.store',$banner->id) }}" enctype="multipart/form-data" class="p-3">
+                <form method="post" action="" enctype="multipart/form-data" class="p-3">
                     {{-- @method('PATCH') --}}
                     @csrf
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" onchange="previewImage(event)" class="form-control" accept="image/" value="{{ old('image') ? old('image') : $banner->img }}">
+                        <input type="file" name="image" id="image" onchange="previewImage(event)" class="form-control" accept="image/" value="{{ old('image') }}">
                         <div class="image">
                             <img src="" alt="Preview Image" id="imagePreview" style="display: none; max-width: 50rem;margin-top:20px;">
                         </div>
@@ -80,19 +80,20 @@
         document.getElementById('fileImage').value = input.files[0].name;
     }
     function previewImage(event) {
-                var input = event.target;
-
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        var imagePreview = document.getElementById('imagePreview');
-                        imagePreview.src = e.target.result;
-                        imagePreview.style.display = 'block';
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                    localStorage.setItem('selectedImage', e.target.result);
+            var input = event.target;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var imagePreview = document.getElementById('imagePreview');
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
                 }
                 reader.readAsDataURL(input.files[0]);
+                localStorage.setItem('selectedImage', e.target.result);
             }
+            reader.readAsDataURL(input.files[0]);
+    }
+
+
+
 </script>
