@@ -97,23 +97,11 @@
                         </div>
                     </div>
                 </li>
-                {{-- <li class="navbar__item">
-                    <a href="{{ route('FavoriteList') }}" class="navbar__link">
-                        Favorite
-                        <span class="material-symbols-outlined">
-                            favorite
-                            </span>
+                 <li class="navbar__item">
+                    <a href="/contact-us" class="navbar__link">
+                        <strong> Contact us</strong>
                     </a>
                 </li>
-                <li class="navbar__item">
-                    <a href="{{ route('CheckOut') }}" class="navbar__link">
-                        Shopping cart
-                        <span class="material-symbols-outlined">
-                            favorite
-                            </span>
-                    </a>
-                </li> --}}
-
             </ul>
         </nav>
         <div class="navbar__overlay js-toggle" toggle-target="#navbar" id="navbarToggle_hidde"></div>

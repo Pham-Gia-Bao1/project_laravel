@@ -48,68 +48,10 @@
                         </div>
                     </div>
 
-                    <div class="filter__separate"></div>
+                
 
-                    <!-- Filter column 2 -->
-                    <div class="filter__col">
-                        <label for="" class="form__label">Size/Weight</label>
-                        <div class="filter__form-group">
-                            <div class="form__select-wrap">
-                                <div class="form__select" style="--width: 158px">
-                                    500g
-                                    <img
-                                        src="./assets/icons/select-arrow.svg"
-                                        alt=""
-                                        class="form__select-arrow icon"
-                                    />
-                                </div>
-                                <div class="form__select">
-                                    Gram
-                                    <img
-                                        src="./assets/icons/select-arrow.svg"
-                                        alt=""
-                                        class="form__select-arrow icon"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter__form-group">
-                            <div class="form__tags">
-                                <button class="form__tag">Small</button>
-                                <button class="form__tag">Medium</button>
-                                <button class="form__tag">Large</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="filter__separate"></div>
 
-                    <!-- Filter column 3 -->
-                    <div class="filter__col">
-                        <label for="" class="form__label">Brand</label>
-                        <div class="filter__form-group">
-                            <div class="filter__form-text-input">
-                                <input
-                                    type="text"
-                                    name=""
-                                    id=""
-                                    placeholder="Search brand name"
-                                    class="filter__form-input"
-                                />
-                                <img
-                                    src="./assets/icons/search.svg"
-                                    alt=""
-                                    class="filter__form-input-icon icon"
-                                />
-                            </div>
-                        </div>
-                        <div class="filter__form-group">
-                            <div class="form__tags">
-                                <button class="form__tag">Lavazza</button>
-                                <button class="form__tag">Nescafe</button>
-                                <button class="form__tag">Starbucks</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="filter__row filter__footer">

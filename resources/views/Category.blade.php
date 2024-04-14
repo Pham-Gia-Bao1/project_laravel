@@ -104,6 +104,8 @@ input[type="radio"]:checked + label {
                                 // Đảm bảo giá trị không vượt quá giá trị tối đa của input range
                                 priceRangeMax.value = Math.max(maxPrice, priceRange.value);
                             });
+
+                    
                             // Lắng nghe sự kiện khi dropdown thay đổi
                             document.getElementById('sizeDropdown').addEventListener('change', function() {
                                 // Lấy giá trị được chọn trong dropdown
@@ -133,9 +135,11 @@ input[type="radio"]:checked + label {
 
     <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
        {{-- component --}}
+
        @if ($data->isEmpty())
            <img class="not_found" src="https://cdni.iconscout.com/illustration/premium/thumb/not-found-7621869-6167023.png" alt="">
        @endif
+
         @foreach ($data as $item)
              <!-- Product card 2 -->
         <x-card_product

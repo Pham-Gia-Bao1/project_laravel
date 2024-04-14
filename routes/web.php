@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Middleware\Authenticate;
@@ -67,12 +68,16 @@ Route::middleware('auth')->group(function () {
         Route::get('payment', [PaymentController::class, 'index'])->name('Payment');
         Route::post('payment', [PaymentController::class, 'online_checkout'])->name('Payment');
         Route::get('checkout', [CheckoutController::class, 'index'])->name('CheckOut');
+        Route::get('checkoutRefesh', [CheckoutController::class, 'refreshProducts'])->name('checkoutRefesh');
         Route::get('AddToCart', [DetailCoffeController::class, 'AddToCart'])->name('AddToCart');
         Route::get('deleteItem/{id}', [CheckoutController::class, 'deleteItemFromCart'])->name('deleteItem');
 
         Route::middleware('check.user.role')->group(function () {
 
             Route::prefix('/admin')->group(function () {
+                Route::get('/contact-us', [ContactController::class, 'index'])->name('admin.contact');
+                Route::patch('/contact-us/{id}', [ContactController::class, 'update'])->name('contacts.update');
+                Route::get('/contact-us', [ContactController::class, 'index'])->name('admin.contact');
                 Route::get('/', [HomeAdminController::class, 'index'])->name('admin');
                 Route::prefix('/categories')->group(function () {
 
@@ -122,6 +127,8 @@ Route::middleware('auth')->group(function () {
             });
             Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
             Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
+            Route::get('/contact-us', [ContactController::class, 'create']);
+            Route::post('/contact-us', [ContactController::class, 'store'])->name('contact-us.store');
     });
 
 
