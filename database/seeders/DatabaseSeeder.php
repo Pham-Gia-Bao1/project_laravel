@@ -11,10 +11,7 @@ use Database\Factories\ShoppingCartFactory;
 use Database\Factories\FavoriteFactory;
 use Database\Factories\OrderFactory;
 use Database\Factories\CategoryFactory;
-
-
-
-
+use Database\Factories\ContactFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -46,6 +43,7 @@ class DatabaseSeeder extends Seeder
         $ordersFactory = new OrderFactory();
         $categoryFactory = new CategoryFactory();
         $bannerFactory = new BannerFactory();
+        $contactFactory = new ContactFactory();
 
         for ($i = 0; $i < 10; ++$i) {
             DB::table('users')->insert($userFactory->definition());
@@ -56,6 +54,7 @@ class DatabaseSeeder extends Seeder
             DB::table('coffee_shops')->insert($coffeShopFactory->definition());
             DB::table('orders')->insert($ordersFactory->definition());
             DB::table('categories')->insert($categoryFactory->definition());
+            DB::table('contacts')->insert($contactFactory->definition());
             
         }
         DB::table('banners')->insert($bannerFactory->definition());

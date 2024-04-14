@@ -31,7 +31,7 @@
         @yield('profile-css')
         @yield('profile-libarary')
         @yield('test')
-
+        @yield('contact-us')
 
     <!-- Scripts -->
     <script src="./assets/js/scripts.js"></script>
