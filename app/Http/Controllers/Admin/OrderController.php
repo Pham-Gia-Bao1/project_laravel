@@ -17,15 +17,6 @@ class OrderController extends Controller
         $this->orders = new Orders();
     }
 
-    // public function index(){
-
-    //     $orders = DB::table('orders')
-    //         ->join('coffe', 'coffe.id', '=', 'orders.product_id')
-    //         ->join('users', 'users.id', '=', 'orders.user_id')
-    //         ->select('users.*', 'orders.*','coffe.name as product_name', 'coffe.quantity as product_quantity')
-    //         ->get();
-    //     return view('admin.Order', compact('orders'));
-    // }
     public function index()
     {
         $orders = DB::table('orders')
