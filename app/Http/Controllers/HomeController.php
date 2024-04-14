@@ -17,7 +17,6 @@ use App\Models\FavoriteList;
 use App\Models\Orders;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 class HomeController extends Controller
 {
 

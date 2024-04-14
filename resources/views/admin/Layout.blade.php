@@ -72,7 +72,7 @@
 				</a>
 			</li>
             <li>
-				<a href="#">
+				<a href="{{route('admin.contact')}}">
 					<i class='bx bxs-cog' ></i>
 					<span class="text">Contact</span>
 				</a>
