@@ -28,7 +28,7 @@ class BannerController extends Controller
                     $firstBanner->save();
                 }
             }
-            return view('admin.banner.Banner', compact('banners','banner'));
+            return redirect()->route('admin.banner')->with('success','Banner changed successfully');
         }
         // dd($banner);
         return view('admin.banner.Banner', compact('banners'));
