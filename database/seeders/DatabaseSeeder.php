@@ -57,6 +57,8 @@ class DatabaseSeeder extends Seeder
             DB::table('contacts')->insert($contactFactory->definition());
             
         }
-        DB::table('banners')->insert($bannerFactory->definition());
+        for($i = 0; $i < 7; ++$i){
+            DB::table('banners')->insert($bannerFactory->definition());
+        }
     }
 }
