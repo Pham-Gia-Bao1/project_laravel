@@ -105,7 +105,6 @@ input[type="radio"]:checked + label {
                                 priceRangeMax.value = Math.max(maxPrice, priceRange.value);
                             });
 
-                    
                             // Lắng nghe sự kiện khi dropdown thay đổi
                             document.getElementById('sizeDropdown').addEventListener('change', function() {
                                 // Lấy giá trị được chọn trong dropdown
@@ -115,7 +114,7 @@ input[type="radio"]:checked + label {
                             });
                         </script>
 
-
+                
                     </div>
                     <div class="filter__row filter__footer">
                         <button class="btn btn--text filter__cancel js-toggle" toggle-target="#home-filter">
