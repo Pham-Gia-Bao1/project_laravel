@@ -25,7 +25,7 @@ class ContactController extends Controller
         //
         $contacts = DB::table('contacts')->select('contacts.*')->get();
         //dd($contacts);
-       return view('admin.ContactAdmin', compact('contacts'));
+       return view('admin.contact.ContactAdmin', compact('contacts'));
     }
 
     /**
@@ -55,6 +55,7 @@ class ContactController extends Controller
     {
         //
         $validatedData = $request->validate([
+
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -63,6 +64,7 @@ class ContactController extends Controller
 
         $contact = new Contact;
         $contact->fill($validatedData);
+        $contact->user_id = $request->user_id;
         $contact->first_name = $request->first_name;
         $contact->last_name = $request->last_name;
         $contact->email = $request->email;
