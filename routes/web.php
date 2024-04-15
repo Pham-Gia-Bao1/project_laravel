@@ -48,9 +48,7 @@ Route::middleware('auth')->group(function () {
             return view('profile.Add-new-card');
         });
         Route::post('create_card', [ProfileController::class, 'create_card']);
-        Route::get('profile', function () {
-            return view('profile.Wallet');
-        })->name('Profile');
+        Route::get('profile', [ProfileController::class, 'index'])->name('Profile');
 
         Route::get('shipping', [ShippingController::class, 'index'])->name('Shipping');
 

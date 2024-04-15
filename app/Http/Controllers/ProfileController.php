@@ -10,14 +10,41 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Card;
+use App\Models\Orders;
+use App\Models\CoffeModel;
+
+
 
 class ProfileController extends Controller
 {
 
     public function index()
-    {
-        return view('profile.Wallet');
-    }
+{
+    $user_id = Auth::user()->id;
+    $selectedCoffees = [];
+
+    if(isset($user_id)){
+        $orders = Orders::where('user_id', $user_id)->get();
+        
+        foreach ($orders as $order) {
+            $product_ids = json_decode($order->product_ids);
+            foreach ($product_ids as $product_id) {
+                $coffee = CoffeModel::find($product_id);
+                if($coffee){
+                    // Thêm thông tin ngày đặt hàng vào mỗi trường dữ liệu của $selectedCoffees
+                    $selectedCoffees[] = [
+                        'order_date' => $order->order_date,
+                        'coffee' => $coffee,
+                    ];
+                }
+            }
+        }
+    }      
+    return view('profile.Wallet', ['selectedCoffees' => $selectedCoffees]);
+}
+
+
+    
 
     public function get_info_user()
     {
@@ -56,37 +83,37 @@ class ProfileController extends Controller
     }
 
     public function create_card(Request $request)
-{
-    // Define validation rules
-    $validationRules = [
-        'first_name' => 'required|min:5',
-        'last_name' => 'required|min:5',
-        'card_number' => 'required|numeric|digits:16',
-        'expiration_date' => 'required|date',
-        'cvv' => 'required|numeric|digits:3',
-        'phone_number' => 'required|numeric|digits:10'
-    ];
+    {
+        // Define validation rules
+        $validationRules = [
+            'first_name' => 'required|min:5',
+            'last_name' => 'required|min:5',
+            'card_number' => 'required|numeric|digits:16',
+            'expiration_date' => 'required|date',
+            'cvv' => 'required|numeric|digits:3',
+            'phone_number' => 'required|numeric|digits:10'
+        ];
 
-    // Validate the request
-    $validatedData = $request->validate($validationRules);
+        // Validate the request
+        $validatedData = $request->validate($validationRules);
 
-    // Process the request after successful validation
-    $info = $request->only('user_id', 'first_name', 'last_name', 'card_number', 'expiration_date', 'cvv', 'phone_number');
-    $info['set_default_card'] = $request->input('set_default_card', '0');
+        // Process the request after successful validation
+        $info = $request->only('user_id', 'first_name', 'last_name', 'card_number', 'expiration_date', 'cvv', 'phone_number');
+        $info['set_default_card'] = $request->input('set_default_card', '0');
 
-    // Create a new Card instance and set the attributes
-    $card = new Card($info);
+        // Create a new Card instance and set the attributes
+        $card = new Card($info);
 
-    // Save the card to the database
-    $result = $card->save();
+        // Save the card to the database
+        $result = $card->save();
 
-    // Check if card was saved successfully
-    if ($result) {
-        return $this->index()->with('success', 'Card created successfully.');
-    } else {
-        return redirect()->back()->with('error', 'Failed to create card.');
+        // Check if card was saved successfully
+        if ($result) {
+            return $this->index()->with('success', 'Card created successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to create card.');
+        }
     }
-}
 
 
     public function destroy(Request $request): RedirectResponse

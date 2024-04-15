@@ -2,7 +2,32 @@
 @extends('profile.Profile')
 @section('content-profile')
 @section('profile-css')
+<style>
+    .date_ordered{
+        float:right;
+        width:30rem;
+        margin-left:10rem;
+        margin-top:5rem;
+    }
+    .btn-detaill{
+        margin-left:5rem;
+    }
+    /* CSS for custom scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px; /* Width of vertical scrollbar */
+}
 
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Background color of scrollbar track */
+    border-radius: 10px; /* Border radius of scrollbar track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #77DAE6; /* Color of scrollbar thumb */
+    border-radius: 10px; /* Border radius of scrollbar thumb */
+}
+
+</style>
 
 @endsection
 
@@ -120,45 +145,41 @@
 
 <div class="col-12">
     <h2 class="cart-info__heading">Purchase-history</h2>
-    <p class="cart-info__desc profile__desc">2 items - Primary</p>
-
-    <!-- Favourite item 1 -->
-    <article class="favourite-item">
-        <img
-            src="./assets/img/product/item-1.png"
-            alt=""
-            class="favourite-item__thumb"
-        />
-        <div>
-            <h3 class="favourite-item__title">
-                Coffee Beans - Espresso Arabica and Robusta Beans
-            </h3>
-            <div class="favourite-item__content">
-                <span class="favourite-item__price">$47.00</span>
-                <button class="btn btn--primary btn--rounded">Add to cart</button>
+    <p class="cart-info__desc profile__desc">{{ count($selectedCoffees) }} items - Primary</p>
+    <div class="custom-scrollbar" style="overflow-y: scroll; max-height: 400px;">
+        @foreach ($selectedCoffees as $selectedCoffee)
+            <!-- Favourite item 1 -->
+            <div class="item_order" style="display: flex">
+                <article class="favourite-item">
+                    <a href="{{ route('ProductDetail', ['id' => $selectedCoffee['coffee']->id]) }}">
+                        <img
+                            src="./assets/img/product/{{ json_decode($selectedCoffee['coffee']->images)[0] }}"
+                            alt=""
+                            class="favourite-item__thumb"
+                        />
+                    </a>
+                    <div>
+                        <h3 class="favourite-item__title">
+                            {{ $selectedCoffee['coffee']->name }}
+                        </h3>
+                        <div class="favourite-item__content">
+                            <span class="favourite-item__price">{{ $selectedCoffee['coffee']->price }}</span>
+                            <a class="btn-detaill" href="{{ route('ProductDetail', ['id' => $selectedCoffee['coffee']->id]) }}">
+                                <button class="btn btn--primary btn--rounded m-5">View detail</button>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <div class="date_ordered">
+                    <p>Order date: {{ $selectedCoffee['order_date'] }}</p>
+                </div>
             </div>
-        </div>
-    </article>
+            <div class="separate" style="--margin: 20px"></div>
+        @endforeach
+    </div>
+    
 
-    <div class="separate" style="--margin: 20px"></div>
 
-    <!-- Favourite item 2 -->
-    <article class="favourite-item">
-        <img
-            src="./assets/img/product/item-2.png"
-            alt=""
-            class="favourite-item__thumb"
-        />
-        <div>
-            <h3 class="favourite-item__title">
-                Lavazza Coffee Blends - Try the Italian Espresso
-            </h3>
-            <div class="favourite-item__content">
-                <span class="favourite-item__price">$53.00</span>
-                <button class="btn btn--primary btn--rounded">Add to cart</button>
-            </div>
-        </div>
-    </article>
 </div>
 
 @endsection
