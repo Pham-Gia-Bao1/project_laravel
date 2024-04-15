@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SendMailController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Middleware\Authenticate;
@@ -74,6 +76,14 @@ Route::middleware('auth')->group(function () {
         Route::middleware('check.user.role')->group(function () {
 
             Route::prefix('/admin')->group(function () {
+
+                Route::patch('/contact-us/{id}', [ContactController::class, 'update'])->name('contacts.update');
+                Route::get('/contact-us', [ContactController::class, 'index'])->name('admin.contact');
+
+                Route::get('/mail', [SendMailController::class, 'showForm'])->name('admin.contact.mail');
+                Route::get('/sendMail', [SendMailController::class, 'index'])->name('sendMail');
+
+
                 Route::get('/', [HomeAdminController::class, 'index'])->name('admin');
                 Route::prefix('/categories')->group(function () {
 
@@ -99,28 +109,33 @@ Route::middleware('auth')->group(function () {
                 });
             });
         });
-                Route::get('/', [CategoriesAdminController::class,'index'])->name('admin.categories');
-                Route::get('/create', [CategoriesAdminController::class,'create'])->name('admin.categories.create');
-                Route::get('/update/{id}',[CategoriesAdminController::class,'update'])->name('admin.categories.update');
-                Route::get('/delete',[CategoriesAdminController::class,'delete'])->name('admin.categories.delete');
-            });
-            Route::prefix('/products')->group(function(){
-                Route::get('/',[ProductControlller::class,'index'])->name('admin.products');
-                Route::get('/create', [ProductControlller::class,'create'])->name('admin.product.create');
-                Route::post('/create', [ProductControlller::class, 'store'])->name('admin.product.store');
-                Route::get('/update/{id}', [ProductControlller::class, 'edit'])->name('admin.product.edit');
-                Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
-                Route::get( '/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
-            });
-            Route::prefix('/banner')->group(function(){
-                Route::get('/',[BannerController::class,'index'])->name('admin.banner');
-                Route::get('/update/{id}',[BannerController::class,'update'])->name('admin.banner.update');
-                Route::post('/update/{id}',[BannerController::class,'store'])->name('admin.banner.store');
-
-            });
-            Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
-            Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
+        Route::get('/', [CategoriesAdminController::class, 'index'])->name('admin.categories');
+        Route::get('/create', [CategoriesAdminController::class, 'create'])->name('admin.categories.create');
+        Route::get('/update/{id}', [CategoriesAdminController::class, 'update'])->name('admin.categories.update');
+        Route::get('/delete', [CategoriesAdminController::class, 'delete'])->name('admin.categories.delete');
     });
+    Route::prefix('/products')->group(function () {
+        Route::get('/', [ProductControlller::class, 'index'])->name('admin.products');
+        Route::get('/create', [ProductControlller::class, 'create'])->name('admin.product.create');
+        Route::post('/create', [ProductControlller::class, 'store'])->name('admin.product.store');
+        Route::get('/update/{id}', [ProductControlller::class, 'edit'])->name('admin.product.edit');
+        Route::PATCH('/update/{id}', [ProductControlller::class, 'update'])->name('admin.product.update');
+        Route::get('/delete/{id}', [ProductControlller::class, 'destroy'])->name('admin.product.delete');
+    });
+    Route::prefix('/banner')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('admin.banner');
+        // Route::get('/update/{id}',[BannerController::class,'update'])->name('admin.banner.update');
+        Route::get('/update', [BannerController::class, 'update'])->name('admin.banner.update');
+        Route::post('/update', [BannerController::class, 'store'])->name('admin.banner.store');
+        // Route::post('/update',[BannerController::class,'store'])->name('admin.banner.store');
+        // Route::post('/change',[BannerController::class,'changeBannerInDB'])->name('admin.banner.change');
+
+    });
+    Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
+    Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
+    Route::get('/contact-us', [ContactController::class, 'create']);
+    Route::post('/contact-us', [ContactController::class, 'store'])->name('contact-us.store');
+});
 
 
 
@@ -141,7 +156,3 @@ Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCa
 Route::get('/blocked', function () {
     return view('BlockedPage');
 })->name('BlockedPage');
-
-Route::get('/test', function () {
-    return view('components.side_bar');
-});

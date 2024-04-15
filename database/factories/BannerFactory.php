@@ -18,8 +18,11 @@ class BannerFactory extends Factory
     public function definition()
     {
         $faker = \Faker\Factory::create();
+        // Khởi tạo biến đếm
+        static $counter = 1;
+
         return [
-            'image'=>'item-1.png',
+            'image' => 'item-' . $counter++ . '.png',
         ];
     }
 }

@@ -97,8 +97,11 @@
                         </div>
                     </div>
                 </li>
-               
-
+                 <li class="navbar__item">
+                    <a href="/contact-us" class="navbar__link">
+                        <strong> Contact us</strong>
+                    </a>
+                </li>
             </ul>
         </nav>
         <div class="navbar__overlay js-toggle" toggle-target="#navbar" id="navbarToggle_hidde"></div>
