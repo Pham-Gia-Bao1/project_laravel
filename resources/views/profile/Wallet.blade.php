@@ -119,7 +119,7 @@
 </div>
 
 <div class="col-12">
-    <h2 class="cart-info__heading">Lists</h2>
+    <h2 class="cart-info__heading">Purchase-history</h2>
     <p class="cart-info__desc profile__desc">2 items - Primary</p>
 
     <!-- Favourite item 1 -->
