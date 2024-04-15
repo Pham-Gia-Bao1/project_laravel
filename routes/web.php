@@ -118,8 +118,11 @@ Route::middleware('auth')->group(function () {
             });
             Route::prefix('/banner')->group(function(){
                 Route::get('/',[BannerController::class,'index'])->name('admin.banner');
-                Route::get('/update/{id}',[BannerController::class,'update'])->name('admin.banner.update');
-                Route::post('/update/{id}',[BannerController::class,'store'])->name('admin.banner.store');
+                // Route::get('/update/{id}',[BannerController::class,'update'])->name('admin.banner.update');
+                Route::get('/update',[BannerController::class,'update'])->name('admin.banner.update');
+                Route::post('/update',[BannerController::class,'store'])->name('admin.banner.store');
+                // Route::post('/update',[BannerController::class,'store'])->name('admin.banner.store');
+                // Route::post('/change',[BannerController::class,'changeBannerInDB'])->name('admin.banner.change');
 
             });
             Route::get('/order', [OrderController::class, 'index'])->name('admin.order');
