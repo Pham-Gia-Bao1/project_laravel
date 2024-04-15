@@ -3,7 +3,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Overpass+Mono&display=swap" rel="stylesheet">
 @endsection
 @section('content')
-     <body>
+
+<body>
+         @include('components.notification')
         <main>
             <div class="title">Contact us</div>
             <div class="title-info">We'll get back to you soon!</div>

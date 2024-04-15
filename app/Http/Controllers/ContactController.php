@@ -25,7 +25,7 @@ class ContactController extends Controller
         //
         $contacts = DB::table('contacts')->select('contacts.*')->get();
         //dd($contacts);
-       return view('admin.ContactAdmin', compact('contacts'));
+       return view('admin.contact.ContactAdmin', compact('contacts'));
     }
 
     /**

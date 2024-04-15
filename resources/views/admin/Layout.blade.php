@@ -28,6 +28,7 @@
             document.querySelector('.alert').style.display = 'none';
         },4000);
     </script>
+
 </head>
 <body>
 	<!-- SIDEBAR -->
@@ -83,23 +84,21 @@
 		<ul class="side-menu">
 
 			<li>
-				<a href="#" class="logout">
-					<i class='bx bxs-log-out-circle' ></i>
-					<span class="text">Logout</span>
-				</a>
+                <form id="logout_form" method="POST" action="{{ route('logout') }} " style="padding-left: 20px ; color:red !important">
+                    @csrf
+                    <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
 			</li>
 		</ul>
 	</section>
-	<!-- SIDEBAR -->
 
-
-
-	<!-- CONTENT -->
 	<section id="content">
 		<!-- NAVBAR -->
 		<nav>
-
-
 			<form action="#">
 				<div class="form-input">
 					<input type="search" placeholder="Search...">
