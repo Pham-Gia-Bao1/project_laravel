@@ -40,28 +40,18 @@
                 <div class="head">
                     <h3>Banner</h3>
                 </div>
-                {{-- @if (isset($banner))
-                    <a href="{{ route('admin.banner.update') }}">
-                        <button type="button" class="btn btn-primary mb-4">Change 
-                            <i class="fa-solid fa-pen-to-square"></i></button>
-                    </a>
-                    <div class="banner_img">
-                        <img style="width:50rem" src="assets/img/slideshow/{{ $banner->image }}" alt="">
-                @else --}}
                     <a href="{{ route('admin.banner.update')}}">
                         <button type="button" class="btn btn-primary mb-4">Change 
                             <i class="fa-solid fa-pen-to-square"></i></button>
                     </a>
                     <div class="banner_img">
                         <img style="width:50rem" src="assets/img/slideshow/{{ $banners[0]->image }}" alt="">
-                {{-- @endif --}}
                     </div>
             </div>
             <div class="default_image">
                 <form action="" method="get" enctype="multipart/form-data">
                     {{-- @csrf --}}
                     <div class="image">
-                        <input type="text" name="id" id="id" class="image">
                         <img src="" alt="Preview Image" id="imagePreview" style="display: none; max-width: 50rem;margin-top:20px;">
                     </div>
                     <a href="">

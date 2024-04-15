@@ -147,10 +147,10 @@
                 <div class="col-4 col-xl-12">
                     <form action="{{ route('checkoutRefesh') }}"  class="cart-info">
                       {{-- Hiển thị input chứa các ID sản phẩm --}}
-                        <input type="text" value="{{ implode(',', $allIdProduct) }}" name="all_id_products">
+                        <input type="hidden" value="{{ implode(',', $allIdProduct) }}" name="all_id_products">
 
                         {{-- quantity  --}}
-                        <input type="text" value="" name="all_quantity_products" id="all_quantity_products">
+                        <input type="hidden" value="" name="all_quantity_products" id="all_quantity_products">
                         <div class="cart-info__row">
                             <span>Subtotal <span class="cart-info__sub-label">(items)</span></span>
                             <span>{{ count($products) }}</span>
