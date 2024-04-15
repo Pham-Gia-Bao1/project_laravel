@@ -10,25 +10,26 @@
 
             <form action=" {{route('contact-us.store')}} " method="post" class="form">
                 @csrf
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <div class="input-group">
-                    <input type="text" name="first_name" id="first-name" placeholder="First name" 
+                    <input type="text" name="first_name" id="first-name" placeholder="First name"
                     @if(isset($user) && !empty($user->first_name))
-                        value="{{ $user->first_name }}" 
+                        value="{{ $user->first_name }}"
                     @else{
-                        value="{{ old('first_name') }}"  
+                        value="{{ old('first_name') }}"
                     }
-                    @endif> 
+                    @endif>
                     <label for="first-name">First name</label>
                 </div>
                 @error('first_name')
                 <span style="color:red;">{{ $message }}</span>
                 @enderror
-                
+
                 <div class="input-group">
                     <input type="text" name="last_name" id="last-name" placeholder="Last Name"   @if(isset($user) && !empty($user->last_name))
-                        value="{{ $user->last_name }}" 
+                        value="{{ $user->last_name }}"
                     @else{
-                        value="{{ old('last_name') }}"  
+                        value="{{ old('last_name') }}"
                     }
                     @endif >
                     <label for="last-name">Last name</label>
@@ -39,9 +40,9 @@
 
                 <div class="input-group">
                     <input type="email" name="email" id="e-mail" placeholder="e-mail"  @if(isset($user) && !empty($user->email))
-                        value="{{ $user->email }}" 
+                        value="{{ $user->email }}"
                     @else{
-                        value="{{ old('email') }}"  
+                        value="{{ old('email') }}"
                     }
                     @endif >
                     <label for="e-mail">E-mail</label>
@@ -209,7 +210,7 @@ textarea:focus ~ label, textarea:not(:placeholder-shown) ~ label
 	{
 		font-size: 13px;
 	}
-	
+
 	.form
 	{
 		padding: 6% 4%;
@@ -220,7 +221,7 @@ textarea:focus ~ label, textarea:not(:placeholder-shown) ~ label
     {
 		padding: 3% 0;
 	}
-	
+
 	input, textarea
 	{
 		font-size: 15px;
@@ -231,17 +232,17 @@ textarea:focus ~ label, textarea:not(:placeholder-shown) ~ label
 		top: -3.5em;
 		left: 0.1em;
 	}
-	
+
 	textarea:focus ~ label, textarea:not(:placeholder-shown) ~ label
 	{
 		top: -8.5em;
 		left: 0.2em;
     }
-    
+
     button
     {
         font-size: 15px;
     }
 }
 </style>
-@endsection 
+@endsection

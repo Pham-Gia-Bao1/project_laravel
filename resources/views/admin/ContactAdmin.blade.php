@@ -46,7 +46,7 @@
                             <th style="padding-right: 10px">Last Name</th>
                             <th style="padding-right: 10px">Email</th>
                             <th style="padding-right: 10px">Message</th>
-                            <th style="padding-right: 10px">Created at</th>
+                            <th style="padding-right: 10px">Replies</th>
                             <th style="padding-right: 10px; text-align: center">Status</th>
                         </tr>
                     </thead>
@@ -58,7 +58,11 @@
                             <td style="padding-right: 10px">{{$contact->last_name}}</td>
                             <td style="padding-right: 10px" class='email'>{{$contact->email}}</td>
                             <td> {{$contact->message}} </td>
-                            <td style="padding-right: 10px">{{$contact->created_at}}</td>
+                            <td>
+                                <button class="btn btn-outline-primary"><span class="material-symbols-outlined">
+                                    undo
+                                    </span></button>
+                            </td>
                             <td>
                                 <form action=" {{ route('contacts.update', $contact->id) }}" id="updateStatusForm-{{ $contact->id }}"
                                     method="POST">
@@ -94,10 +98,5 @@
     }
 </script>
 <style>
-    /* .email {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100px; /* Đặt chiều rộng tối đa cho ô td */
-    } */
+
 </style>

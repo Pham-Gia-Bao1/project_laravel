@@ -18,10 +18,10 @@ class ContactFactory extends Factory
     {
 
         return [
-            //
+            'user_id' => $this->faker->numberBetween(1, 5),
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName,
-            'email' => fake()->unique()->safeEmail(),
+            'email' => fake()->safeEmail(),
             'message' => fake()->sentence(),
             'status' => $this->faker->randomElement(['Responsed', 'Have not responsed'])
         ];
