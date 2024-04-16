@@ -41,7 +41,7 @@
                     <h3>Banner</h3>
                 </div>
                     <a href="{{ route('admin.banner.update')}}">
-                        <button type="button" class="btn btn-primary mb-4">Change 
+                        <button type="button" class="btn btn-primary mb-4">Change
                             <i class="fa-solid fa-pen-to-square"></i></button>
                     </a>
                     <div class="banner_img">
@@ -52,6 +52,7 @@
                 <form action="" method="get" enctype="multipart/form-data">
                     {{-- @csrf --}}
                     <div class="image">
+                        <input type="hidden" name="id" id="id" class="image">
                         <img src="" alt="Preview Image" id="imagePreview" style="display: none; max-width: 50rem;margin-top:20px;">
                     </div>
                     <a href="">
@@ -66,8 +67,8 @@
                         </label>
                         <input type="hidden" id="banner_id{{ $loop->index + 1 }}"  value="{{$item->id}}">
                         @endforeach
-                    </div>                                                       
-                </form>  
+                    </div>
+                </form>
             </div>
         </div>
     </main>
@@ -82,7 +83,7 @@
 <script>
    function updateImage(event) {
     var selectedImage = event.target.value; // Lấy giá trị ảnh từ radio button được chọn
-    
+
     // Hiển thị ảnh được chọn trong preview
     var imagePreview = document.getElementById('imagePreview');
     imagePreview.src = '/assets/img/slideshow/' + selectedImage;
@@ -90,10 +91,10 @@
 
     // Lấy id của trường input banner_id tương ứng với radio button được chọn
     var selectedBannerId = document.getElementById('banner_id' + event.target.id.slice(5)).value;
-    
+
     // Hiển thị giá trị banner_id trong console để kiểm tra
     console.log("Selected Banner ID:", selectedBannerId);
-    
+
     // Cập nhật giá trị của trường input có id là "id" với giá trị banner_id
     var idInput = document.getElementById('id');
     idInput.value = selectedBannerId;

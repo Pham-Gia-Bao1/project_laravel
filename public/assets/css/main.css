@@ -4704,3 +4704,18 @@ html {
 body{
     overflow-x: hidden;
 }
+
+
+body{
+    overflow-y: scroll;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+body::-webkit-scrollbar {
+    width: 12px;
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: #77DAE6;
+    border-radius: 10px;
+}
