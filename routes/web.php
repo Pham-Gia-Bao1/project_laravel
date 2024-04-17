@@ -125,8 +125,9 @@ Route::middleware('auth')->group(function () {
         // Route::get('/update/{id}',[BannerController::class,'update'])->name('admin.banner.update');
         Route::get('/update', [BannerController::class, 'update'])->name('admin.banner.update');
         Route::post('/update', [BannerController::class, 'store'])->name('admin.banner.store');
-        // Route::post('/update',[BannerController::class,'store'])->name('admin.banner.store');
-        // Route::post('/change',[BannerController::class,'changeBannerInDB'])->name('admin.banner.change');
+        Route::get('/delete/{id}', [BannerController::class, 'delete'])->name('admin.banner.delete');
+
+
 
     });
     Route::get('/order', [OrderController::class, 'index'])->name('admin.order');

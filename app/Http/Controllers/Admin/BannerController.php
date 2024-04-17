@@ -22,7 +22,7 @@ class BannerController extends Controller
                     $tempPosition = $banner->image;
                     $banner->image = $firstBanner->image;
                     $firstBanner->image = $tempPosition;
-                    
+
                     // Lưu trữ thay đổi vào cơ sở dữ liệu
                     $banner->save();
                     $firstBanner->save();
@@ -33,7 +33,7 @@ class BannerController extends Controller
         // dd($banner);
         return view('admin.banner.Banner', compact('banners'));
 
-    } 
+    }
     public function update(Request $request){
         // $id = $request->id;
         // $banner = Banners::find($id);
@@ -44,14 +44,14 @@ class BannerController extends Controller
             $rules = [
                 'image' => 'required|mimes:jpg,png,pdf,bmp',
             ];
-        
+
             $messages = [
                 'image.required' => 'Please choose an image',
                 'image.mimes' => 'The image must be jpg, png, bmp, or pdf'
             ];
-        
+
             $validator = Validator::make($request->all(), $rules, $messages);
-        
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             } else {
@@ -60,7 +60,7 @@ class BannerController extends Controller
                     $image = $request->file('image');
                     $imageName = time() . '_' . $image->getClientOriginalName();
                     $image->move(public_path('assets/img/slideshow'), $imageName);
-                    
+
                     // Create a new banner
                     $banner = new Banners();
                     $banner->image = $imageName;
@@ -68,12 +68,12 @@ class BannerController extends Controller
                     $banners = Banners::all();
                     if ($banner && $banners->isNotEmpty()) {
                         $firstBanner = $banners->first(); // Lấy banner đầu tiên trong danh sách
-                        
+
                         // Hoán đổi vị trí của banner mới và banner đầu tiên trong danh sách
                         $tempImage = $banner->image;
                         $banner->image = $firstBanner->image;
                         $firstBanner->image = $tempImage;
-                        
+
                         // Lưu trữ thay đổi vào cơ sở dữ liệu
                         $banner->save();
                         $firstBanner->save();
@@ -86,5 +86,11 @@ class BannerController extends Controller
                 }
         }
     }
-    
+    public function delete(Request $request){
+        $id = $request->id;
+        $banner = Banners::find($id);
+        $banner->delete();
+        return redirect()->back()->with('success', 'Banner deleted');
+    }
+
 }

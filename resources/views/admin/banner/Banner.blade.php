@@ -5,6 +5,9 @@
     .alert-success{
     border-left: 10px solid #00c069 !important;
     }
+    .delete:hover .btnDele{
+        color: red;
+    }
 </style>
 @section('main_content_admin')
     <main>
@@ -61,16 +64,18 @@
                     <h3 >Select available photos: </h3>
                     <div style="display: grid;grid-template-columns:1fr 1fr; flex-wrap: wrap;gap:5px;margin-top:20px;">
                         @foreach ($banners as $item)
+
                         <input type="radio" id="radio{{ $loop->index + 1 }}" value="{{ $item->image }}" style="display: none;" onchange="updateImage(event)">
-                        <label for="radio{{ $loop->index + 1 }}">
+                        <label for="radio{{ $loop->index + 1 }}" style="display:flex;align-items:start">
+                            <a class="btn delete" href="{{ route('admin.banner.delete',$item->id) }}" style="background-color: #fff;">
+                                <span class="material-symbols-outlined btnDele">
+                                    delete
+                                </span>
+                            </a>
                             <img width="80%" src="/assets/img/slideshow/{{ $item->image }}" alt="">
                         </label>
                         <input type="hidden" id="banner_id{{ $loop->index + 1 }}"  value="{{$item->id}}">
-                        <a class="delete_product" href="http://localhost:8000/deleteItem/9" style="background-color: #00c069; width:2rem;margin-top:4rem;">
-                            <span class="material-symbols-outlined">
-                                delete
-                            </span>
-                        </a>
+
                         @endforeach
                     </div>
                 </form>
@@ -86,7 +91,10 @@
     }
 </style>
 <script>
-   function updateImage(event) {
+  var btnChange = document.getElementById('btn_change');
+btnChange.style.display = 'none'; // Ẩn button khi trang load
+
+function updateImage(event) {
     var selectedImage = event.target.value; // Lấy giá trị ảnh từ radio button được chọn
 
     // Hiển thị ảnh được chọn trong preview
@@ -103,6 +111,12 @@
     // Cập nhật giá trị của trường input có id là "id" với giá trị banner_id
     var idInput = document.getElementById('id');
     idInput.value = selectedBannerId;
+
+    console.log(imagePreview)
+
+    if(imagePreview.src !== "http://127.0.0.1:8000/banner"){
+         btnChange.style.display = 'block'; // Hiển thị button khi có ảnh được chọn
+    }
 }
 
 </script>
