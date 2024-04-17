@@ -66,28 +66,12 @@
                                                     <a href="#!">Category type</a>
                                                 </h2>
                                                 <ul class="menu-column__list list_categories">
+                                                    @foreach ($categories as $category)
                                                     <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Costa Coffee') }}" class="menu-column__link">Costa Coffee</a>
+                                                        <a href="{{ route('categories',"box=$category->name") }}" class="menu-column__link">{{ $category->name }}</a>
                                                     </li>
-
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Dunkin') }}" class="menu-column__link">Dunkin</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=LavAzza') }}" class="menu-column__link">LavAzza</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Classico') }}" class="menu-column__link">Classico</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Nescafe') }}" class="menu-column__link">Nescafe</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Patch Roast') }}" class="menu-column__link">Patch Roast</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Starbucks') }}" class="menu-column__link">Starbucks</a>
-                                                    </li>
+                                                    @endforeach
+                                                   
                                                 </ul>
                                             </div>
                                         </div>

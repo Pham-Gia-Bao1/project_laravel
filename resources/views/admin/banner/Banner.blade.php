@@ -63,9 +63,14 @@
                         @foreach ($banners as $item)
                         <input type="radio" id="radio{{ $loop->index + 1 }}" value="{{ $item->image }}" style="display: none;" onchange="updateImage(event)">
                         <label for="radio{{ $loop->index + 1 }}">
-                            <img width="90%" src="/assets/img/slideshow/{{ $item->image }}" alt="">
+                            <img width="80%" src="/assets/img/slideshow/{{ $item->image }}" alt="">
                         </label>
                         <input type="hidden" id="banner_id{{ $loop->index + 1 }}"  value="{{$item->id}}">
+                        <a class="delete_product" href="http://localhost:8000/deleteItem/9" style="background-color: #00c069; width:2rem;margin-top:4rem;">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </a>
                         @endforeach
                     </div>
                 </form>
