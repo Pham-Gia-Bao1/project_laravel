@@ -16,7 +16,7 @@
                     {{ $message }}
                 </div>
             @endif
-            <div class="d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
+            <div class="d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap d-flex gap-3 row-top row-cols-3 row-cols-md-1 no-gutters flex-nowrap overflow-scroll">
                 <!-- Category items -->
                 {{-- component --}}
                 @php
@@ -40,38 +40,18 @@
         <!-- Browse Products -->
         <section class="home__container">
             <h2 class="home__heading">Top discount products </h2>
-            <div class="row pt-3">
-                    @foreach ($discountProducts as $product)
-                         <div class="col ">
-                            <article class="product-card card-body " >
-                                <div class="product-card__img-wrap">
-                                    <a  href="{{route('ProductDetail',['id' => $product->id])}}">
-                                        <img src="./assets/img/product/{{ json_decode($product->images)[0] }}"
-                                        alt="image" class="product-card__thumb" />
-                                    </a>
-                                    <button class="like-btn like-btn--liked product-card__like-btn">
-                                        <img  src="./assets/icons/heart.svg" alt="" class="like-btn__icon icon" />
-                                        <img src="./assets/icons/heart-red.svg" alt="" class="like-btn__icon--liked" />
-                                    </button>
-                                    
-                                </div>
-                                <h3 class="product-card__title">
-                                    <a href="{{route('ProductDetail',['name' => $product->name])}}">{{ $product->name}}</a>
-                                </h3>
-                                <div class='row'>
-                                    <div class='col'>
-                                        <p class="product-card__brand">Lay coffe</p>
-                                    </div>
-                                </div>
-                                <div class="product-card__row">
-                                    <span class="product-card__price">{{ $product->price}}</span>
-                                    <img src="./assets/icons/star.svg" alt="" class="product-card__star" />
-                                    <span class="product-card__score">{{ $product->rating}}</span>
-                                </div>
-                            </article>
-                        {{-- </a> --}}
-                        </div>
+
+            <div class="box-discount">
+                <button id="leftButton"><span  class="material-symbols-outlined">expand_less</span></button>
+                <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3 discount-session">
+                    @foreach ($discountProducts as $item)
+                    <x-card_product title="{{ $item->name }}"
+                        img="./assets/img/product/{{ json_decode($item->images)[0] }}" price="{{ $item->price }}"
+                        rating="{{ $item->rating }}" id="{{ $item->id }}"
+                    />
                     @endforeach
+                </div>
+                <button id="rightButton"><span class="material-symbols-outlined">expand_less</span></button>
             </div>
             <div class="home__row mt-2">
                 <h2 class="home__heading">Total products </h2>
@@ -204,80 +184,6 @@
 
             </div>
         </section>
-        <div class="team">
-            <div class="">
 
-                <div class="row mb-5">
-                    <div class="col-lg-5 mx-auto text-center">
-                        <h1 class="section-title">Our Team</h1>
-                    </div>
-                </div>
-
-                <div class="row1">
-
-                    <!-- Start Column 1 -->
-                    <div class="row1-item">
-                        <img src="assets/img/another-img/person_1.jpg" class="img-fluid mb-5">
-                        <h3><a href="#"><span class="">Lawson</span> Arnold</a></h3>
-                        <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                        <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                            ocean.</p>
-                        <p class="mb-0"><a href="#" class="more dark">Learn More <span
-                                    class="icon-arrow_forward"></span></a></p>
-                    </div>
-                    <!-- End Column 1 -->
-
-                    <!-- Start Column 2 -->
-                    <div class="row1-item">
-                        <img src="assets/img/another-img/person_2.jpg" class="img-fluid mb-5">
-
-                        <h3><a href="#"><span class="">Jeremy</span> Walker</a></h3>
-                        <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                        <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                            ocean.</p>
-                        <p class="mb-0"><a href="#" class="more dark">Learn More <span
-                                    class="icon-arrow_forward"></span></a></p>
-
-                    </div>
-                    <!-- End Column 2 -->
-
-                    <!-- Start Column 3 -->
-                    <div class="row1-item">
-                        <img src="assets/img/another-img/person_3.jpg" class="img-fluid mb-5">
-                        <h3><a href="#"><span class="">Patrik</span> White</a></h3>
-                        <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                        <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                            ocean.</p>
-                        <p class="mb-0"><a href="#" class="more dark">Learn More <span
-                                    class="icon-arrow_forward"></span></a></p>
-                    </div>
-                    <!-- End Column 3 -->
-
-                    <!-- Start Column 4 -->
-                    <div class="row1-item">
-                        <img src="assets/img/another-img/person_4.jpg" class="img-fluid mb-5">
-
-                        <h3><a href="#"><span class="">Kathryn</span> Ryan</a></h3>
-                        <span class="d-block position mb-4">CEO, Founder, Atty.</span>
-                        <p>Separated they live in.
-                            Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                            ocean.</p>
-                        <p class="mb-0"><a href="#" class="more dark">Learn More <span
-                                    class="icon-arrow_forward"></span></a></p>
-
-
-                    </div>
-                    <!-- End Column 4 -->
-
-
-                </div>
-            </div>
-        </div>
     </main>
-
-
-
 @endsection

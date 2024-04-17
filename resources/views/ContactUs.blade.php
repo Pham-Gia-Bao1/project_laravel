@@ -1,5 +1,25 @@
 @extends('Layout.layout')
 @section('contact-us')
+ <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE"></script>
+    <style>
+        /* Cài đặt kích thước cho bản đồ */
+        .beta-map {
+
+            height: 300px;
+            width: 100% !important;
+        }
+        .beta-map iframe {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 20px;
+        }
+        .form{
+            background-color: #fff;
+            border-radius: 20px;
+
+        }
+
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Overpass+Mono&display=swap" rel="stylesheet">
 @endsection
 @section('content')
@@ -7,9 +27,14 @@
 <body>
          @include('components.notification')
         <main>
+            <div class="beta-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.963509169906!2d108.23874031531907!3d16.059173753263245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177efcf09dd9%3A0x368399fdd4cb41e5!2sPh%C6%B0%E1%BB%9Bc%20M%E1%BB%B9%2C%20S%C6%A1n%20Tr%C3%A0%2C%20Da%20Nang%20550000%2C%20Vietnam!5e0!3m2!1sen!2s!4v1407828576904" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+
+
             <div class="title">Contact us</div>
             <div class="title-info">We'll get back to you soon!</div>
-
+            
             <form action=" {{route('contact-us.store')}} " method="post" class="form">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
@@ -63,6 +88,7 @@
                     <button id="contactBtn" type="submit">Send</button>
                 </div>
             </form>
+            @include('components.team')
         </main>
 <style>
 *
@@ -99,6 +125,7 @@ main
     display: flex;
     flex-direction: column;
     width: 60%;
+    box-shadow: 0 0 10px #77DAE6;
     padding: 2%;
 }
 
@@ -165,18 +192,19 @@ textarea:focus ~ label, textarea:not(:placeholder-shown) ~ label
     padding: 2%;
     width: 50%;
     border: 1px solid;
-    border-color: #ffa600;
+    border-color: #77DAE6;
     border-radius: 5px;
     font-family: inherit;
     font-size: 18px;
-    background-color: #ffa600
+    background-color: #77DAE6
     color: inherit;
-    box-shadow: 0 0 10px #ffa600;
+
+    border-radius: 20px
 }
 
 #contactBtn:hover
 {
-    background-color: #ffa600;
+    background-color: #77DAE6;
     color: beige;
     cursor: pointer;
 }

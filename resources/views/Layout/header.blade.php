@@ -66,28 +66,12 @@
                                                     <a href="#!">Category type</a>
                                                 </h2>
                                                 <ul class="menu-column__list list_categories">
+                                                    @foreach ($categories as $category)
                                                     <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Costa Coffee') }}" class="menu-column__link">Costa Coffee</a>
+                                                        <a href="{{ route('categories',"box=$category->name") }}" class="menu-column__link">{{ $category->name }}</a>
                                                     </li>
-
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Dunkin') }}" class="menu-column__link">Dunkin</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=LavAzza') }}" class="menu-column__link">LavAzza</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Classico') }}" class="menu-column__link">Classico</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Nescafe') }}" class="menu-column__link">Nescafe</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Patch Roast') }}" class="menu-column__link">Patch Roast</a>
-                                                    </li>
-                                                    <li class="menu-column__item">
-                                                        <a href="{{ route('categories','box=Starbucks') }}" class="menu-column__link">Starbucks</a>
-                                                    </li>
+                                                    @endforeach
+                                                   
                                                 </ul>
                                             </div>
                                         </div>
@@ -97,11 +81,12 @@
                         </div>
                     </div>
                 </li>
-                 <li class="navbar__item">
+                <li class="navbar__item">
                     <a href="/contact-us" class="navbar__link">
                         <strong> Contact us</strong>
                     </a>
                 </li>
+
             </ul>
         </nav>
         <div class="navbar__overlay js-toggle" toggle-target="#navbar" id="navbarToggle_hidde"></div>
@@ -116,17 +101,71 @@
 </div>
 
                                                     <script>
-                                                        // Function to open navbar
-                                                        function openNavbar() {
-                                                            var navbar = document.getElementById('navbar');
-                                                            navbar.classList.add('show'); // Add the 'show' class to display the navbar
-                                                        }
+                                           function openNavbar() {
+    var navbar = document.getElementById('navbar');
+    navbar.classList.add('show'); // Add the 'show' class to display the navbar
 
-                                                        // Function to close navbar
-                                                        function closeNavbar() {
-                                                            var navbar = document.getElementById('navbar');
-                                                            navbar.classList.remove('show'); // Remove the 'show' class to hide the navbar
-                                                        }
+    // Create the list item element for Favorite
+    var li1 = document.createElement('li');
+    li1.className = 'navbar__item';
+
+    // Create the link element for Favorite
+    var a1 = document.createElement('a');
+    a1.href = '{{ route("FavoriteList")}}';
+    a1.className = 'navbar__link favorite_reponsive';
+
+    // Create the strong element for Favorite
+    var strong1 = document.createElement('strong');
+    strong1.textContent = 'Favorite';
+
+    // Append the strong element to the link for Favorite
+    a1.appendChild(strong1);
+
+    // Append the link to the list item for Favorite
+    li1.appendChild(a1);
+
+    // Append the list item for Favorite to the navbar
+    document.querySelector('.navbar__list').appendChild(li1);
+
+    // Create the list item element for Checkout
+    var li2 = document.createElement('li');
+    li2.className = 'navbar__item';
+
+    // Create the link element for Checkout
+    var a2 = document.createElement('a');
+    a2.href = '{{ route("CheckOut")}}';
+    a2.className = 'navbar__link checkout_reponsive';
+
+    // Create the strong element for Checkout
+    var strong2 = document.createElement('strong');
+    strong2.textContent = 'Checkout';
+
+    // Append the strong element to the link for Checkout
+    a2.appendChild(strong2);
+
+    // Append the link to the list item for Checkout
+    li2.appendChild(a2);
+
+    // Append the list item for Checkout to the navbar
+    document.querySelector('.navbar__list').appendChild(li2);
+}
+
+function closeNavbar() {
+    var navbar = document.getElementById('navbar');
+    navbar.classList.remove('show'); // Remove the 'show' class to hide the navbar
+
+    // Remove the elements with classes 'favorite_reponsive' and 'checkout_reponsive' from the navbar
+    var favoriteResponsive = document.querySelector('.navbar__list .favorite_reponsive');
+    var checkoutResponsive = document.querySelector('.navbar__list .checkout_reponsive');
+
+    if (favoriteResponsive) {
+        favoriteResponsive.remove();
+    }
+    if (checkoutResponsive) {
+        checkoutResponsive.remove();
+    }
+}
+
 
                                                         // Listen for click event on navbar toggle button
                                                         document.getElementById('navbarToggle').addEventListener('click', function() {

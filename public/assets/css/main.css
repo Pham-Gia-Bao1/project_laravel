@@ -4704,3 +4704,59 @@ html {
 body{
     overflow-x: hidden;
 }
+
+
+body{
+    overflow-y: scroll;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+body::-webkit-scrollbar {
+    width: 12px;
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: #77DAE6;
+    border-radius: 10px;
+}
+.box-discount{
+     display: flex !important;
+     flex-direction: row;
+     padding: 0 20px 0 20px;
+     align-items: center;
+}
+#leftButton, #rightButton {
+    background-color: #77DAE6;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Hiệu ứng chuyển động mềm mại */
+}
+
+#leftButton:hover, #rightButton:hover {
+    transform: scale(1.1); /* Phóng to khi rê chuột vào */
+}
+#leftButton{
+     transform: rotate(-90deg);
+}
+#rightButton{
+    transform: rotate(90deg);
+
+}
+.discount-session{
+    width: 100%;
+    padding: 20px;
+    /* background-color: #0071dc; */
+    flex-wrap: nowrap;
+    overflow-x: scroll !important;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none; /* Ẩn thanh cuộn trình duyệt Firefox */
+        -ms-overflow-style: none; /* Ẩn thanh cuộn trình duyệt IE/Edge */
+        scroll-behavior: smooth; /* Hiệu ứng cuộn mượt */
+    }
+
+    .discount-session::-webkit-scrollbar {
+        display: none; /* Ẩn thanh cuộn trình duyệt Chrome/Safari */
+    }

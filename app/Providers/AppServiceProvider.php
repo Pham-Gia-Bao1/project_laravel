@@ -87,5 +87,11 @@ class AppServiceProvider extends ServiceProvider
             $banner = Banners::first();
             $view->with('banner', $banner);
         });
+
+        View::composer(['Layout.category-layout.sided-bar','Layout.header'], function ($view) {
+            $categories = DB::table('categories')->get();
+            $view->with('categories', $categories);
+        });
+
     }
 }

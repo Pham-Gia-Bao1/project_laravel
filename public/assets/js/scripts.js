@@ -230,3 +230,20 @@ const isDark = localStorage.dark === "true";
 document.querySelector("html").classList.toggle("dark", isDark);
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+    const container = document.querySelector('.discount-session');
+
+    let scrollAmount = 0;
+
+    leftButton.addEventListener('click', function () {
+        scrollAmount -= 270; // Điều chỉnh giá trị tùy thuộc vào kích thước mỗi item
+        container.scrollLeft = scrollAmount;
+    });
+
+    rightButton.addEventListener('click', function () {
+        scrollAmount += 270; // Điều chỉnh giá trị tùy thuộc vào kích thước mỗi item
+        container.scrollLeft = scrollAmount;
+    });
+});
