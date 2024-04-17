@@ -39,9 +39,43 @@
         </section>
         <!-- Browse Products -->
         <section class="home__container">
-            <div class="home__row">
+            <h2 class="home__heading">Top discount products </h2>
+            <div class="row pt-3">
+                    @foreach ($discountProducts as $product)
+                         <div class="col ">
+                            <article class="product-card card-body " >
+                                <div class="product-card__img-wrap">
+                                    <a  href="{{route('ProductDetail',['id' => $product->id])}}">
+                                        <img src="./assets/img/product/{{ json_decode($product->images)[0] }}"
+                                        alt="image" class="product-card__thumb" />
+                                    </a>
+                                    <button class="like-btn like-btn--liked product-card__like-btn">
+                                        <img  src="./assets/icons/heart.svg" alt="" class="like-btn__icon icon" />
+                                        <img src="./assets/icons/heart-red.svg" alt="" class="like-btn__icon--liked" />
+                                    </button>
+                                    
+                                </div>
+                                <h3 class="product-card__title">
+                                    <a href="{{route('ProductDetail',['name' => $product->name])}}">{{ $product->name}}</a>
+                                </h3>
+                                <div class='row'>
+                                    <div class='col'>
+                                        <p class="product-card__brand">Lay coffe</p>
+                                    </div>
+                                </div>
+                                <div class="product-card__row">
+                                    <span class="product-card__price">{{ $product->price}}</span>
+                                    <img src="./assets/icons/star.svg" alt="" class="product-card__star" />
+                                    <span class="product-card__score">{{ $product->rating}}</span>
+                                </div>
+                            </article>
+                        {{-- </a> --}}
+                        </div>
+                    @endforeach
+            </div>
+            <div class="home__row mt-2">
                 <h2 class="home__heading">Total products </h2>
-                <div class="filter-wrap">
+                <div class="filter-wrap pt-3">
                     <button class="filter-btn js-toggle" toggle-target="#home-filter">
                         Filter
                         <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
@@ -138,7 +172,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
                 {{-- component --}}
                 @if ($data->isEmpty())

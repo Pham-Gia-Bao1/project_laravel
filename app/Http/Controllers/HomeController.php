@@ -34,6 +34,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $data = $this->coffe->inRandomOrder()->get(); // Access the property using $this->coffe
+        $discountProducts = $this->coffe->where('discount', '>=', 13)->get();
         if (Auth::user()) {
 
             if (isset($request->vnp_Amount) && !empty($request->vnp_Amount)) {
@@ -80,6 +81,6 @@ class HomeController extends Controller
                 ->get();
         }
 
-        return view('Home', compact('data'));
+        return view('Home', compact('data', 'discountProducts'));
     }
 }
