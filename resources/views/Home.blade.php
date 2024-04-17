@@ -39,9 +39,23 @@
         </section>
         <!-- Browse Products -->
         <section class="home__container">
-            <div class="home__row">
+            <h2 class="home__heading">Top discount products </h2>
+
+            <div class="box-discount">
+                <button id="leftButton"><span  class="material-symbols-outlined">expand_less</span></button>
+                <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3 discount-session">
+                    @foreach ($discountProducts as $item)
+                    <x-card_product title="{{ $item->name }}"
+                        img="./assets/img/product/{{ json_decode($item->images)[0] }}" price="{{ $item->price }}"
+                        rating="{{ $item->rating }}" id="{{ $item->id }}"
+                    />
+                    @endforeach
+                </div>
+                <button id="rightButton"><span class="material-symbols-outlined">expand_less</span></button>
+            </div>
+            <div class="home__row mt-2">
                 <h2 class="home__heading">Total products </h2>
-                <div class="filter-wrap">
+                <div class="filter-wrap pt-3">
                     <button class="filter-btn js-toggle" toggle-target="#home-filter">
                         Filter
                         <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
@@ -138,7 +152,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
                 {{-- component --}}
                 @if ($data->isEmpty())
@@ -173,7 +186,4 @@
         </section>
 
     </main>
-
-
-
 @endsection

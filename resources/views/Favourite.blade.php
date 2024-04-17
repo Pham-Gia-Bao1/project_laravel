@@ -75,8 +75,6 @@
                                                                 <p class="cart-item__input-btn plus_btn">
                                                                     <img class="icon" src="./assets/icons/plus.svg" alt="" />
                                                                 </p>
-
-
                                                         </div>
                                                     </div>
                                                     <div class="cart-item__ctrl">
@@ -85,8 +83,6 @@
                                                             <span class="material-symbols-outlined">
                                                                 delete
                                                                 </span>
-
-
                                                         </a>
                                                     </div>
                                                 </div>

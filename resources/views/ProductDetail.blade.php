@@ -156,9 +156,10 @@
                                         <p class="cart-item__input-btn plus_btn">
                                             <img class="icon" src="./assets/icons/plus.svg" alt="" />
                                         </p>
-
-                                </div>
-                                </div>
+                                        
+                                    </div>
+                            
+                                                                        </div>
                                 <div class="col-7 col-xxl-6 col-xl-12">
                                     <div class="prod-props">
                                         <div class="prod-prop">
@@ -224,16 +225,11 @@
                                                 {{-- button coomponent --}}
                                                    <button type="submit" class="btn" style="background-color: #ffb700">Add to cart</button>
                                                     <a type="button" href="{{ route('Favorite', $item->id) }}" class="like-btn prod-info__like-btn">
-                                                    <img
-                                                        src="./assets/icons/heart.svg"
-                                                        alt=""
-                                                        class="like-btn__icon icon"
-                                                    />
-                                                    <img
-                                                        src="./assets/icons/heart-red.svg"
-                                                        alt=""
-                                                        class="like-btn__icon--liked"
-                                                    />
+                                                        <div class="heart-container" onclick="toggleHeartColor()">
+                                                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                            <path class="heart-fill" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                                        </svg>
+                                                    </div>
                                                 </a>
                                             </div>
                                             </div>
@@ -250,7 +246,7 @@
         @endforeach
 
         <!-- Product content -->
-        <div class="product-container">
+        <div class="product-container-review" style="padding-left: 200px">
             <div class="prod-tab js-tabs">
                 <ul class="prod-tab__list">
                     <li class="prod-tab__item prod-tab__item--current">Description</li>
@@ -263,14 +259,6 @@
                             <div class="col-8 col-xl-10 col-lg-12">
                                 <div class="text-content prod-tab__text-content">
                                     <h2>Lorem ipsum dolor sit amet.</h2>
-                                    <p>
-                                        Lorem ipsum dolor sit amet <a href="#!">consectetur</a> adipisicing
-                                        elit. Aliquid, cupiditate. Modi, quidem, ullam sint dolorum recusandae
-                                        voluptates dignissimos similique animi assumenda
-                                        <a href="#!">praesentium</a> et! Illum dolorem est rem voluptas nam!
-                                        Voluptatem.
-                                    </p>
-                                    <h3>Lorem ipsum dolor sit amet.</h3>
                                     <p>
                                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
                                         cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
@@ -290,71 +278,7 @@
                                             Voluptatem.
                                         </p>
                                     </blockquote>
-                                    <h3>Lorem ipsum dolor sit amet.</h3>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-
                                     <hr />
-
-                                    <h2>Lorem ipsum dolor sit amet.</h2>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-                                    <p>
-                                        <img src="./assets/img/product/{{ json_decode($item->images)[0] }}" alt="" />
-                                        <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</em>
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-
-                                    <hr />
-
-                                    <h2>Lorem ipsum dolor sit amet.</h2>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
-                                    <p>
-                                        <img src="./assets/img/product/{{ json_decode($item->images)[0] }}" alt="" />
-                                        <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</em>
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                        rem voluptas nam! Voluptatem.
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -422,7 +346,7 @@
                                                 class="review-card__avatar"
                                             />
                                             <div class="review-card__info">
-                                                <h4 class="review-card__title">Jubed Ahmed</h4>
+                                                <h4 class="review-card__title">Jubed AhGram</h4>
                                                 <p class="review-card__desc">
                                                     Awesome Coffee, I love this Coffee Beans
                                                 </p>
@@ -779,10 +703,33 @@
 </main>
 
 <style>
-    .wishlist{
-        background-color:  brown !important;
-        width: 90%;
+  /* CSS cho hình trái tim */
+.heart-container {
+  cursor: pointer;
+  display: inline-block;
+}
 
-    }
+.heart {
+  width: 30px;
+  height: 30px;
+  stroke: black;
+}
+
+.heart-fill {
+  fill: white; /* Màu nền trắng */
+  transition: fill 0.3s ease-in-out;
+}
+
+.heart-container.clicked .heart-fill {
+  fill: red; /* Màu đỏ khi trái tim được click */
+  stroke: red;
+}
+
 </style>
+<script>
+function toggleHeartColor() {
+    const heartContainer = document.querySelector('.heart-container');
+    heartContainer.classList.toggle('clicked');
+}
+</script>
 @endsection
